@@ -1,0 +1,657 @@
+/* Paleta herdada do projeto Canjica (frontend/src/tema.css): fundo
+   preto-azulado, ciano como cor de acao, branco e cinza. */
+
+:root {
+  --fundo: #070a0d;
+  --superficie: #0e151b;
+  --elevada: #141e27;
+  --borda: #1e2b35;
+  --ciano: #00e5ff;
+  --ciano-escuro: #00a3b8;
+  --ciano-fraco: rgba(0, 229, 255, 0.13);
+  --selecao: rgba(0, 229, 255, 0.35);
+  --texto: #e6f3f7;
+  --secundario: #7c8f9a;
+  --aviso: #ffb020;
+  --erro: #ff5c7a;
+  --sucesso: #3ddc97;
+  /* laranja institucional do BCC, amostrado do anel do logo */
+  --bcc: #ec8410;
+
+  --fonte-ui: "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+  --fonte-mono: "Cascadia Mono", Consolas, "Courier New", monospace;
+
+  --raio: 10px;
+  --raio-pequeno: 6px;
+
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--fundo);
+  color: var(--texto);
+  font-family: var(--fonte-ui);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--selecao); }
+
+a { color: var(--ciano); }
+
+.envolucro {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 20px 16px 72px;
+}
+
+/* --- cabecalho ---------------------------------------------------------- */
+
+.topo {
+  border-bottom: 1px solid var(--borda);
+  background: var(--superficie);
+}
+
+.topo .envolucro { padding-bottom: 20px; }
+
+.faixa-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.faixa-topo .titulo { min-width: 0; }
+
+.topo h1 {
+  margin: 0 0 6px;
+  font-size: 1.5rem;
+  letter-spacing: -0.01em;
+}
+
+.topo .sub {
+  margin: 0;
+  color: var(--secundario);
+  font-size: 0.9rem;
+}
+
+/* "BCC" no titulo usa o laranja do logo, e nao o ciano de acao, para o
+   nome e a marca lerem como uma coisa so. */
+.marca {
+  color: var(--bcc);
+  font-weight: 600;
+}
+
+.logo {
+  flex: 0 0 auto;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+
+/* --- progresso ---------------------------------------------------------- */
+
+.progresso {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 18px;
+  margin: 20px 0 8px;
+  padding: 14px 16px;
+  background: var(--elevada);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+}
+
+.progresso .numero {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--ciano);
+  line-height: 1.2;
+}
+
+.progresso .rotulo {
+  color: var(--secundario);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.progresso .bloco { min-width: 84px; }
+
+.barra {
+  flex: 1 1 160px;
+  height: 6px;
+  background: var(--borda);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.barra > i {
+  display: block;
+  height: 100%;
+  background: var(--ciano);
+  transition: width 0.3s;
+}
+
+/* --- grade de questoes -------------------------------------------------- */
+
+.grade {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.cartao {
+  display: block;
+  padding: 12px;
+  background: var(--superficie);
+  border: 1px solid var(--borda);
+  border-left: 3px solid var(--borda);
+  border-radius: var(--raio-pequeno);
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 0.15s, background 0.15s, transform 0.1s;
+}
+
+.cartao:hover,
+.cartao:focus-visible {
+  border-color: var(--ciano-escuro);
+  background: var(--elevada);
+}
+
+.cartao:active { transform: translateY(1px); }
+
+.cartao .num {
+  font-size: 0.75rem;
+  color: var(--secundario);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.cartao .tema {
+  margin-top: 3px;
+  font-size: 0.88rem;
+  line-height: 1.35;
+}
+
+.rodape-cartao {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px 8px;
+  margin-top: 9px;
+}
+
+.cartao .selo {
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--secundario);
+}
+
+/* Dificuldade NACIONAL do Enade (percentual de acerto de todos os
+   concluintes do pais). Nao e o desempenho da turma, que continua fora do
+   site. As faixas de cor destacam so o que e dificil: e ali que a informacao
+   muda a decisao do aluno sobre o que estudar. */
+.dificuldade {
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--secundario);
+}
+
+.dificuldade.muito-dificil { color: var(--erro); }
+.dificuldade.dificil { color: var(--aviso); }
+.dificuldade.medio { color: var(--secundario); }
+.dificuldade.facil { color: var(--secundario); }
+
+.tag-cancelada {
+  display: inline-block;
+  margin-left: 7px;
+  padding: 1px 7px;
+  border: 1px solid var(--aviso);
+  border-radius: 999px;
+  color: var(--aviso);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  vertical-align: 1px;
+}
+
+.tag-cancelada.grande {
+  font-size: 0.66rem;
+  padding: 2px 9px;
+  margin-left: 10px;
+  vertical-align: 4px;
+}
+
+.cartao.acertou { border-left-color: var(--sucesso); }
+.cartao.acertou .selo { color: var(--sucesso); }
+.cartao.errou { border-left-color: var(--erro); }
+.cartao.errou .selo { color: var(--erro); }
+.cartao.anulada { border-left-color: var(--aviso); }
+
+/* --- pagina da questao -------------------------------------------------- */
+
+.voltar {
+  display: inline-block;
+  margin-bottom: 14px;
+  color: var(--secundario);
+  text-decoration: none;
+  font-size: 0.88rem;
+}
+
+.voltar:hover { color: var(--ciano); }
+
+.cabecalho-questao h2 {
+  margin: 0 0 4px;
+  font-size: 1.3rem;
+}
+
+.cabecalho-questao .tema {
+  margin: 0 0 18px;
+  color: var(--secundario);
+  font-size: 0.9rem;
+}
+
+.linha-dificuldade {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 9px;
+  margin: -8px 0 14px;
+}
+
+.linha-dificuldade .detalhe {
+  color: var(--secundario);
+  font-size: 0.84rem;
+}
+
+.nota-descartada {
+  margin: -6px 0 16px;
+  color: var(--aviso);
+  font-size: 0.82rem;
+}
+
+
+.enunciado > p { margin: 0 0 14px; }
+
+.enunciado .referencia {
+  color: var(--secundario);
+  font-size: 0.82rem;
+  font-style: italic;
+  margin-bottom: 14px;
+}
+
+.enunciado .lista {
+  margin: 0 0 10px;
+  padding-left: 18px;
+  border-left: 2px solid var(--borda);
+}
+
+.item-romano {
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  gap: 10px;
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  background: var(--superficie);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-pequeno);
+}
+
+.item-romano > .rot {
+  font-weight: 600;
+  color: var(--ciano);
+  font-variant-numeric: tabular-nums;
+}
+
+.item-romano > .txt { margin: 0; }
+
+figure {
+  margin: 0 0 16px;
+  padding: 12px;
+  background: #fff;
+  border-radius: var(--raio-pequeno);
+}
+
+figure img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+figure figcaption {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #d8dee3;
+  color: #3a464e;
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+pre.codigo {
+  margin: 0 0 16px;
+  padding: 14px;
+  background: var(--superficie);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-pequeno);
+  overflow-x: auto;
+  font-family: var(--fonte-mono);
+  font-size: 0.8rem;
+  line-height: 1.55;
+  tab-size: 4;
+}
+
+/* --- alternativas ------------------------------------------------------- */
+
+.comando {
+  margin: 22px 0 12px;
+  font-weight: 600;
+}
+
+.alternativas { display: grid; gap: 8px; }
+
+.alt {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  gap: 10px;
+  align-items: start;
+  padding: 12px;
+  background: var(--superficie);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-pequeno);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.alt:hover { border-color: var(--ciano-escuro); }
+
+.alt input { margin: 4px 0 0; accent-color: var(--ciano); }
+
+.alt .letra {
+  font-weight: 600;
+  color: var(--secundario);
+  text-transform: lowercase;
+}
+
+.alt.marcada {
+  border-color: var(--ciano);
+  background: var(--ciano-fraco);
+}
+
+.respondida .alt { cursor: default; }
+.respondida .alt:hover { border-color: var(--borda); }
+
+.respondida .alt.certa {
+  border-color: var(--sucesso);
+  background: rgba(61, 220, 151, 0.1);
+}
+
+.respondida .alt.certa .letra { color: var(--sucesso); }
+
+.respondida .alt.escolhida-errada {
+  border-color: var(--erro);
+  background: rgba(255, 92, 122, 0.1);
+}
+
+.respondida .alt.escolhida-errada .letra { color: var(--erro); }
+
+.marcador {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  white-space: nowrap;
+  margin-left: 8px;
+  padding: 1px 7px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  vertical-align: 2px;
+}
+
+.marcador.ok { color: var(--sucesso); }
+.marcador.nao { color: var(--erro); }
+
+/* --- botoes ------------------------------------------------------------- */
+
+.acoes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+button {
+  font-family: inherit;
+  font-size: 0.95rem;
+  padding: 11px 20px;
+  border-radius: var(--raio-pequeno);
+  border: 1px solid var(--ciano-escuro);
+  background: var(--ciano-fraco);
+  color: var(--ciano);
+  cursor: pointer;
+  transition: background 0.15s, opacity 0.15s;
+}
+
+button:hover:not(:disabled) { background: var(--selecao); }
+
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+button.discreto {
+  border-color: transparent;
+  background: none;
+  color: var(--secundario);
+  font-size: 0.85rem;
+  padding: 11px 4px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+button.discreto:hover:not(:disabled) {
+  background: none;
+  color: var(--texto);
+}
+
+/* --- resolucao ---------------------------------------------------------- */
+
+.resolucao {
+  margin-top: 28px;
+  padding-top: 22px;
+  border-top: 1px solid var(--borda);
+}
+
+.veredito {
+  margin: 0 0 20px;
+  padding: 14px 16px;
+  border-radius: var(--raio-pequeno);
+  border: 1px solid;
+  font-weight: 600;
+}
+
+.veredito.ok {
+  border-color: var(--sucesso);
+  background: rgba(61, 220, 151, 0.08);
+  color: var(--sucesso);
+}
+
+.veredito.nao {
+  border-color: var(--erro);
+  background: rgba(255, 92, 122, 0.08);
+  color: var(--erro);
+}
+
+.veredito.neutro {
+  border-color: var(--borda);
+  background: var(--superficie);
+  color: var(--secundario);
+}
+
+.resolucao h3 {
+  margin: 24px 0 10px;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--secundario);
+  font-weight: 600;
+}
+
+.resolucao h3:first-of-type { margin-top: 0; }
+
+.resolucao p { margin: 0 0 12px; }
+
+.julgamento {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding: 12px;
+  background: var(--superficie);
+  border-left: 3px solid var(--borda);
+  border-radius: var(--raio-pequeno);
+}
+
+.julgamento.v { border-left-color: var(--sucesso); }
+.julgamento.f { border-left-color: var(--erro); }
+
+.julgamento .rot {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.julgamento.v .rot { color: var(--sucesso); }
+.julgamento.f .rot { color: var(--erro); }
+
+.julgamento p { margin: 0; }
+
+.distrator {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+  padding: 11px 12px;
+  background: var(--superficie);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-pequeno);
+}
+
+.distrator .letra {
+  font-weight: 600;
+  color: var(--erro);
+}
+
+.distrator p { margin: 0; }
+
+.destaque {
+  margin: 0 0 14px;
+  padding: 14px 16px;
+  border-left: 3px solid var(--ciano);
+  background: var(--ciano-fraco);
+  border-radius: 0 var(--raio-pequeno) var(--raio-pequeno) 0;
+}
+
+.destaque.armadilha {
+  border-left-color: var(--aviso);
+  background: rgba(255, 176, 32, 0.09);
+}
+
+.destaque p { margin: 0; }
+
+.nota-fonte {
+  margin-top: 20px;
+  color: var(--secundario);
+  font-size: 0.82rem;
+  font-style: italic;
+}
+
+.selo-verificado {
+  display: inline-block;
+  margin-bottom: 14px;
+  padding: 8px 12px;
+  border: 1px dashed var(--ciano-escuro);
+  border-radius: var(--raio-pequeno);
+  color: var(--ciano);
+  font-family: var(--fonte-mono);
+  font-size: 0.76rem;
+  line-height: 1.5;
+}
+
+/* --- avisos ------------------------------------------------------------- */
+
+.aviso {
+  margin: 0 0 20px;
+  padding: 14px 16px;
+  border: 1px solid var(--aviso);
+  border-left-width: 3px;
+  border-radius: var(--raio-pequeno);
+  background: rgba(255, 176, 32, 0.08);
+  font-size: 0.9rem;
+}
+
+.aviso strong { color: var(--aviso); }
+.aviso p { margin: 0; }
+.aviso p + p { margin-top: 8px; }
+
+/* --- navegacao entre questoes ------------------------------------------- */
+
+.navegacao {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 34px;
+  padding-top: 18px;
+  border-top: 1px solid var(--borda);
+}
+
+.navegacao a {
+  color: var(--secundario);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.navegacao a:hover { color: var(--ciano); }
+
+.rodape {
+  margin-top: 40px;
+  padding-top: 18px;
+  border-top: 1px solid var(--borda);
+  color: var(--secundario);
+  font-size: 0.8rem;
+}
+
+.rodape p { margin: 0 0 6px; }
+
+/* --- telas estreitas ---------------------------------------------------- */
+
+@media (max-width: 420px) {
+  body { font-size: 15px; }
+  .topo h1 { font-size: 1.22rem; }
+  .topo .sub { font-size: 0.82rem; }
+  .faixa-topo { gap: 12px; }
+  .logo { width: 46px; height: 46px; }
+  .envolucro { padding: 16px 12px 56px; }
+  .grade { grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); gap: 8px; }
+  .item-romano { grid-template-columns: 32px 1fr; gap: 8px; }
+  .julgamento { grid-template-columns: 42px 1fr; gap: 10px; }
+  .acoes { flex-direction: column; align-items: stretch; }
+  .acoes button { width: 100%; }
+}

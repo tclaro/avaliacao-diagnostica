@@ -1,0 +1,61 @@
+Questões Complementares - Preparação ENADE (Ciência da Computação)
+
+QUESTÃO COMPLEMENTAR 01 (Estatística Aplicada à Computação)
+
+Uma equipe de engenharia de software implementou um sistema de análise estática de código (linter) para identificar vulnerabilidades antes do *deploy* em produção. Sabe-se que em um grande repositório de código legado da empresa, 10% das classes possuem, de fato, alguma vulnerabilidade de segurança.
+
+Durante os testes de homologação, o linter demonstrou uma taxa de verdadeiro positivo de 90% (ou seja, se a classe tem vulnerabilidade, o linter aponta a falha em 90% das vezes). No entanto, o sistema também possui uma taxa de falso positivo de 5% (ou seja, se a classe não possui vulnerabilidade, o linter incorretamente acusa uma falha em 5% dos casos).
+
+Se, ao analisar uma classe aleatória do repositório, o linter alertar a presença de uma vulnerabilidade, qual é a probabilidade aproximada de que a classe realmente contenha a vulnerabilidade?
+
+**A)** 90,0%
+
+**B)** 75,3%
+
+**C)** 66,7%
+
+**D)** 50,0%
+
+**Gabarito:** C
+
+QUESTÃO COMPLEMENTAR 02 (Banco de Dados)
+
+O processo de normalização em bancos de dados relacionais é fundamental para evitar anomalias de inserção, atualização e exclusão, além de minimizar a redundância de dados.
+
+Considere uma relação ProjetoFuncionario que armazena informações sobre a alocação de desenvolvedores em projetos, possuindo o seguinte esquema:
+
+ProjetoFuncionario (ID_Projeto, ID_Funcionario, Nome_Funcionario, Carga_Horaria_Semanal)
+
+Nesta relação, a chave primária é composta pelos atributos (ID_Projeto, ID_Funcionario). A partir das regras de negócio, as seguintes dependências funcionais foram mapeadas:
+
+- {ID_Projeto, ID_Funcionario} → {Carga_Horaria_Semanal}
+
+- {ID_Funcionario} → {Nome_Funcionario}
+
+Analisando a estrutura e as dependências funcionais descritas, indique em qual forma normal (FN) a relação se encontra e qual anomalia principal ela está suscetível a sofrer.
+
+**A)** Encontra-se na Primeira Forma Normal (1FN) e é suscetível a anomalias de atualização, caso o nome de um funcionário precise ser alterado.
+
+**B)** Encontra-se na Segunda Forma Normal (2FN) e é suscetível a anomalias de exclusão de projetos.
+
+**C)** Encontra-se na Terceira Forma Normal (3FN), estando livre de anomalias de redundância e inconsistência.
+
+**D)** Encontra-se na Primeira Forma Normal (1FN) por apresentar dependência transitiva entre Carga_Horaria_Semanal e a chave primária.
+
+**Gabarito:** A
+
+QUESTÃO COMPLEMENTAR 03 (Direito e Legislação Aplicada à TI)
+
+Uma *startup* desenvolveu um aplicativo gratuito de utilidade simples: uma lanterna digital para *smartphones*. No entanto, nos Termos de Uso e Política de Privacidade, a empresa condiciona o funcionamento do aplicativo à concessão, por parte do usuário, de permissões de acesso irrestrito à lista de contatos, histórico de ligações, galeria de fotos e dados precisos de geolocalização. A empresa justifica internamente que "esses dados poderão ser úteis no futuro para treinar novos modelos de inteligência artificial ou monetizar a plataforma via anúncios direcionados".
+
+Considerando as disposições da Lei Geral de Proteção de Dados Pessoais (LGPD - Lei nº 13.709/2018), a conduta adotada por esta *startup* fere frontalmente qual princípio basilar do tratamento de dados pessoais?
+
+**A)** Princípio da Qualidade dos Dados, pois as informações coletadas (fotos e contatos) tendem a se desatualizar rapidamente sem a intervenção direta da empresa.
+
+**B)** Princípio da Necessidade (ou Minimização), pois a coleta deve se limitar ao mínimo necessário para a realização da finalidade proposta e informada.
+
+**C)** Princípio do Livre Acesso, já que o usuário não tem permissão para editar os dados que foram capturados passivamente pelo aplicativo.
+
+**D)** Princípio da Não Discriminação, visto que a empresa planeja utilizar as informações para criar perfis comportamentais para anúncios direcionados.
+
+**Gabarito:** B

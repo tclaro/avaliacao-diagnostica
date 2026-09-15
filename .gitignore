@@ -1,0 +1,16 @@
+# Material de origem — não redistribuído.
+# Contém o gabarito oficial do INEP e os documentos de onde as questões
+# foram extraídas. O pipeline precisa dele apenas na extração, que já
+# foi feita: o resultado está versionado em dados/questoes.json.
+files/simulado-enade/origem/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Sistema
+Thumbs.db
+desktop.ini
+.DS_Store

@@ -1,0 +1,366 @@
+**ENADE – QUESTÕES PARA SIMULADO**
+
+| Curso: Bacharelado em Ciência da Computação |
+| --- |
+| Fonte: Enade 2021 – questões objetivas específicas |
+
+| Questão | Enunciado |
+| --- | --- |
+| 9 | Quando um computador é multiprogramado, ele geralmente tem múltiplos processos ou *threads *que competem pela CPU ao mesmo tempo. Essa situação ocorre sempre que dois ou mais processos estão simultaneamente no estado pronto. Se somente uma CPU se encontrar disponível, deverá ser feita uma escolha de qual processo executar em seguida. A parte do sistema operacional que faz a escolha é chamada de **escalonador**, e o algoritmo que ele usa é o **algoritmo de escalonamento**. TANENBAUM, A. S. **Sistemas Operacionais Modernos.** 3. ed., São Paulo: Pearson, 2010 (adaptado). Considerando que em ambientes diferentes são necessários algoritmos diferentes de escalonamento, garantindo assim que seja maximizado o uso de seus recursos, assinale a opção que apresenta um algoritmo de escalonamento seguido do tipo de ambiente no qual deva ser implementado. |
+| a | Primeiro a chegar, último a sair (*first** **in*, *last** out *- FILO); propício para sistemas de tempo real. |
+| b | Escalonamento por taxas monotônicas (*rate **monotonic** **scheduling** *- RMS); propício para sistemas em lote. |
+| c | Tarefa mais curta primeiro; propício para sistemas interativos. |
+| d | Escalonamento por prioridades; propício para sistemas interativos. |
+
+Gabarito: 
+
+| 9 | d |
+| --- | --- |
+
+| Questão | Enunciado |
+| --- | --- |
+| 10 | A biblioteca de coleções da linguagem Java disponibiliza implementações de propósito geral para estruturas de dados elementares, como listas, filas e pilhas. Considere as seguintes definições de classes que representam implementações de estruturas de dados disponíveis na biblioteca da linguagem: • Classe A: os objetos são organizados em uma ordem linear e podem ser inseridos somente no início ou no final dessa sequência; • Classe B: os objetos são organizados em uma ordem linear determinada por uma referência ao próximo objeto; • Classe C: os objetos são removidos na ordem oposta em que foram inseridos; • Classe D: os objetos são inseridos e removidos respeitando a seguinte regra: o elemento a ser removido é sempre aquele que foi inserido primeiro. Nesse contexto, assinale a alternativa que representa, respectivamente, as estruturas de dados implementadas pelas classes A, B, C e D. |
+| a | Lista circular, lista simplesmente ligada, pilha e fila. |
+| b | Deque, lista simplesmente ligada, pilha e fila. |
+| c | Lista duplamente ligada, lista simplesmente ligada, fila e pilha. |
+| d | Pilha, fila, deque e lista simplesmente encadeada. |
+
+Gabarito: 
+
+| 10 | b |
+| --- | --- |
+
+| Questão | Enunciado |
+| --- | --- |
+| 11 | Uma equipe de cientistas da computação de uma determinada empresa de animação foi designada para desenvolver um sistema capaz de varrer a web no intuito de detectar sites que possam estar usando imagens de seus personagens de animação sem o devido consentimento. Portanto, o sistema deverá receber imagens como entrada, classificá-las entre imagens da empresa e imagens não produzidas pela empresa. A figura abaixo esboça uma arquitetura de rede neural profunda e o processo de treinamento que os cientistas pretendem usar |
+|  |  |
+|  | Após uma tentativa, notaram-se duas dificuldades: 1) o tempo de treinamento da rede estava muito longo e 2) a acurácia da rede treinada não estava no patamar aceito pela empresa. Diante deste contexto, avalie as afirmações a seguir. Aumentar o número de camadas é uma alternativa que pode levar a uma melhora na acurácia, além de diminuir o tempo de treinamento da rede. Fazer uso de redes convolucionais é uma alternativa que pode levar a uma melhora na acurácia, no entanto, pode exigir uso de máquinas com maior poder de processamento. Aumentar o número de unidades de processamento (neurônios) nas camadas pode levar a uma piora na acurácia, além de diminuir o tempo de treinamento da rede. Aumentar o número de amostras de treinamento é uma alternativa que pode levar a uma melhora na acurácia, apesar de aumentar o tempo de treinamento da rede. Fazer uso de redes recorrentes é uma alternativa que pode levar a uma melhora na acurácia, no entanto, pode exigir uso de máquinas com maior poder de processamento. É correto apenas o que se afirma em |
+| a | I e IV |
+| b | I e V |
+| c | II e III |
+| d | II e IV |
+
+Gabarito: 
+
+| 11 | d |
+| --- | --- |
+
+| Questão | Enunciado |
+| --- | --- |
+| 12 | A Lei Geral de Proteção de Dados Pessoais (LGPD) está em vigência desde o final de 2018 e tem por objetivo regulamentar o tratamento de dados pessoais de clientes e usuários de empresas públicas e privadas. Sobre a LGPD, avalie as afirmações a seguir. A lei reprime o uso indiscriminado de dados pessoais considerados sensíveis, como origem racial ou étnica, convicção religiosa e opinião política, informados em cadastros pelos cidadãos. Os dados anonimizados não serão considerados pessoais, mesmo que, utilizando-se de recursos próprios ou tecnológicos avançados, o processo de anonimização possa ser revertido. O indivíduo poderá exigir que uma empresa informe se possui dados pessoais dele bem como solicitar formalmente que eles sejam corrigidos, atualizados ou eliminados. IV. A Autoridade Nacional de Proteção de Dados (ANPD) é responsável pela fiscalização e regulação da LGPD, prestando esclarecimentos, averiguando possíveis denúncias e modificando a legislação pertinente quando necessário. É correto apenas o que se afirma em |
+| a | I e II |
+| b | I e III |
+| c | II e IV |
+| d | I, III e IV |
+
+Gabarito: 
+
+| 12 | b |
+| --- | --- |
+
+| Questão | Enunciado |
+| --- | --- |
+| 13 | O desenvolvimento de sistemas iterativo e evolutivo é uma abordagem que estabelece ciclos de desenvolvimento, com duração fixa, chamados iterações. O produto de cada iteração é um sistema parcial, executável, testável e integrável. Cada iteração inclui suas próprias atividades de análises de requisitos, projeto, implementação e teste. O ciclo de vida iterativo é baseado em refinamentos e incrementos sucessivos de um sistema por meio de múltiplas iterações, com realimentação e adaptação cíclicas como principais propulsores para convergir para um sistema adequado. CRAIG, L. **Utilizando UML e Padrões: **Uma Introdução à Análise e ao Projeto Orientados a Objetos. 3. ed. Porto Alegre: Bookman, 2007 (adaptado). Considerando o texto apresentado, assinale a opção correta sobre o desenvolvimento iterativo e evolutivo. |
+| a | A mudança nos requisitos do sistema é algo que gera atraso no desenvolvimento, por isso é aconselhável evitá-la. |
+| b | O ciclo de desenvolvimento possui duração fixa, porém, durante o desenvolvimento, poderá ser alterado no caso de sistemas críticos. |
+| c | O teste de usabilidade deve ser realizado no último ciclo, pois será o momento em que o usuário consegue testar todas as funcionalidades. |
+| d | O documento de teste de usabilidade deve contemplar os critérios de acessibilidade para atender a todos os usuários do sistema. |
+
+Gabarito: 
+
+| 13 | d |
+| --- | --- |
+
+| Questão | Enunciado |
+| --- | --- |
+| 14 | O primeiro computador criado foi o ENIAC *(**Electronic** **Numerical** **Integrator** **And** Computer)*, desenvolvido por Eckert e Mauchly na Universidade da Pennsylvania, Estados Unidos. O projeto iniciou-se em 1943, financiado pelo governo americano. O período era da Segunda Guerra Mundial e o objetivo era poder calcular de forma mais ágil as melhores trajetórias para transporte de armas e mantimentos em meio aos exércitos inimigos. Esse é o tipo de cálculo que pequenos aparelhos celulares fazem hoje para encontrar rotas nas cidades por meio de GPS *(Global **Positioning** System) *e análise de mapa. O projeto só foi concluído em 1946, tarde demais para ser utilizado para a Segunda Guerra, mas foi bastante utilizado até 1955. Muitos projetos surgiram depois do ENIAC, mas eles eram barrados por algumas dificuldades e limitações, como por exemplo, o fato de não serem programados e trabalharem com números decimais. O problema de trabalhar com decimais é que cada algarismo armazenado possui 10 estados possíveis, representando os números de 0 a 9. Dentro de um sistema eletrônico, isso é complicado porque a carga de cada dispositivo, seja transistor, seja válvula, deveria ser medida para se verificar que número ela estava representando. Os erros eram muito frequentes. Bastava que uma válvula estivesse fora da temperatura ideal para que os resultados das operações começassem a sair errado. Von Neumann recomendou, então, que, em sua arquitetura, os dados e instruções passassem a ser armazenados em código binário, facilitando a análise dos mesmos e reduzindo a quantidade de erros. BRITO, A. V. **Introdução a Arquitetura de Computadores**. UFPB Virtual, 2020. Disponível em: http://producao.virtual.ufpb.br/. Acesso em: 05 maio 2020 (adaptado). Acerca da arquitetura de Von Neumann, avalie as asserções a seguir e a relação proposta entre elas. Embora as arquiteturas de computadores tenham evoluído muito do ENIAC aos modernos notebooks de hoje, a arquitetura de Von Neumann, conceito da década de 1950, tem se mantido até os dias atuais. **PORQUE** A arquitetura de Von Neumann permite que a CPU realize a busca de uma ou mais instruções além da próxima a ser executada; essa técnica é utilizada para acelerar a velocidade de operação da CPU, uma vez que a próxima instrução a ser executada está normalmente armazenada nos registradores da CPU e não precisa ser buscada da memória principal, que é muito mais lenta. A respeito dessas asserções, assinale a opção correta. |
+| a | As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I. |
+| b | As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I |
+| c | A asserção I é uma proposição verdadeira, e a II é uma proposição falsa |
+| d | A asserção I é uma proposição falsa, e a II é uma proposição verdadeira. |
+
+Gabarito: 
+
+| 14 | c |
+| --- | --- |
+
+| Questão | Enunciado |
+| --- | --- |
+| 15 | O surgimento das metodologias ágeis eliminou o gerenciamento baseado em planos, substituindo-o pelo planejamento incremental. A documentação de projeto foi reduzida ao mínimo e deixou de ser previsto um gerente de projeto. Infelizmente, esse tipo de abordagem não atende as necessidades das organizações, em que gerentes de negócio necessitam acompanhar o andamento dos projetos, controlar orçamento, estabelecer prioridades e atualizar seus planos de negócio. Nesse contexto, foi desenvolvido o *SCRUM*, um *framework *para a organização de projetos ágeis. O *SCRUM *prevê dois indivíduos: o *Scrum Master *e o *Product** **Owner**, *que são responsáveis por atuar como interface entre a equipe de desenvolvimento e a organização. SOMMERVILLE, I. **Engineering Software Products**: An Introduction to Modern Software Engineering. Boston: Pearson, 2019 (adaptado). Em relação à metodologia *SCRUM*, avalie as afirmações a seguir. O papel do *Scrum Master *é guiar a equipe no uso efetivo da metodologia *SCRUM*. O papel do *Product** **Owner** *é garantir o foco no produto, evitando que o mesmo se perca em questões técnicas menos relevantes. Tanto o *Scrum Master *como o *Product** **Owner** *têm autoridade direta sobre a equipe. É correto o que se afirma em: |
+| a | II, apenas |
+| b | III, apenas |
+| c | I e II, apenas |
+| d | I e III, apenas |
+
+Gabarito: 
+
+| 15 | c |
+| --- | --- |
+
+| Questão | Enunciado |
+| --- | --- |
+| 16 | Em 1938, o matemático americano Claude Shannon notou o paralelismo entre a lógica proposicional e a lógica dos circuitos e percebeu que a álgebra booleana teria um papel importante na sistematização deste ramo da eletrônica. Cada um dos conetivos básicos da lógica são instâncias das operações básicas da álgebra booleana (“+”, “.” e ” ’ ”). Expressões booleanas combinando operações e variáveis podem ser usadas para representar circuitos combinacionais formados por portas lógicas. GERSTING, J. L. **Mathematical Structures for Computer Science**. New York: W. H. Freeman and Company, 2002. |
+|  |  |
+|  | Qual das alternativas apresenta a expressão booleana correspondente? |
+| a | (X3 . X2’) + X1’ |
+| b | (X3 . (x2’) + (x1’))’ |
+| c | ((X3 . X2)’ + X1’)’ |
+| d | (X3 . X2)’ + X1’ |
+
+Gabarito: 
+
+| 16 | b |
+| --- | --- |
+
+| Questão | Enunciado |
+| --- | --- |
+| 17 | Durante parte do tempo, um processo está ocupado realizando computações internas e outras coisas que não levam a condições de corrida. No entanto, às vezes, um processo tem de acessar uma memória compartilhada ou arquivos, ou realizar outras tarefas críticas que podem levar a corridas. Essa parte do programa onde a memória compartilhada é acessada é chamada de **região crítica **ou **seção crítica**. Se conseguíssemos arranjar as coisas de maneira que dois processos jamais estivessem em suas regiões críticas ao mesmo tempo, poderíamos evitar as corridas. Embora essa exigência evite as condições de corrida, ela não é suficiente para garantir que processos em paralelo cooperem de modo correto e eficiente usando dados compartilhados. Precisamos que quatro condições se mantenham para chegar a uma boa solução. Dois processos jamais podem simultaneamente estar dentro de suas regiões críticas. Nenhuma suposição pode ser feita a respeito de velocidades ou de número de CPUs. Nenhum processo executando fora de sua região crítica pode bloquear qualquer processo. Nenhum processo deve ser obrigado a esperar eternamente para entrar em sua região crítica. Em um sentido abstrato, o comportamento que queremos é mostrado na figura a seguir. |
+|  |  |
+|  | Considerando o texto e a figura apresentados, avalie as asserções a seguir e a relação proposta entre elas. Em algumas situações, a exclusão mútua pode ser obtida por meio da desabilitação da interrupção controlada pelo Sistema Operacional, não sendo permitido que o seu controle seja feito pelo usuário. **PORQUE** A desabilitação da interrupção é uma técnica que pode impedir que o processador que está executando um processo em sua região crítica seja interrompido para executar outro código, sendo mais eficiente em sistemas de multiprocessadores devido a quantidade de processos concorrentes. A respeito dessas asserções, assinale a opção correta. |
+| a | As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I. |
+| b | As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I |
+| c | A asserção I é uma proposição verdadeira, e a II é uma proposição falsa |
+| d | As asserções I e II são proposições falsas |
+
+Gabarito: 
+
+| 17 | c |
+| --- | --- |
+
+| Questão | Enunciado |
+| --- | --- |
+| 18 | As técnicas de aprendizado de máquinas empregam um princípio de inferência denominado indução, no qual é possível obter conclusões genéricas a partir de um conjunto particular de exemplos. Estas técnicas de aprendizados indutivos podem ser divididas em dois principais tipos: os supervisionados e os não supervisionados. No aprendizado supervisionado é fornecida uma referência do objetivo a ser alcançado, isto é, um treinamento com o conhecimento do ambiente. Diferentemente do aprendizado supervisionado, o não supervisionado não utiliza referências, ou seja, não ocorre um treinamento com o conhecimento do ambiente. PELLUCCI P. R. S. *et al*. Utilização de técnicas de aprendizado de máquina no reconhecimento de entidades nomeadas no português. Belo Horizonte. **E-****xacta**, v. 4, n. 1, p. 73-81, 2011 (adaptado). Considerando as informações do texto, avalie as afirmações a seguir. A regressão linear é um exemplo de modelo baseado no aprendizado supervisionado. A diferença entre a saída desejada e a saída gerada é o valor do erro de um aprendizado não supervisionado. O aprendizado não supervisionado é mais utilizado quando o entendimento dos dados é feito por meio de reconhecimento de padrões. O aprendizado supervisionado é capaz de tomar decisões precisas ao receber novos dados a partir de um treinamento com dados conhecidos. É correto apenas o que se afirma em |
+| a | I e III |
+| b | II e III |
+| c | II e IV |
+| d | I, III e IV |
+
+Gabarito: 
+
+| 18 | d |
+| --- | --- |
+
+| Questão | Enunciado |
+| --- | --- |
+| 19 | Duas técnicas comumente utilizadas para ampliar as informações básicas sobre requisitos são personas e cenários. Frequentemente usadas juntas, essas técnicas se complementam de forma a trazer detalhes realísticos que possibilitam ao desenvolvedor explorar as atividades atuais do usuário, uso futuro de novos produtos e visões futuristas de novas tecnologias. Elas também podem guiar o desenvolvimento ao longo do ciclo de vida do produto. ROGERS, Y.; PREECE, J.; SHARP, H. **Interaction Design: **beyond human-computer interaction. 5. ed. Indianapolis, IN, USA: John Wiley & Sons, Inc., 2019 (adaptado). Com base no texto apresentado e sobre os objetivos do uso de personas e cenários em um processo de elicitação de requisitos, avalie as afirmações a seguir. O uso de personas e cenários, em um processo de elicitação, explicita algumas situações que aparecem implícitas nos requisitos. O uso de personas e cenários, em um processo de elicitação, ajuda o projetista a entender melhor o impacto das decisões de projeto. O uso de personas e cenários, em um processo de elicitação, facilita a especificação formal e não-ambígua dos requisitos de interação. O uso de personas e cenários, em um processo de elicitação, lembra à equipe de desenvolvimento que pessoas reais usarão o produto. É correto apenas o que se afirma em: |
+| a | I e III |
+| b | I e IV |
+| c | I, II e IV |
+| d | II, III e IV |
+
+Gabarito: 
+
+| 19 | c |
+| --- | --- |
+
+| Questão | Enunciado |
+| --- | --- |
+| 20 | A respeito das funções implementadas, avalie as afirmações a seguir. O resultado da impressão na linha 24 é: 7 - 7. A função funcao1, no pior caso, é uma estratégia mais rápida do que a funcao2. A função funcao2 implementa uma estratégia iterativa na concepção do algoritmo. É correto o que se afirma em: |
+| a | I, apenas |
+| b | III, apenas |
+| c | I e II, apenas |
+| d | II e III, apenas |
+
+Gabarito: 
+
+| 20 | a |
+| --- | --- |
+
+| Questão | Enunciado |
+| --- | --- |
+| 21 | No projeto de redes de computadores, a escolha racional do dispositivo de conexão a ser utilizado é fundamental para o correto funcionamento da rede, bem como para a sua segurança e eficiência. Dispositivos como repetidores, *hubs*, *bridges*, *switches*, roteadores e *gateways *são muito comuns, mas diferem entre si em detalhes sutis e não muito sutis. Por existir uma grande quantidade desses dispositivos, vale a pena conhecer suas características principais, entender o seu funcionamento e saber quando e como são utilizados. A chave para entender esses dispositivos é observar que eles operam em camadas diferentes, como ilustra a figura 1. A camada é importante, porque diferentes dispositivos utilizam fragmentos de informações diferentes para decidir como realizar a comutação. Em um cenário típico, o usuário gera alguns dados a ser enviados para uma máquina remota. Esses dados são repassados à camada de transporte, que então acrescenta um cabeçalho (por exemplo, um cabeçalho TCP) e repassa o pacote resultante à camada de rede situada abaixo dela. Essa camada adiciona seu próprio cabeçalho para formar um pacote da camada de rede (por exemplo, um pacote IP). Na figura 2, vemos o pacote IP sombreado. Em seguida, o pacote vai para a camada de enlace de dados, que adiciona seu próprio cabeçalho e seu *checksum** *(CRC) e entrega o quadro resultante à camada física para transmissão, digamos, por uma LAN. |
+|  | Considerando o contexto das informações e da figura apresentadas, assinale a alternativa correta. |
+| a | Os repetidores não reconhecem quadros ou pacotes, apenas o seu próprio cabeçalho. |
+| b | Um *hub *tem várias interfaces de entrada/saída conectadas eletricamente; os quadros que chegam a qualquer uma dessas interfaces são enviados a todas as outras e, se dois quadros chegarem ao mesmo tempo, eles serão colocados em *buffer *de espera e arbitragem de enlace. |
+| c | Uma *bridge *conecta duas ou mais redes, diferentemente de um *hub*, cada porta é isolada das demais para criar um domínio próprio de colisão; ela só envia o quadro à porta onde ele é necessário, e pode encaminhar vários quadros ao mesmo tempo, além de examinar o campo de carga útil (pacotes de rede) dos quadros que encaminha, para obter o endereço do destinatário. |
+| d | Os *gateways *de transporte conectam dois computadores que utilizam diferentes protocolos de transporte orientados a conexões, por exemplo, um computador que utiliza o protocolo TCP/IP orientado a conexões pode se comunicar com um computador que utiliza um protocolo de transporte orientado a conexões diferentes, chamado SCTP. |
+
+Gabarito: 
+
+| 21 | d |
+| --- | --- |
+
+| Questão | Enunciado |
+| --- | --- |
+| 22 | Uma Organização Não Governamental (ONG), relacionada à causa animal, registra os *pets *(animais de estimação) amparados por ela, de acordo com o seguinte Diagrama Entidade Relacionamento (DER). A partir das regras de mapeamento do Modelo Conceitual para o Modelo Lógico Relacional, assinale o Esquema Relacional mais adequado a ser gerado. Considere que as chaves primárias estão sublinhadas. |
+| a | PESSOA(cpf: texto, nome: texto) TIPO_PET(codigo: inteiro, descricao: texto) PET(codigo: inteiro, nome: texto, data_nascimento: data, codigo_tipo_pet: inteiro, adotante: texto) codigo_tipo_pet referencia TIPO_PET(codigo) adotante referencia PESSOA(cpf) |
+| b | TIPO_PET(codigo: inteiro, descricao: texto) PET(codigo: inteiro, nome: texto, data_nascimento: data, codigo_tipo_pet: inteiro) codigo_tipo_pet referencia TIPO_PET(codigo) PESSOA(cpf: texto, nome: texto, codigo_pet: inteiro) codigo_pet referencia PET(codigo) |
+| c | PET_PESSOA(codigo_pet: inteiro, nome_pet: texto, data_nascimento: data, cpf: texto, nome_pessoa: texto, codigo_tipo_pet: inteiro, descricao_tipo_pet: texto) |
+| d | PESSOA(cpf: texto, nome: texto) PET(codigo: inteiro, nome: texto, data_nascimento: data, codigo_tipo_pet: inteiro, descricao_tipo_pet, adotante: texto) adotante referencia PESSOA(cpf) |
+
+Gabarito: 
+
+| 22 | a |
+| --- | --- |
+
+| Questão | Enunciado |
+| --- | --- |
+| 23 | O uso da estrutura de dados tipo Árvore Binária de Busca é uma técnica fundamental de programação. Uma árvore binária é um conjunto finito de elementos que está vazio ou é particionado em três subconjuntos, a saber: 1) raiz da árvore - elemento inicial (único), 2) subárvore da esquerda - se vista isoladamente compõe outra árvore e 3) subárvore da direita - se vista isoladamente compõe outra árvore. A árvore pode não ter qualquer elemento (árvore vazia). A definição de árvore é recursiva e, devido a isso, muitas operações sobre árvores binárias utilizam recursão. Sendo “A” a raiz de uma árvore binária e “B” a raiz de sua subárvore esquerda ou direita, é dito que “A” é pai de “B” e que “B” é filho de “A”. Um elemento sem filhos é chamado de folha. A altura da árvore é o número de elementos encontrados no caminho descendente mais longo que liga a sua raiz até uma folha. Uma Árvore de Busca Binária é uma árvore binária especializada, na qual a informação que o elemento filho esquerdo possui é numericamente menor que a informação do elemento pai. De forma análoga, a informação que o elemento filho direito possui é numericamente maior ou igual à informação do elemento pai. O objetivo de organizar dados em Árvores Binárias de Busca é facilitar a tarefa de encontrar um determinado elemento. O percurso completo de uma árvore binária consiste em visitar todos os elementos desta árvore, segundo algum critério, a fim de processá-los. Três formas são bem conhecidas para a realização deste percurso: 1) pré-ordem, 2) em-ordem e 3) pós-ordem. A figura a seguir mostra um exemplo de árvore binária. |
+|  | Considerando o texto e a figura apresentados e que a seguinte lista de elementos numéricos: (27, 34, 40, 18, 23, 5, 25, 36, 10, 7, -2) seja totalmente transferida para uma estrutura de Árvore Binária de Busca, inicialmente vazia, elemento a elemento, da esquerda para a direita, assinale a alternativa correta. |
+| a | A árvore resultante terá 5 níveis de altura, com 6 elementos à esquerda da raiz principal (inicial) e 4 elementos à direita. |
+| b | O percurso da árvore em Pré-ordem irá processar os elementos na seguinte ordem (do primeiro ao último): -2, 7, 10, 5, 25, 23, 18, 36, 40, 34, 27. |
+| c | O percurso da árvore em Em-ordem irá processar os elementos na seguinte ordem (do primeiro ao último): -2, 5, 7, 10, 18, 23, 25, 27, 34, 36, 40. |
+| d | O percurso da árvore em Pós-ordem irá processar os elementos na seguinte ordem (do primeiro ao último): 27, 18, 5, -2, 10, 7, 23, 25, 34, 40, 36. |
+
+Gabarito: 
+
+| 23 | c |
+| --- | --- |
+
+| Questão | Enunciado |
+| --- | --- |
+| 24 | A criptografia de ponta a ponta do WhatsApp garante que somente você e a pessoa com quem você está se comunicando podem ler o que é enviado. Ninguém mais terá acesso a elas, nem mesmo o WhatsApp. As suas mensagens estão seguras com cadeados e somente você e a pessoa que as recebe possuem as chaves especiais necessárias para abri-los e ler as mensagens. E, para uma proteção ainda maior, cada mensagem que você envia tem um cadeado e uma chave únicos. Disponível em: https://faq.whatsapp.com/pt_br/general/28030015. Acesso em: 05 mai. 2020. Com base no texto acima e considerando os conceitos de segurança e criptografia, avalie as afirmações a seguir. Se um par de chaves é gerado durante a instalação do aplicativo e a chave pública do usuário é armazenada no servidor, é possível verificar a autenticidade de uma mensagem recebida usando a chave pública do remetente obtida do servidor. A estratégia de utilizar um vetor de inicialização (IV) variável para compor chaves criptográficas diferentes para cada mensagem enviada oculta padrões de dados, além de dificultar os chamados ataques de reprodução. O uso do algoritmo AES nas comunicações entre dois usuários indica o emprego de criptografia simétrica, isto é, aquela que utiliza um par de chaves, uma usada pelo remetente, para encriptar a mensagem, e outra para o destinatário decriptá-la. A presença do algoritmo SHA-256, no protocolo de comunicação entre cliente e servidor, sugere a verificação de integridade das mensagens, visto que é possível detectar se ocorreu alguma modificação comparando-se os valores de *hash** *da mensagem enviada e recebida. É correto apenas o que se afirma em |
+| a | I e IV |
+| b | III e IV |
+| c | I, II e III |
+| d | I, II e IV |
+
+Gabarito: 
+
+| 24 | d |
+| --- | --- |
+
+| Questão | Enunciado |
+| --- | --- |
+| 25 | A computação em nuvem *(cloud **computing**) *pode ser definida como a infraestrutura de comunicação representada por vários servidores *web, *responsáveis por armazenar dados e aplicações, em que cada parte desta infraestrutura é provida como um serviço e estes são normalmente alocados em centros de dados, utilizando *hardware *compartilhado para computação e armazenamento. Segundo o Instituto Nacional de Padrões e Tecnologia (NIST), um modelo de Computação em Nuvem deve apresentar 5 características essenciais, 3 modelos de serviço e 4 modelos de implantação. As características essenciais são: *self-service *sob demanda, acesso à rede ampla, *pooling** *de recursos, elasticidade rápida e serviço medido. Os modelos de serviços são: *Software *como um Serviço (SaaS), Plataforma como um Serviço (PaaS) e Infraestrutura como um Serviço (IaaS) e os modelos de implantação são: Nuvem Privada, Nuvem Pública, Nuvem Comunidade e Nuvem Híbrida. Considerando as informações apresentadas, avalie as afirmações a seguir. No modelo SaaS, o usuário não precisa adquirir ou realizar *upgrade *de *hardware *para rodar as aplicações, não administra ou controla a infraestrutura subjacente e as atualizações de *software** *são de responsabilidade do provedor do serviço em nuvem. A elasticidade é a capacidade de aumentar ou diminuir de forma automática o tempo de disponibilidade dos recursos computacionais que foram provisionados contratualmente para cada usuário. A Nuvem Comunidade tem como objetivo gerenciar os recursos computacionais pertencentes a cada uma das organizações participantes de uma comunidade de organizações para compartilhar a infraestrutura de *software *e *hardware *entre todos. No modelo IaaS, o usuário não administra ou controla a infraestrutura da nuvem, mas tem controle sobre os sistemas operacionais, armazenamento e aplicativos implantados. É correto apenas o que se afirma em |
+| a | I e II |
+| b | I e IV |
+| c | II e III |
+| d | II, III e IV |
+
+Gabarito: 
+
+| 25 | b |
+| --- | --- |
+
+| Questão | Enunciado |
+| --- | --- |
+| 26 | As interfaces adaptativas realizam as adaptações e personalizações de forma automática e dinâmica durante o processo de navegação, com base na aprendizagem da navegação e da interação do usuário. Técnicas de interfaces adaptativas podem ser utilizadas para adaptar interfaces às preferências do usuário, à sua capacidade cognitiva e ao seu estilo de navegação, tornando as interações mais naturais e atrativas. Essas técnicas de adaptação podem ser empregadas tanto para a reorganização dos objetos no ambiente, como para alterar a forma de apresentar informações. As adaptações podem ocorrer em diferentes níveis ou de diferentes formas: adaptação de conteúdo, adaptação da navegação e adaptação da apresentação do conteúdo. Cada um desses níveis de adaptação possui métodos e técnicas de adaptação próprios. NIENOW, A. L. Interfaces adaptativas no comércio eletrônico como facilitadoras da inclusão digital de idosos. **Revista Tecnologia e Tendências**, v. 9, n. 2, p. 116-136, 2017 (adaptado). Considerando a construção de interfaces adaptativas na interação homem-computador, avalie as afirmações a seguir quanto aos níveis e técnicas de adaptação. No nível de conteúdo, podem-se considerar as técnicas de fragmentos de texto, fragmentos condicionais, páginas variantes e abordagem baseada em *frames*. No nível de navegação, podem-se considerar as técnicas de *layouts *de página e guias de estilos. No nível de apresentação, podem-se considerar as técnicas de orientação direta, anotação de *links*, apresentação e ocultação e ordenação de *links.* É correto o que se afirma em |
+| a | I, apenas |
+| b | III, apenas |
+| c | I e II, apenas |
+| d | II e III, apenas |
+
+Gabarito: 
+
+| 26 | a |
+| --- | --- |
+
+| Questão | Enunciado |
+| --- | --- |
+| 27 | A figura a seguir mostra o histograma de uma amostra composta de 20 000 servidores. O eixo x apresenta a quantidade de requisições simultâneas desses servidores. Por exemplo, o valor 168 indica que há 1 850 servidores com capacidade de atender 168 requisições simultâneas. É possível afirmar que ao conectarmo-nos a um servidor dessa amostra, ao acaso, há aproximadamente |
+| a | 34,13% de chance que sua capacidade esteja no intervalo [141, 201]. |
+| b | 34,13% de chance que sua capacidade esteja no intervalo [161, 181]. |
+| c | 76,68% de chance que sua capacidade esteja no intervalo [171, 191]. |
+| d | 95,44% de chance que sua capacidade esteja no intervalo [151, 191]. |
+
+Gabarito: 
+
+| 27 | d |
+| --- | --- |
+
+| Questão | Enunciado |
+| --- | --- |
+| 28 | A figura 1 ilustra um *pipeline *com cinco unidades, também denominadas estágios. O estágio 1 busca a instrução na memória e a coloca em um *buffer *até que ela seja necessária. O estágio 2 decodifica a instrução, determina seu tipo e de quais operandos ela necessita. O estágio 3 localiza e busca os operandos, seja nos registradores, seja na memória. O estágio 4 é que realiza o trabalho de executar a instrução, normalmente fazendo os operandos passar pelo caminho de dados. Por fim, o estágio 5 escreve o resultado de volta no registrador adequado. Na figura 2, vemos como o *pipeline *funciona em função do tempo. Durante o ciclo de relógio 1, o estágio S1 está trabalhando na instrução 1, buscando-a na memória. Durante o ciclo 2, o estágio S2 decodifica a instrução 1, enquanto o estágio S1 busca a instrução 2. Durante o ciclo 3, o estágio S3 busca os operandos da instrução 1, o estágio S2 decodifica a instrução 2, e o estágio S1 busca a terceira instrução. Durante o ciclo 4, o estágio S4 executa a instrução 1, S3 busca os operandos para a instrução 2, S2 decodifica a instrução 3 e S1 busca a instrução 4. Por fim, durante o ciclo 5, S5 escreve (grava) o resultado da instrução 1 de volta no registrador, enquanto os outros estágios trabalham nas instruções seguintes. |
+|  |  |
+|  | Considerando o modelo teórico do *pipeline *apresentado, avalie as afirmações a seguir. Uma falta na busca de instrução (nenhuma instrução buscada), em determinado ciclo, causará uma bolha (ausência de instrução útil) no estágio S1, e essa bolha percorrerá todos os estágios seguintes, um após o outro, nos próximos 4 ciclos, até ser eliminada do *pipeline*. Cada instrução leva 5 ciclos para ser executada, mas se alguma instrução não precisar passar por determinado estágio, ela poderá percorrer o *pipeline *em um número menor de ciclos, por exemplo, se a instrução não possuir operandos ela não precisará passar pelo estágio S3 e assim poderá ser movida diretamente para o estágio S4. Dispondo de *cache *de dados separada da *cache *de instruções, o estágio S1 busca instruções na *cache *de instruções e dados na *cache *de dados. Dispondo de BTB (*branch** target buffer*), após a busca de uma instrução de desvio condicional, as instruções seguintes podem ser buscadas e colocadas no *pipeline*, o que evita bolhas em seus vários estágios. É correto apenas o que se afirma em |
+| a | I e II |
+| b | I e IV |
+| c | III e IV |
+| d | I, II e III |
+
+Gabarito: 
+
+| 28 | b |
+| --- | --- |
+
+| Questão | Enunciado |
+| --- | --- |
+| 29 | As operações morfológicas são um conjunto de operações que processam imagens com base em formas. As operações morfológicas aplicam um elemento estruturador B a uma imagem A de entrada e geram uma imagem de saída. Em relação às operações morfológicas de Erosão e Dilatação, avalie as afirmações a seguir. Dilatação: À medida que o *kernel *B é aplicado sobre a imagem, calculamos o valor máximo de *pixel** *sobreposto por B e substituímos o *pixel *da imagem, na posição do ponto de ancoragem, por esse valor máximo; exemplo: Dilatação: À medida que o *kernel *B é aplicado sobre a imagem, calculamos o valor mínimo de *pixel *sobreposto por B e substituímos o *pixel *da imagem, na posição do ponto de ancoragem, por esse valor mínimo; exemplo: Erosão: À medida que o *kernel *B é aplicado sobre a imagem, calculamos o valor máximo de *pixel *sobreposto por B e substituímos o *pixel *da imagem, na posição do ponto de ancoragem, por esse valor máximo; exemplo: Erosão: À medida que o *kernel *B é aplicado sobre a imagem, calculamos o valor mínimo de *pixel *sobreposto por B e substituímos o *pixel *da imagem, na posição do ponto de ancoragem, por esse valor mínimo; exemplo: É correto o que se afirma em |
+| a | I e II, apenas |
+| b | II e III, apenas |
+| c | III e IV, apenas |
+| d | I e IV, apenas |
+
+Gabarito: 
+
+| 29 | d |
+| --- | --- |
+
+| Questão | Enunciado |
+| --- | --- |
+| 30 | Um compilador é um software que traduz um programa descrito em uma linguagem de alto nível para um programa equivalente em código de máquina para um processador. Em geral, um compilador não produz diretamente o código de máquina, mas sim, um programa em linguagem simbólica (*assembly*) semanticamente equivalente ao programa em linguagem de alto nível. O programa em linguagem simbólica é, então, traduzido para o programa em linguagem de máquina através de montadores. Para realizar esta tarefa, o compilador executa a análise léxica, sintática e semântica do código-fonte do programa que está sendo executado em linguagem abstrata para depois gerar o código de máquina. BRANCO, G. A. Jr.; TAMAE, R. Y. Uma breve introdução ao estudo e implementação de compiladores. **Revista Científica Eletrônica de Psicologia**. Ano V, n. 08, fev. 2008 (adaptado). Considerando as informações do texto, avalie as afirmações a seguir. O analisador sintático tem a função de verificar se a sequência de símbolos gerada pelo analisador léxico compõe um programa válido ou não. Na análise léxica, o analisador irá identificar cada símbolo que tenha significado para linguagem, gerando a mesma classificação para Java, Pascal ou outra linguagem. O analisador semântico utiliza o código fonte para verificar incoerências quanto ao significado das construções implementadas. A fase de otimização do código procura melhorar o código intermediário, visando um código de máquina mais rápido em termos de execução. É correto apenas o que se afirma em |
+| a | I e IV |
+| b | II e III |
+| c | I, III e IV |
+| d | I, II e III |
+
+Gabarito: 
+
+| 30 | c |
+| --- | --- |
+
+| Questão | Enunciado |
+| --- | --- |
+| 31 | Semelhante a um autômato finito mas com uma memória ilimitada e irrestrita, uma máquina de Turing é um modelo muito mais preciso de um computador de propósito geral. Uma máquina de Turing pode fazer tudo o que um computador real pode fazer, entretanto mesmo ela não pode resolver certos problemas. Num sentido muito real, esses problemas estão além dos limites teóricos da computação. SIPSER, M. **Introdução à Teoria da Computação**. 2. ed. norte-americana. Cengage CTP, 2007 (adaptado). Considere a seguinte máquina de Turing M que aceita apenas números binários palíndromos cujo comprimento é par. Observação: no diagrama, as transições estão representadas no seguinte formato: "Leitura/Escrita Movimento", onde direção pode ser "D" (direita) ou "E" (esquerda). Exemplo: "0/B D" significa que o símbolo lido é "0", o símbolo escrito é "B" e o movimento é para a direita. Considerando que o estado inicial de M é q0, que a sua fita se encontra inicializada com a entrada 110011 e infinitos símbolos "B" à esquerda e à direita, e que a cabeça de leitura encontra-se inicialmente no símbolo mais à esquerda da entrada, avalie as afirmações a seguir. Após 4 movimentos de M, o conteúdo da fita, excluindo-se os símbolos "B", é "110011". Após 8 movimentos de M, o conteúdo da fita, excluindo-se os símbolos "B", é "1001". A máquina irá certamente travar em um estado de aceitação. Existe um autômato com pilha que também aceita a linguagem de M. É correto apenas o que se afirma em |
+| a | I e IV |
+| b | II e III |
+| c | I, III e IV |
+| d | II, III e IV |
+
+Gabarito: 
+
+| 31 | d |
+| --- | --- |
+
+| Questão | Enunciado |
+| --- | --- |
+| 32 | Existe um grande número de implementações para algoritmos de ordenação. Um dos fatores a serem considerados, por exemplo, é o número máximo e médio de comparações que são necessárias para ordenar um vetor com **n **elementos. Diz-se também que um algoritmo de ordenação é estável se ele preserva a ordem de elementos que são iguais. Isto é, se tais elementos aparecem na sequência ordenada na mesma ordem em que estão na sequência inicial. Analise o algoritmo abaixo, onde **A **é um vetor e **“i, j, ****lo**** e ****hi****” **são índices do vetor: Com relação ao algoritmo apresentado, avalie as afirmações a seguir. O algoritmo precisa de um espaço adicional O(n) para a pilha de recursão. O algoritmo apresentado é um algoritmo de ordenação recursivo e estável. O algoritmo precisa, em média, de O(n log n) comparações para ordenar n itens. O uso do primeiro elemento do vetor como “*pivot*” é mais eficiente que usar o último. É correto apenas o que se afirma em |
+| a | I e III |
+| b | II e IV |
+| c | III e IV |
+| d | I, II e III |
+
+Gabarito: 
+
+| 32 | a |
+| --- | --- |
+
+| Questão | Enunciado |
+| --- | --- |
+| 33 | A linguagem PROLOG pertence ao paradigma da programação lógica, no qual a lógica proposicional e algorítmica pode ser expressa na forma de descritores de fatos e regras de produção de respostas. No contexto da árvore genealógica de uma família, analise a seguinte base de fatos descrita em linguagem Prolog: homem(francisco). homem(marcos). mulher(ana). mulher(maria). mulher(joana). mulher(luiza).  filhode(ana, francisco). filhode(marcos, francisco). filhode(ana, maria). filhode(marcos, maria).  Qual regra lógica de produção está corretamente escrita para verificar uma das situações lógicas em que duas pessoas são irmãs? |
+| a | saoirmas(X,Y):-filhode(X,P), filhode(Y,P), X\=Y. |
+| b | saoirmas(X,Y):-filhode(X,P), filhode(Y,P), X\=Y, mulher(X). |
+| c | saoirmas(X,Y):-filhode(X,P), filhode(Y,P), X\=Y, mulher(X), mulher(Y). |
+| d | saoirmas(X,Y):-filhode(X,P), filhode(Y,M), X\=Y, mulher(X), mulher(Y). |
+
+Gabarito: 
+
+| 33 | c |
+| --- | --- |
+
+| Questão | Enunciado |
+| --- | --- |
+| 34 | O algoritmo de Dijkstra para o problema do caminho mínimo em dígrafos com pesos utiliza uma fila de prioridades de vértices, na qual as prioridades são uma estimativa do custo final. A cada iteração, um vértice é retirado da fila, e os arcos que começam nesse vértice são analisados. Considere o seguinte grafo, no qual deseja-se conhecer o custo de um caminho mínimo para cada vértice, a partir do vértice D. Considere que -1 representa um custo “infinito”, ou seja, nenhum caminho até o vértice foi até o momento descoberto. Com base nas informações e no grafo apresentados, assinale a alternativa que representa a estimativa de custo após duas iterações do algoritmo. |
+| a | A: 5 B: 6 C: 10 D: 0 E: 4 F: 1 G: -1 |
+| b | A: 5 B: 9 C: -1 D: 0 E: 5 F: 1 G: -1 |
+| c | A: 5 B: 9 C: -1 D: 0 E: 4 F: 1 G: 2 |
+| d | A: 5 B: 7 C: 8 D: 0 E: 4 F: 1 G: 2 |
+
+Gabarito: 
+
+| 34 | c |
+| --- | --- |
+
+| Questão | Enunciado |
+| --- | --- |
+| 35 | Um sistema distribuído é aquele no qual os componentes de hardware ou software, localizados em computadores interligados em rede, comunicam-se e coordenam suas ações apenas enviando mensagens entre si. COULOURIS, G. *et al*. **Sistemas distribuídos**: conceitos e projeto. 5. ed., Porto Alegre: Bookman, 2013 (adaptado). Com base na definição apresentada e nos conceitos básicos de sistemas distribuídos, assinale a opção correta. |
+| a | A existência de um relógio físico local sincronizado com um relógio global é o que permite aos usuários de um sistema distribuído trocarem mensagens de forma coordenada. |
+| b | A falha de um componente em um sistema distribuído *peer-to-peer** *causa a interrupção de todos os demais componentes até o seu retorno. |
+| c | O compartilhamento dos recursos distribuídos entre computadores interligados por uma rede é possível desde que os dispositivos sejam homogêneos em termos de hardware e software. |
+| d | A adição de novos dispositivos em um sistema distribuído para atender a uma demanda temporária ou crescente está ligada à característica de escalabilidade do sistema. |
+
+Gabarito: 
+
+| 35 | d |
+| --- | --- |

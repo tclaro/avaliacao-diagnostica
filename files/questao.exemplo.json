@@ -1,0 +1,67 @@
+{
+  "_leia": [
+    "Formato-alvo de cada entrada do questoes.json (Fase 1 do HANDOFF.md).",
+    "O exemplo abaixo esta preenchido com a questao 12 da prova (docx 20), que e",
+    "a unica ja verificada por execucao do codigo. Use-a como referencia de",
+    "granularidade: e esse nivel de detalhe que as outras 29 precisam ter.",
+    "Campos com sufixo _conferido comecam em false e so viram true apos revisao",
+    "humana. O site deve se recusar a publicar questao com itens_conferidos=false."
+  ],
+  "exemplo": {
+    "prova": 12,
+    "docx": 20,
+    "tema": "Algoritmos de busca - linear vs binaria",
+    "tags": ["algoritmos", "complexidade", "linguagem C"],
+    "enunciado": "Observe o código abaixo escrito na linguagem C.",
+    "codigo": {
+      "linguagem": "c",
+      "arquivo": "codigos/q12_busca.c",
+      "numeracao_de_linha": true,
+      "nota": "O enunciado cita 'linha 24' explicitamente, entao a numeracao precisa ser preservada na renderizacao.",
+      "saida_verificada": "7 - 7"
+    },
+    "figuras": [
+      {
+        "arquivo": "figuras/q12_fig1.png",
+        "descricao_alt": "Listagem de codigo em C com 26 linhas numeradas, definindo funcao1 (busca linear) e funcao2 (busca binaria recursiva).",
+        "substituivel_por_texto": true
+      }
+    ],
+    "comando": "A respeito das funções implementadas, avalie as afirmações a seguir.",
+    "itens": [
+      { "rotulo": "I", "texto": "O resultado da impressão na linha 24 é 7 - 7.", "veredito": true },
+      { "rotulo": "II", "texto": "PENDENTE - reconstituir do docx original", "veredito": false },
+      { "rotulo": "III", "texto": "PENDENTE - reconstituir do docx original", "veredito": false }
+    ],
+    "itens_conferidos": false,
+    "alternativas": [
+      { "letra": "a", "texto": "I, apenas." },
+      { "letra": "b", "texto": "PENDENTE" },
+      { "letra": "c", "texto": "PENDENTE" },
+      { "letra": "d", "texto": "PENDENTE" }
+    ],
+    "gabarito": "a",
+    "gabarito_conferido_inep": false,
+    "resolucao": {
+      "escrita": false,
+      "veredito_por_item": {
+        "I": "Verdadeira. funcao1 faz busca linear e encontra o valor 15 no indice 7; funcao2 faz busca binaria e converge ao mesmo indice 7. Codigo compilado e executado: a saida e '7 - 7'.",
+        "II": "PENDENTE",
+        "III": "PENDENTE"
+      },
+      "por_que_cada_distrator_cai": {
+        "b": "PENDENTE",
+        "c": "PENDENTE",
+        "d": "PENDENTE"
+      },
+      "conceito_chave": "Busca linear percorre O(n); busca binaria exige vetor ordenado e custa O(log n). O vetor da linha 23 esta ordenado, o que habilita as duas.",
+      "pegadinha": "A coincidencia dos dois resultados (7 e 7) tenta o aluno a concluir que as funcoes sao equivalentes em custo.",
+      "referencia": "conferir rodape da questao no docx original"
+    },
+    "desempenho_turma": {
+      "acerto_teto": 62.86,
+      "usar_no_site": false,
+      "nota": "Coorte contaminada por uso de IA. Ver secao 5 do HANDOFF.md. Nao exibir."
+    }
+  }
+}

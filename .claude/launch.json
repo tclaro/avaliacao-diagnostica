@@ -1,0 +1,29 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "simulado",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8765",
+        "-d",
+        "files/simulado-enade"
+      ],
+      "port": 8765
+    },
+    {
+      "name": "pacote",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8766",
+        "-d",
+        "files/simulado-enade/publicar"
+      ],
+      "port": 8766
+    }
+  ]
+}

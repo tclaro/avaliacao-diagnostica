@@ -1,0 +1,143 @@
+{
+ "_leia": [
+  "Formato de cada entrada de dados/questoes.json.",
+  "O exemplo abaixo NAO e um molde a preencher: e a entrada real da questao 12,",
+  "copiada do arquivo gerado. Serve para mostrar que campos existem e com que",
+  "nivel de detalhe eles sao preenchidos.",
+  "Este arquivo e gerado por ferramentas/gerar_schema_exemplo.py; nao edite a mao.",
+  "Os campos _conferido registram o que foi validado: itens_conferidos (extracao",
+  "dos numerais romanos revisada) e gabarito_conferido_inep (letra casada com a",
+  "chave definitiva do INEP pelo texto da alternativa, nao pela letra)."
+ ],
+ "exemplo": {
+  "prova": 12,
+  "docx": 20,
+  "origem": "Enade 2021 - INEP/MEC",
+  "tema": "Algoritmos de busca — linear e binária (C)",
+  "tags": [],
+  "blocos": [
+   {
+    "tipo": "figura",
+    "imagem_docx": "image5.png",
+    "arquivo": "figuras/q12_fig1.png",
+    "descricao_alt": null
+   },
+   {
+    "tipo": "paragrafo",
+    "texto": "A respeito das funções implementadas, avalie as afirmações a seguir."
+   },
+   {
+    "tipo": "item",
+    "rotulo": "I",
+    "texto": "O resultado da impressão na linha 24 é: 7 - 7."
+   },
+   {
+    "tipo": "item",
+    "rotulo": "II",
+    "texto": "A função funcao1, no pior caso, é uma estratégia mais rápida do que a funcao2."
+   },
+   {
+    "tipo": "item",
+    "rotulo": "III",
+    "texto": "A função funcao2 implementa uma estratégia iterativa na concepção do algoritmo."
+   },
+   {
+    "tipo": "paragrafo",
+    "texto": "É correto o que se afirma em:"
+   }
+  ],
+  "comando": "É correto o que se afirma em:",
+  "comando_inferido": true,
+  "itens": [
+   {
+    "rotulo": "I",
+    "texto": "O resultado da impressão na linha 24 é: 7 - 7.",
+    "veredito": true
+   },
+   {
+    "rotulo": "II",
+    "texto": "A função funcao1, no pior caso, é uma estratégia mais rápida do que a funcao2.",
+    "veredito": false
+   },
+   {
+    "rotulo": "III",
+    "texto": "A função funcao2 implementa uma estratégia iterativa na concepção do algoritmo.",
+    "veredito": false
+   }
+  ],
+  "itens_conferidos": true,
+  "itens_origem": "w:numPr + numbering.xml (rotulos reconstruidos da lista automatica do Word)",
+  "alternativas": [
+   {
+    "letra": "a",
+    "texto": "I, apenas"
+   },
+   {
+    "letra": "b",
+    "texto": "III, apenas"
+   },
+   {
+    "letra": "c",
+    "texto": "I e II, apenas"
+   },
+   {
+    "letra": "d",
+    "texto": "II e III, apenas"
+   }
+  ],
+  "gabarito": "a",
+  "gabarito_docx": "a",
+  "gabarito_mapeamento": "a",
+  "gabarito_conferido_inep": true,
+  "figuras": [
+   {
+    "arquivo": "figuras/q12_fig1.png",
+    "imagem_docx": "image5.png",
+    "descricao_alt": "Listagem de código em linguagem C com 26 linhas numeradas. Define TAM igual a 10; a funcao1, que percorre o vetor do início ao fim comparando cada posição com o valor procurado (busca linear) e devolve o índice ou -1; e a funcao2, que calcula o meio do intervalo e chama a si mesma na metade esquerda ou direita conforme a comparação (busca binária recursiva). Na linha 23 o vetor é inicializado ordenado como {1, 3, 5, 7, 9, 11, 13, 15, 17, 19} e a linha 24 imprime o resultado das duas buscas pelo valor 15. O código transcrito está em codigos/q12_busca.c e sua execução imprime \"7 - 7\"."
+   }
+  ],
+  "codigo": {
+   "linguagem": "c",
+   "arquivo": "codigos/q12_busca.c",
+   "legenda": "Observe o código abaixo escrito na linguagem C.",
+   "numeracao_de_linha": true,
+   "saida_verificada": "7 - 7",
+   "nota": "O enunciado cita a linha 24 explicitamente, entao a numeracao precisa ser preservada na renderizacao."
+  },
+  "resolucao": {
+   "escrita": true,
+   "veredito_por_item": {
+    "I": "VERDADEIRA. Verificado por execução: o programa imprime exatamente \"7 - 7\". O vetor da linha 23 é {1, 3, 5, 7, 9, 11, 13, 15, 17, 19} e o valor 15 está no índice 7. A funcao1 percorre linearmente e para no índice 7; a funcao2 faz busca binária e converge para o mesmo índice 7.",
+    "II": "FALSA. No pior caso a funcao1 (busca linear) percorre os n elementos, custando O(n); a funcao2 (busca binária) descarta metade do espaço a cada chamada, custando O(log n). No pior caso a linear é a MAIS LENTA das duas, e não a mais rápida.",
+    "III": "FALSA. A funcao2 chama a si mesma nas linhas 18 e 20 — é recursiva, e não iterativa. Uma versão iterativa da busca binária existe e usa um laço while, mas não é o que está escrito aqui."
+   },
+   "por_que_a_correta_esta_certa": "Apenas a afirmação I sobrevive: a saída é mesmo \"7 - 7\", confirmada por execução do código.",
+   "por_que_cada_distrator_cai": {
+    "b": "Fica só com III, que confunde recursão com iteração.",
+    "c": "Soma II, que inverte a comparação de custo entre busca linear e busca binária.",
+    "d": "Junta as duas falsas e descarta a única verdadeira."
+   },
+   "conceito_chave": "Busca linear custa O(n) e não exige nada do vetor; busca binária custa O(log n) mas exige vetor ORDENADO. O vetor da linha 23 está ordenado, o que é a condição que permite às duas funções trabalharem sobre ele.",
+   "pegadinha": "As duas funções devolvem o mesmo número, 7, e a saída \"7 - 7\" sugere que são equivalentes. Custo computacional não aparece no resultado, e sim no número de passos até chegar nele.",
+   "referencia": "Enade 2021, Ciência da Computação, questão 20.",
+   "verificado": "Código transcrito em codigos/q12_busca.c e executado: a linha 24 imprime \"7 - 7\"."
+  },
+  "desempenho_turma": {
+   "acerto_teto": 62.86,
+   "usar_no_site": false,
+   "nota": "Coorte contaminada por uso de IA. Ver secao 5 do HANDOFF.md. Nao exibir."
+  },
+  "flag_lms": null,
+  "tipo_lms": "Múltipla Escolha",
+  "gabarito_inep": "A",
+  "anulada_inep": false,
+  "conferencia_inep": "casamento automatico do texto das alternativas",
+  "itens_conferidos_por": "professor, apos revisao da extracao via document.xml",
+  "dificuldade_inep": {
+   "acerto_nacional": 35,
+   "classe": "Difícil",
+   "descartada_ponto_bisserial": false,
+   "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2021, Ciência da Computação (Bacharelado), Tabelas 6.11b e 6.12b."
+  }
+ }
+}
