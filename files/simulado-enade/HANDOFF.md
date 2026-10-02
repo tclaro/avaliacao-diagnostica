@@ -9,6 +9,11 @@
 
 ## 1. Objetivo
 
+> **Duas avaliações.** O site tem um seletor no cabeçalho entre a
+> **Avaliação Online** (Enade 2021 + 3 autorais, descrita nas seções 2 a 10) e
+> a **Avaliação Presencial** (27 questões do Enade 2017 adaptadas, §11). Cada
+> uma tem rotas, progresso e estatísticas próprios.
+
 Site estático de revisão do simulado aplicado à turma. Duas telas:
 
 1. **Home**: grid com as 30 questões, na numeração que os alunos viram.
@@ -76,9 +81,12 @@ Os arquivos em `dados/` e `site/dados.js` são **gerados**. Nunca edite os dois
 ```bash
 python ferramentas/extrair_questoes.py <pasta_docx_extraido> <projeto>  # docx -> questoes.json
 python ferramentas/consolidar.py ferramentas .                          # + resoluções, figuras, INEP
-python ferramentas/gerar_site.py                                        # questoes.json -> site/dados.js
+python ferramentas/gerar_site.py                                        # as duas avaliações -> site/dados.js
 python ferramentas/gerar_pacote.py                                      # site/ -> publicar/ (para o servidor)
 ```
+
+A avaliação presencial tem os próprios scripts (§11.3); o `gerar_site.py` junta
+as duas num único `site/dados.js` (`window.AVALIACOES`).
 
 Na prática, para mudar o texto de uma resolução basta editar
 `ferramentas/resolucoes_a.py` (questões 1–15) ou `resolucoes_b.py` (16–30) e
@@ -377,3 +385,105 @@ inequívoca, e não tem a alternativa com `mulher/2`.
 As 27 questões são do **Enade 2021, Ciência da Computação (bacharelado),
 INEP/MEC** — creditado na home do site. As 3 complementares são autorais do
 professor.
+
+---
+
+## 11. Avaliação presencial (Enade 2017)
+
+Segunda aplicação, presencial: 27 questões objetivas do componente específico
+do Enade 2017, Ciência da Computação (bacharelado), adaptadas pelo professor
+para 4 alternativas.
+
+### 11.1 Onde está cada coisa
+
+```
+origem/presencial/               (fora do Git, como todo origem/)
+├── enade2017_adaptado_questoes.docx   questões como os alunos viram
+├── enade2017_adaptado_questoes.pdf    o mesmo, para conferir diagramação
+├── enade2017_adaptado_gabarito.docx   gabarito do professor
+└── docx_extraido/                     o .docx descompactado (entrada do extrator)
+dados/presencial/questoes.json   ← ENTREGA: as 27 questões completas
+figuras/presencial/              23 PNGs (pNN_figM.png) + manifesto_figuras.json
+codigos/presencial/              5 transcrições de código (exibidas ao aluno)
+```
+
+### 11.2 Decisões e achados
+
+- **Numeração.** A questão N da presencial é a questão **N + 8** da prova de
+  2017, na mesma ordem. Conferido página a página contra a prova original.
+- **Gabaritos.** Os 27 do professor coincidem com o gabarito definitivo do
+  INEP, casando o texto das alternativas (a original tem 5; as letras não se
+  correspondem). O casamento está em `ferramentas/indices_inep_2017.py`.
+- **Desconsideradas.** As questões 21, 25 e 26 do INEP (**13, 17 e 18** aqui)
+  têm `X` nos microdados e não têm percentual: ficaram fora da nota nacional.
+  O gabarito definitivo não as anula, então não levam a tag `CANCELADA`;
+  aparecem como "sem índice: desconsiderada pelo INEP" e ficam fora das médias.
+- **Fonte da dificuldade — ressalva.** O percentual nacional de 2017 vem da
+  coluna "Brasil" do **Relatório de Curso** do INEP, transcrita pela UFSM e
+  publicada no repositório `renan-cunha/KDD-Enade-Computing`. **Não foi
+  conferido contra o Relatório Síntese de Área**, porque o
+  `download.inep.gov.br` estava bloqueado na sessão. A faixa (Fácil, Difícil…)
+  é calculada com as faixas do INEP sobre o índice com duas casas
+  (60,9% → 0,61 → Fácil). Vale baixar
+  `relatorio_sintese/2017/Ciencia_da_Computacao.pdf` e conferir.
+- **Correções de digitação.** O extrator aplica uma lista explícita
+  (`CORRECOES` em `extrair_presencial.py`): "cadeira" → "cadeia", "UDEP" →
+  "UDP", "SPL" → "SQL", "®" → "(R)", "proposição verdade" → "verdadeira" e
+  outras. Cada correção precisa achar o texto original, ou o script para. Uma
+  delas não é digitação: na questão 15 o exemplo "x = 2 + (3 – 4 ))" foi
+  restaurado para o original do INEP, "x = (2 + (3 – 4))".
+- **Estrutura do docx.** As questões 24 e 25 estão na mesma tabela; o
+  "PORQUE" da questão 21 foi digitado como item da lista automática e virou o
+  item II (o extrator o devolve a parágrafo); quatro fórmulas coladas como
+  imagem no meio da frase (questões 15 e 25) viram texto; as alternativas da
+  questão 1 são imagens de árvores, e o app passou a renderizar alternativa
+  com figura.
+- **Grupos por área** (estatísticas): 8 áreas amplas, definidas em
+  `CONFIG.presencial.grupos` no `app.js`, montadas a partir da área de
+  conteúdo que o INEP atribuiu a cada questão.
+- **Questão 16 (Dijkstra e Kruskal).** O item II é verdadeiro **neste grafo**
+  — o caminho i-k dentro da árvore geradora mínima custa 7, o mínimo — embora
+  a regra geral seja a oposta. Gabarito "I, II e III", confirmado pelo INEP. A
+  resolução explica as duas coisas.
+
+### 11.3 Como regerar
+
+```bash
+python ferramentas/extrair_presencial.py      # docx -> dados/presencial/questoes.json + figuras
+python ferramentas/verificar_presencial.py    # 31 conferências por execução
+python ferramentas/consolidar_presencial.py   # + INEP, legendas, códigos, resoluções
+python ferramentas/gerar_site.py              # as duas avaliações -> site/dados.js
+python ferramentas/gerar_pacote.py            # site/ -> publicar/
+```
+
+| Script | O que faz |
+|---|---|
+| `extrair_presencial.py` | lê o docx (reaproveita `extrair_questoes.py`), aplica as correções, extrai as figuras |
+| `temas_presencial.py` | temas exibidos |
+| `figuras_alt_presencial.py` | as 23 descrições textuais (só o que está desenhado, §5.6) |
+| `indices_inep_2017.py` | casamento com a prova original, gabarito INEP e percentuais |
+| `resolucoes_presencial_a.py` / `_b.py` | as 27 resoluções (1–14 e 15–27) |
+| `verificar_presencial.py` | executa as questões calculáveis (AVL, circuito, ordenação, troco, grafo, Fibonacci, paginação, LL(1), threads, deadlock…) |
+| `consolidar_presencial.py` | junta tudo e confere que cada resolução cobre os itens e as alternativas erradas |
+
+O `auditar_vazamento.py` cobre as duas avaliações e roda dentro do
+`gerar_site.py`.
+
+### 11.4 No site
+
+- Rotas: `#/online…` e `#/presencial…` (`/q/N`, `/estatisticas`). Os
+  endereços antigos (`#/q/N`, `#/estatisticas`) continuam abrindo a online;
+  `#/` abre a última avaliação usada, ou a online na primeira visita.
+- Progresso separado: a online mantém a chave original
+  (`simulado-enade:progresso:v1`) para não perder o que já foi respondido; a
+  presencial usa `simulado-enade:presencial:progresso:v1`.
+- O seletor leva à mesma tela na outra avaliação (grade ou estatísticas); de
+  dentro de uma questão, leva à grade.
+
+### 11.5 Para o professor revisar
+
+As resoluções foram escritas com base no gabarito oficial e, nas questões
+calculáveis, conferidas por execução — mas continuam sendo texto gerado. As
+mais conceituais e discutíveis: 7 (homem no meio, item II), 8 (engenharia
+social, o "sempre" do item I), 15 (a definição informal de L) e 23 (a nota
+sobre reordenação de memória).

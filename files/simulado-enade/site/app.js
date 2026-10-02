@@ -1,6 +1,13 @@
 /* Avaliacao Diagnostica - BCC (Bacharelado em Ciencia da Computacao, Senac SP)
-   Aplicacao estatica de revisao do simulado. Le window.QUESTOES (dados.js), roteia pelo
-   hash e guarda o progresso do aluno em localStorage.
+   Aplicacao estatica de revisao do simulado. Le window.AVALIACOES (dados.js),
+   roteia pelo hash e guarda o progresso do aluno em localStorage.
+
+   Ha duas avaliacoes, escolhidas pelo seletor do cabecalho: a online
+   (Enade 2021 + 3 autorais) e a presencial (Enade 2017 adaptado). Cada uma
+   tem rotas, progresso e estatisticas proprios:
+     #/online, #/online/q/7, #/online/estatisticas
+     #/presencial, #/presencial/q/7, #/presencial/estatisticas
+   Os enderecos antigos (#/q/7, #/estatisticas) continuam levando a online.
 
    Regra pedagogica que orienta esta tela: a resolucao NAO aparece junto com
    a questao. O aluno responde de novo e so entao o comentario abre. Ler o
@@ -15,16 +22,129 @@
   var _base = document.body.getAttribute('data-base');
   var BASE = _base === null ? '../' : _base;   /* "" e valor valido: a raiz */
 
-  var DADOS = window.QUESTOES || { questoes: [] };
-  var QUESTOES = DADOS.questoes;
-  var CHAVE = 'simulado-enade:progresso:v1';
+  var DADOS = window.AVALIACOES || {};
   var app = document.getElementById('app');
+
+  /* ------------------------------------------------------- avaliacoes */
+
+  /* Agrupamento das questoes em areas amplas, para a leitura "onde o pais
+     foi pior". Os temas em questoes.json sao finos demais (muitas areas com
+     uma questao so). Toda questao precisa estar em exatamente um grupo; o
+     aviso no console pega o caso de uma questao nova ficar de fora. */
+  var CONFIG = {
+    online: {
+      nome: 'Avaliação Online',
+      edicao: 2021,
+      /* chave original, de antes de existir a presencial: preserva o
+         progresso de quem ja respondeu */
+      chave: 'simulado-enade:progresso:v1',
+      grupos: [
+        { nome: 'Algoritmos e Estruturas de Dados', provas: [2, 12, 15, 24, 26] },
+        { nome: 'Sistemas Operacionais, Arquitetura e Circuitos',
+          provas: [1, 6, 8, 9, 20] },
+        { nome: 'Engenharia de Software e IHC', provas: [5, 7, 11, 18] },
+        { nome: 'Banco de Dados e Estatística', provas: [14, 19, 28, 29] },
+        { nome: 'Redes, Nuvem e Segurança', provas: [13, 16, 17, 27] },
+        { nome: 'IA, Teoria e Linguagens', provas: [3, 10, 21, 22, 23, 25] },
+        { nome: 'Legislação (LGPD)', provas: [4, 30] }
+      ],
+      rodape: function () {
+        return [
+          'As questões 1 a 27 são do Enade 2021, Ciência da Computação ' +
+          '(bacharelado), INEP/MEC. As questões 28, 29 e 30 são autorais ' +
+          'do professor.',
+          'Gabaritos conferidos contra o gabarito definitivo do INEP. ' +
+          'Seu progresso fica salvo apenas neste navegador.',
+          'A dificuldade indicada em cada questão é o percentual de ' +
+          'acerto de todos os concluintes do país no Enade 2021, e não ' +
+          'o desempenho desta turma. Fonte: MEC/Inep/Daes, Relatório ' +
+          'Síntese de Área.'
+        ];
+      }
+    },
+    presencial: {
+      nome: 'Avaliação Presencial',
+      edicao: 2017,
+      chave: 'simulado-enade:presencial:progresso:v1',
+      grupos: [
+        { nome: 'Algoritmos, Programação e Estruturas de Dados',
+          provas: [1, 3, 10, 14, 16] },
+        { nome: 'Sistemas Operacionais, Arquitetura e Circuitos',
+          provas: [4, 5, 21, 27] },
+        { nome: 'Engenharia de Software', provas: [2, 20] },
+        { nome: 'Banco de Dados', provas: [11, 26] },
+        { nome: 'Redes, Segurança e Sistemas Distribuídos',
+          provas: [7, 8, 12, 23] },
+        { nome: 'Teoria da Computação, Lógica e Compiladores',
+          provas: [6, 13, 15, 17, 22, 25] },
+        { nome: 'Inteligência Artificial', provas: [9, 24] },
+        { nome: 'Computação Gráfica e Imagens', provas: [18, 19] }
+      ],
+      rodape: function (questoes) {
+        var sem = questoes.filter(function (q) { return q.desconsiderada_inep; })
+                          .map(function (q) { return q.prova; });
+        return [
+          'As ' + questoes.length + ' questões são do Enade 2017, Ciência da ' +
+          'Computação (bacharelado), INEP/MEC, adaptadas pelo professor ' +
+          'para quatro alternativas.',
+          'Gabaritos conferidos contra o gabarito definitivo do INEP. ' +
+          'Seu progresso fica salvo apenas neste navegador, separado do da ' +
+          'avaliação online.',
+          'A dificuldade indicada em cada questão é o percentual de ' +
+          'acerto de todos os concluintes do país no Enade 2017, e não ' +
+          'o desempenho desta turma.' +
+          (sem.length ? ' As questões ' + juntar(sem) + ' foram ' +
+            'desconsideradas pelo INEP no cálculo da nota e não têm índice.'
+            : '') +
+          ' Fonte: MEC/Inep, Relatório de Curso do Enade 2017.'
+        ];
+      }
+    }
+  };
+
+  var ORDEM = ['online', 'presencial'].filter(function (k) { return DADOS[k]; });
+  var PADRAO = 'online';
+  var CHAVE_ULTIMA = 'simulado-enade:avaliacao';
+
+  var atual = null;      /* chave da avaliacao em exibicao */
+  var AV = null;         /* CONFIG[atual] */
+  var QUESTOES = [];
+  var CODIGOS = {};
+
+  function usar(chave) {
+    atual = chave;
+    AV = CONFIG[chave];
+    QUESTOES = DADOS[chave].questoes;
+    CODIGOS = DADOS[chave].codigos || {};
+    try {
+      localStorage.setItem(CHAVE_ULTIMA, chave);
+    } catch (e) {
+      /* sem armazenamento: o seletor continua funcionando pela URL */
+    }
+  }
+
+  function ultimaUsada() {
+    try {
+      var c = localStorage.getItem(CHAVE_ULTIMA);
+      return DADOS[c] ? c : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /* Endereco de uma tela da avaliacao atual (ou de outra, se informada). */
+  function link(tela, prova, chave) {
+    var base = '#/' + (chave || atual);
+    if (tela === 'questao') return base + '/q/' + prova;
+    if (tela === 'estatisticas') return base + '/estatisticas';
+    return base;
+  }
 
   /* ---------------------------------------------------------- progresso */
 
   function lerProgresso() {
     try {
-      return JSON.parse(localStorage.getItem(CHAVE)) || {};
+      return JSON.parse(localStorage.getItem(AV.chave)) || {};
     } catch (e) {
       return {};
     }
@@ -32,7 +152,7 @@
 
   function gravarProgresso(p) {
     try {
-      localStorage.setItem(CHAVE, JSON.stringify(p));
+      localStorage.setItem(AV.chave, JSON.stringify(p));
     } catch (e) {
       /* modo privativo ou armazenamento bloqueado: segue sem persistir */
     }
@@ -71,6 +191,12 @@
     while (app.firstChild) app.removeChild(app.firstChild);
   }
 
+  /* "2, 12 e 15" */
+  function juntar(lista) {
+    if (lista.length < 2) return lista.join('');
+    return lista.slice(0, -1).join(', ') + ' e ' + lista[lista.length - 1];
+  }
+
   /* Faixa de dificuldade do INEP -> classe css. Sao dados NACIONAIS, de
      todos os concluintes do pais; nao tem relacao com o desempenho da turma,
      que continua fora do site por estar contaminado.
@@ -80,14 +206,15 @@
      depois: saber de antemao que a questao e "muito dificil" muda a forma
      como ele a encara e contamina a tentativa.
 
-     A tela de estatisticas (#/estatisticas) e a excecao, por decisao do
-     professor: ela mostra o percentual de TODAS as questoes a qualquer
-     momento, mas nunca o gabarito nem a resolucao. */
+     A tela de estatisticas (#/<avaliacao>/estatisticas) e a excecao, por
+     decisao do professor: ela mostra o percentual de TODAS as questoes a
+     qualquer momento, mas nunca o gabarito nem a resolucao. */
   var FAIXA = {
     'Muito difícil': 'muito-dificil',
     'Difícil': 'dificil',
     'Médio': 'medio',
-    'Fácil': 'facil'
+    'Fácil': 'facil',
+    'Muito fácil': 'facil'
   };
 
   function chipDificuldade(q) {
@@ -95,10 +222,34 @@
     if (!d) return null;
     return el('span', {
       class: 'dificuldade ' + (FAIXA[d.classe] || 'medio'),
-      title: d.classe + ' no Enade 2021: ' + d.acerto_nacional +
+      title: d.classe + ' no Enade ' + AV.edicao + ': ' + d.acerto_nacional +
              '% dos concluintes do país acertaram',
       texto: d.classe
     });
+  }
+
+  /* --------------------------------------------------------- cabecalho */
+
+  /* Seletor Online/Presencial. Leva para a mesma tela na outra avaliacao;
+     de dentro de uma questao, leva para a grade, porque a questao 7 de uma
+     nao tem relacao com a questao 7 da outra. */
+  function desenharCabecalho(tela) {
+    var nav = document.getElementById('seletor-avaliacao');
+    if (nav) {
+      while (nav.firstChild) nav.removeChild(nav.firstChild);
+      ORDEM.forEach(function (chave) {
+        var destino = tela === 'estatisticas' ? 'estatisticas' : 'inicio';
+        var a = el('a', { href: link(destino, null, chave),
+                          texto: CONFIG[chave].nome });
+        if (chave === atual) a.setAttribute('aria-current', 'page');
+        nav.appendChild(a);
+      });
+    }
+    var sub = document.querySelector('.topo .sub');
+    if (sub) {
+      sub.textContent = AV.nome + ' · revisão comentada das ' +
+                        QUESTOES.length + ' questões';
+    }
   }
 
   /* --------------------------------------------------------------- home */
@@ -136,7 +287,8 @@
     if (respondidas > 0) {
       var limpando = el('button', { class: 'discreto', texto: 'zerar meu progresso' });
       limpando.addEventListener('click', function () {
-        if (window.confirm('Apagar suas respostas e recomeçar do zero?')) {
+        if (window.confirm('Apagar suas respostas da ' + AV.nome +
+                           ' e recomeçar do zero?')) {
           gravarProgresso({});
           desenhar();
         }
@@ -165,7 +317,7 @@
         el('span', { class: 'selo', texto: selo }),
         reg ? chipDificuldade(q) : null
       ]);
-      var cartao = el('a', { class: classe, href: '#/q/' + q.prova }, [
+      var cartao = el('a', { class: classe, href: link('questao', q.prova) }, [
         cabeca,
         el('div', { class: 'tema', texto: q.tema }),
         rodapeCartao
@@ -175,7 +327,7 @@
 
     var linkEstatisticas = el('a', {
       class: 'link-estatisticas',
-      href: '#/estatisticas',
+      href: link('estatisticas'),
       texto: 'Ver o percentual de acerto de cada questão e de cada área →'
     });
 
@@ -184,26 +336,11 @@
     app.appendChild(linkEstatisticas);
     app.appendChild(grade);
     app.appendChild(rodape());
-    document.title = 'Avaliação Diagnóstica — BCC';
+    document.title = AV.nome + ' — Avaliação Diagnóstica BCC';
     window.scrollTo(0, 0);
   }
 
   /* ------------------------------------------------------- estatisticas */
-
-  /* Agrupamento das 30 questoes em areas amplas, para a leitura "onde o pais
-     foi pior". Os temas em questoes.json sao finos demais (20 areas, muitas
-     com uma questao so). Toda questao precisa estar em exatamente um grupo;
-     o aviso no console pega o caso de uma questao nova ficar de fora. */
-  var GRUPOS = [
-    { nome: 'Algoritmos e Estruturas de Dados', provas: [2, 12, 15, 24, 26] },
-    { nome: 'Sistemas Operacionais, Arquitetura e Circuitos',
-      provas: [1, 6, 8, 9, 20] },
-    { nome: 'Engenharia de Software e IHC', provas: [5, 7, 11, 18] },
-    { nome: 'Banco de Dados e Estatística', provas: [14, 19, 28, 29] },
-    { nome: 'Redes, Nuvem e Segurança', provas: [13, 16, 17, 27] },
-    { nome: 'IA, Teoria e Linguagens', provas: [3, 10, 21, 22, 23, 25] },
-    { nome: 'Legislação (LGPD)', provas: [4, 30] }
-  ];
 
   function acertoNacional(q) {
     var d = q.dificuldade_inep;
@@ -211,6 +348,7 @@
   }
 
   function motivoSemIndice(q) {
+    if (q.motivo_sem_indice) return q.motivo_sem_indice;
     return q.anulada_inep
       ? 'sem índice: cancelada pelo INEP'
       : 'sem índice: questão autoral';
@@ -229,7 +367,7 @@
     var p = el('p', { class: 'questoes-do-grupo' }, ['Questões ']);
     provas.forEach(function (n, i) {
       if (i > 0) p.appendChild(document.createTextNode(i === provas.length - 1 ? ' e ' : ', '));
-      p.appendChild(el('a', { href: '#/q/' + n, texto: String(n) }));
+      p.appendChild(el('a', { href: link('questao', n), texto: String(n) }));
     });
     return p;
   }
@@ -268,7 +406,7 @@
       corpo.push(barraPercentual(pct));
       corpo.push(el('div', { class: 'rodape-cartao' }, [chipDificuldade(q)]));
     }
-    return el('a', { class: classe, href: '#/q/' + q.prova }, corpo);
+    return el('a', { class: classe, href: link('questao', q.prova) }, corpo);
   }
 
   function resumoDoGrupo(g) {
@@ -282,7 +420,7 @@
   }
 
   function secaoGrupos() {
-    var resumos = GRUPOS.map(resumoDoGrupo).sort(function (a, b) {
+    var resumos = AV.grupos.map(resumoDoGrupo).sort(function (a, b) {
       if (a.media === null) return 1;
       if (b.media === null) return -1;
       return a.media - b.media;
@@ -320,10 +458,10 @@
     var prog = lerProgresso();
 
     var fora = QUESTOES.filter(function (q) {
-      return !GRUPOS.some(function (g) { return g.provas.indexOf(q.prova) !== -1; });
+      return !AV.grupos.some(function (g) { return g.provas.indexOf(q.prova) !== -1; });
     });
     if (fora.length && window.console) {
-      console.warn('Questões fora de qualquer grupo de área:',
+      console.warn('Questões da ' + AV.nome + ' fora de qualquer grupo de área:',
                    fora.map(function (q) { return q.prova; }));
     }
 
@@ -333,41 +471,42 @@
     });
 
     limpar();
-    app.appendChild(el('a', { class: 'voltar', href: '#/', texto: '← todas as questões' }));
+    app.appendChild(el('a', { class: 'voltar', href: link('inicio'),
+                              texto: '← todas as questões' }));
     app.appendChild(el('div', { class: 'cabecalho-questao' }, [
       el('h2', { texto: 'Estatísticas de acerto' }),
       el('p', { class: 'tema',
                 texto: 'Percentual dos concluintes do país que acertaram cada ' +
-                       'questão no Enade 2021. Não é o desempenho desta turma.' })
+                       'questão no Enade ' + AV.edicao + '. Não é o desempenho ' +
+                       'desta turma.' })
     ]));
     app.appendChild(grade);
     app.appendChild(secaoGrupos());
     app.appendChild(rodape());
-    document.title = 'Estatísticas — Avaliação Diagnóstica BCC';
+    document.title = 'Estatísticas — ' + AV.nome + ' — Avaliação Diagnóstica BCC';
     window.scrollTo(0, 0);
   }
 
   function rodape() {
-    return el('footer', { class: 'rodape' }, [
-      el('p', {
-        texto: 'As questões 1 a 27 são do Enade 2021, Ciência da Computação ' +
-               '(bacharelado), INEP/MEC. As questões 28, 29 e 30 são autorais ' +
-               'do professor.'
-      }),
-      el('p', {
-        texto: 'Gabaritos conferidos contra o gabarito definitivo do INEP. ' +
-               'Seu progresso fica salvo apenas neste navegador.'
-      }),
-      el('p', {
-        texto: 'A dificuldade indicada em cada questão é o percentual de ' +
-               'acerto de todos os concluintes do país no Enade 2021, e não ' +
-               'o desempenho desta turma. Fonte: MEC/Inep/Daes, Relatório ' +
-               'Síntese de Área.'
-      })
-    ]);
+    return el('footer', { class: 'rodape' }, AV.rodape(QUESTOES).map(function (t) {
+      return el('p', { texto: t });
+    }));
   }
 
   /* ------------------------------------------------------------ questao */
+
+  function figura(f, prova) {
+    var fig = el('figure');
+    fig.appendChild(el('img', {
+      src: BASE + f.arquivo,
+      alt: f.descricao_alt || 'Figura da questão ' + prova,
+      loading: 'lazy'
+    }));
+    if (f.descricao_alt) {
+      fig.appendChild(el('figcaption', { texto: f.descricao_alt }));
+    }
+    return fig;
+  }
 
   function blocoEnunciado(q, comandoJaExibido) {
     var caixa = el('div', { class: 'enunciado' });
@@ -377,7 +516,7 @@
     /* Quando o codigo da questao existe so como imagem, o handoff manda
        renderizar a transcricao em <pre> no lugar do print: fica legivel no
        celular, selecionavel e permite citar numero de linha. */
-    var fonte = q.codigo && window.CODIGOS && window.CODIGOS[q.codigo.arquivo];
+    var fonte = q.codigo && CODIGOS[q.codigo.arquivo];
     var codigoPendente = !!fonte;
 
     q.blocos.forEach(function (b) {
@@ -390,17 +529,7 @@
           caixa.appendChild(el('pre', { class: 'codigo' }, [fonte]));
           return;
         }
-        var f = figs[b.imagem_docx] || b;
-        var fig = el('figure');
-        fig.appendChild(el('img', {
-          src: BASE + f.arquivo,
-          alt: f.descricao_alt || 'Figura da questão ' + q.prova,
-          loading: 'lazy'
-        }));
-        if (f.descricao_alt) {
-          fig.appendChild(el('figcaption', { texto: f.descricao_alt }));
-        }
-        caixa.appendChild(fig);
+        caixa.appendChild(figura(figs[b.imagem_docx] || b, q.prova));
       } else if (b.tipo === 'paragrafo' && b.texto === comandoJaExibido) {
         /* o comando e destacado logo acima das alternativas; nao repetir */
       } else if (b.tipo === 'item') {
@@ -428,24 +557,26 @@
     return el('div', { class: 'aviso' }, [
       el('p', {}, [
         el('strong', { texto: 'Questão cancelada pelo INEP. ' }),
-        'O INEP anulou esta questão no gabarito definitivo do Enade 2021, ' +
-        'então ela não tem resposta oficial. Ela foi mantida aqui porque o ' +
-        'conteúdo continua valendo — e o motivo do cancelamento está ' +
-        'explicado no fim da resolução. Vale pelo conceito, não pelo placar.'
+        'O INEP anulou esta questão no gabarito definitivo do Enade ' +
+        AV.edicao + ', então ela não tem resposta oficial. Ela foi mantida ' +
+        'aqui porque o conteúdo continua valendo — e o motivo do ' +
+        'cancelamento está explicado no fim da resolução. Vale pelo ' +
+        'conceito, não pelo placar.'
       ])
     ]);
   }
 
   function telaQuestao(prova) {
     var q = achar(prova);
-    if (!q) { location.hash = '#/'; return; }
+    if (!q) { location.hash = link('inicio'); return; }
 
     var prog = lerProgresso();
     var jaRespondeu = !!prog[q.prova];
     var escolhida = jaRespondeu ? prog[q.prova].resposta : null;
 
     limpar();
-    app.appendChild(el('a', { class: 'voltar', href: '#/', texto: '← todas as questões' }));
+    app.appendChild(el('a', { class: 'voltar', href: link('inicio'),
+                              texto: '← todas as questões' }));
 
     var titulo = el('h2', {}, [document.createTextNode('Questão ' + q.prova)]);
     if (q.anulada_inep) {
@@ -469,13 +600,22 @@
     var entradas = {};
 
     q.alternativas.forEach(function (a) {
-      var rotulo = el('label', { class: 'alt' });
+      var rotulo = el('label', { class: 'alt' + (a.figura ? ' com-figura' : '') });
       var radio = el('input', { type: 'radio', name: 'alt' });
       radio.value = a.letra;
       var corpo = el('div', {}, [
         el('span', { class: 'letra', texto: a.letra + ') ' }),
-        document.createTextNode(a.texto)
+        a.texto ? document.createTextNode(a.texto) : null
       ]);
+      /* alternativa desenhada (questao 1 da presencial: arvores) */
+      if (a.figura) {
+        corpo.appendChild(el('img', {
+          class: 'figura-alternativa',
+          src: BASE + a.figura.arquivo,
+          alt: a.figura.descricao_alt || 'Alternativa ' + a.letra,
+          loading: 'lazy'
+        }));
+      }
       entradas[a.letra] = { radio: radio, rotulo: rotulo, corpo: corpo };
       rotulo.appendChild(radio);
       rotulo.appendChild(corpo);
@@ -549,7 +689,8 @@
       revelar(escolhida, false);
     }
 
-    document.title = 'Questão ' + q.prova + ' — Avaliação Diagnóstica BCC';
+    document.title = 'Questão ' + q.prova + ' — ' + AV.nome +
+                     ' — Avaliação Diagnóstica BCC';
   }
 
   /* ---------------------------------------------------------- resolucao */
@@ -579,8 +720,8 @@
         chipDificuldade(q),
         el('span', {
           class: 'detalhe',
-          texto: 'no Enade 2021 — ' + dif.acerto_nacional + '% dos ' +
-                 'concluintes do país acertaram esta questão.'
+          texto: 'no Enade ' + AV.edicao + ' — ' + dif.acerto_nacional +
+                 '% dos concluintes do país acertaram esta questão.'
         })
       ]));
       if (dif.descartada_ponto_bisserial) {
@@ -591,6 +732,13 @@
                  'domina.'
         }));
       }
+    } else if (q.desconsiderada_inep) {
+      caixa.appendChild(el('p', {
+        class: 'nota-descartada',
+        texto: 'O INEP desconsiderou esta questão no cálculo da nota ' +
+               'nacional do Enade ' + AV.edicao + ' e não divulgou o ' +
+               'percentual de acerto dela.'
+      }));
     }
 
     if (r.aviso_anulada) {
@@ -667,20 +815,48 @@
     var anterior = achar(prova - 1);
     var proxima = achar(prova + 1);
     nav.appendChild(anterior
-      ? el('a', { href: '#/q/' + anterior.prova, texto: '← questão ' + anterior.prova })
+      ? el('a', { href: link('questao', anterior.prova), texto: '← questão ' + anterior.prova })
       : el('span'));
     nav.appendChild(proxima
-      ? el('a', { href: '#/q/' + proxima.prova, texto: 'questão ' + proxima.prova + ' →' })
+      ? el('a', { href: link('questao', proxima.prova), texto: 'questão ' + proxima.prova + ' →' })
       : el('span'));
     return nav;
   }
 
   /* ------------------------------------------------------------ rotas */
 
+  /* Le o hash em {avaliacao, tela, prova}. Sem avaliacao no endereco:
+     "#/" e "" abrem a ultima usada; os enderecos antigos de questao e de
+     estatisticas, de antes da presencial existir, sao da online. */
+  function lerRota() {
+    var h = location.hash.replace(/^#\/?/, '');
+    var partes = h ? h.split('/') : [];
+    var chave = null;
+    if (partes.length && DADOS[partes[0]]) chave = partes.shift();
+
+    var tela = 'inicio';
+    var prova = null;
+    if (partes[0] === 'q' && /^\d+$/.test(partes[1] || '')) {
+      tela = 'questao';
+      prova = parseInt(partes[1], 10);
+    } else if (partes[0] === 'estatisticas') {
+      tela = 'estatisticas';
+    }
+
+    if (!chave) {
+      chave = (tela === 'inicio' && ultimaUsada()) || PADRAO;
+    }
+    if (!DADOS[chave]) chave = ORDEM[0];
+    return { chave: chave, tela: tela, prova: prova };
+  }
+
   function desenhar() {
-    var m = /^#\/q\/(\d+)$/.exec(location.hash);
-    if (m) telaQuestao(parseInt(m[1], 10));
-    else if (location.hash === '#/estatisticas') telaEstatisticas();
+    if (!ORDEM.length) return;
+    var r = lerRota();
+    usar(r.chave);
+    desenharCabecalho(r.tela);
+    if (r.tela === 'questao') telaQuestao(r.prova);
+    else if (r.tela === 'estatisticas') telaEstatisticas();
     else telaInicial();
   }
 
