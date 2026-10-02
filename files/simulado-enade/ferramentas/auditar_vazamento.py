@@ -70,11 +70,18 @@ def trechos_pre_resposta(q):
     return saida
 
 
+FONTES = [('online', 'dados/questoes.json'),
+          ('presencial', 'dados/presencial/questoes.json')]
+
+
 def main():
-    doc = json.load(io.open(RAIZ + '/dados/questoes.json', encoding='utf-8'))
+    questoes = []
+    for nome, fonte in FONTES:
+        doc = json.load(io.open(os.path.join(RAIZ, fonte), encoding='utf-8'))
+        questoes += [(nome, q) for q in doc['questoes']]
     achados = []
 
-    for q in doc['questoes']:
+    for avaliacao, q in questoes:
         correta = [a['texto'] for a in q['alternativas']
                    if a['letra'] == q['gabarito']]
         correta = correta[0] if correta else ''
@@ -83,8 +90,8 @@ def main():
             for padrao in SUSPEITAS:
                 m = re.search(padrao, texto, re.I)
                 if m:
-                    achados.append((q['prova'], rotulo, 'frase de veredito',
-                                    m.group(0)))
+                    achados.append((avaliacao, q['prova'], rotulo,
+                                    'frase de veredito', m.group(0)))
 
             # a alternativa correta reproduzida quase literalmente
             if len(correta) > 12:
@@ -93,7 +100,7 @@ def main():
                         continue
                     r = parecido(correta, frase)
                     if r > 0.72:
-                        achados.append((q['prova'], rotulo,
+                        achados.append((avaliacao, q['prova'], rotulo,
                                         'repete a alternativa %s (%.0f%%)'
                                         % (q['gabarito'], r * 100),
                                         frase.strip()[:90]))
@@ -103,8 +110,8 @@ def main():
         return 0
 
     print('VAZAMENTO no material que o aluno vê antes de responder:\n')
-    for prova, onde, tipo, trecho in achados:
-        print('  prova %-2d | %-34s | %s' % (prova, onde, tipo))
+    for avaliacao, prova, onde, tipo, trecho in achados:
+        print('  %s prova %-2d | %-34s | %s' % (avaliacao, prova, onde, tipo))
         print('           %s' % trecho.strip()[:100])
     print('\ntotal: %d' % len(achados))
     return 1

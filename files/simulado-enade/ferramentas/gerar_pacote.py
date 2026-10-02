@@ -37,14 +37,15 @@ def main():
         origem = os.path.join(RAIZ, 'site', nome)
         if nome == 'index.html':
             # No pacote, figuras/ fica ao lado do index, e nao um nivel acima.
-            html = io.open(origem, encoding='utf-8').read()
+            # newline='' preserva o fim de linha do original (CRLF)
+            html = io.open(origem, encoding='utf-8', newline='').read()
             antes = html
             html = html.replace('<body data-base="../">', '<body data-base="">')
             if html == antes:
                 raise SystemExit('ERRO: nao achei data-base="../" no '
                                  'index.html; o site/index.html mudou?')
-            io.open(os.path.join(DESTINO, nome), 'w',
-                    encoding='utf-8').write(html)
+            io.open(os.path.join(DESTINO, nome), 'w', encoding='utf-8',
+                    newline='').write(html)
         else:
             shutil.copy2(origem, os.path.join(DESTINO, nome))
 
@@ -66,22 +67,30 @@ def main():
     dados = io.open(os.path.join(DESTINO, 'dados.js'), encoding='utf-8').read()
     import json
     import re
-    m = re.search(r'window\.QUESTOES = (.*?);\nwindow\.CODIGOS', dados,
-                  re.S)
+    m = re.search(r'window\.AVALIACOES = (.*);\s*$', dados, re.S)
     if not m:
-        problemas.append('nao consegui ler window.QUESTOES do dados.js')
+        problemas.append('nao consegui ler window.AVALIACOES do dados.js')
     else:
-        doc = json.loads(m.group(1))
-        arquivos = [f['arquivo'] for q in doc['questoes'] for f in q['figuras']]
-        for a in arquivos:
-            if not os.path.exists(os.path.join(DESTINO, a)):
-                problemas.append('figura ausente no pacote: ' + a)
+        avaliacoes = json.loads(m.group(1))
+        if sorted(avaliacoes) != ['online', 'presencial']:
+            problemas.append('avaliacoes no dados.js: %s' % sorted(avaliacoes))
+        for av in avaliacoes.values():
+            for q in av['questoes']:
+                figs = q['figuras'] + [a['figura'] for a in q['alternativas']
+                                       if a.get('figura')]
+                for f in figs:
+                    if not os.path.exists(os.path.join(DESTINO, f['arquivo'])):
+                        problemas.append('figura ausente no pacote: ' +
+                                         f['arquivo'])
 
-    # figuras/ so pode conter imagens
-    for f in os.listdir(os.path.join(DESTINO, 'figuras')):
-        if not f.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.svg',
-                                   '.webp')):
-            problemas.append('arquivo nao-imagem em figuras/: ' + f)
+    # figuras/ (e figuras/presencial/) so pode conter imagens
+    for raiz, _, nomes in os.walk(os.path.join(DESTINO, 'figuras')):
+        for f in nomes:
+            if not f.lower().endswith(('.png', '.jpg', '.jpeg', '.gif',
+                                       '.svg', '.webp')):
+                problemas.append('arquivo nao-imagem em figuras/: ' +
+                                 os.path.relpath(os.path.join(raiz, f),
+                                                 DESTINO))
 
     # nada de material interno
     proibidos = ['HANDOFF.md', 'dados', 'ferramentas', 'origem', 'extracao']
