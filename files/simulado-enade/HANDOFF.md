@@ -414,18 +414,24 @@ codigos/presencial/              5 transcrições de código (exibidas ao aluno)
 - **Gabaritos.** Os 27 do professor coincidem com o gabarito definitivo do
   INEP, casando o texto das alternativas (a original tem 5; as letras não se
   correspondem). O casamento está em `ferramentas/indices_inep_2017.py`.
-- **Desconsideradas.** As questões 21, 25 e 26 do INEP (**13, 17 e 18** aqui)
-  têm `X` nos microdados e não têm percentual: ficaram fora da nota nacional.
-  O gabarito definitivo não as anula, então não levam a tag `CANCELADA`;
-  aparecem como "sem índice: desconsiderada pelo INEP" e ficam fora das médias.
-- **Fonte da dificuldade — ressalva.** O percentual nacional de 2017 vem da
-  coluna "Brasil" do **Relatório de Curso** do INEP, transcrita pela UFSM e
-  publicada no repositório `renan-cunha/KDD-Enade-Computing`. **Não foi
-  conferido contra o Relatório Síntese de Área**, porque o
-  `download.inep.gov.br` estava bloqueado na sessão. A faixa (Fácil, Difícil…)
-  é calculada com as faixas do INEP sobre o índice com duas casas
-  (60,9% → 0,61 → Fácil). Vale baixar
-  `relatorio_sintese/2017/Ciencia_da_Computacao.pdf` e conferir.
+- **Dificuldade nacional.** Vem do **Relatório Síntese de Área** do Enade
+  2017 (Ciência da Computação, Bacharelado/Licenciatura), **Tabela 6.11b**
+  (Bacharelado), pp. 216–217: índice de facilidade, classificação e
+  discriminação (ponto-bisserial) das 27 questões, transcritos em
+  `indices_inep_2017.py`. As faixas de classificação são as da Tabela 1.2 do
+  mesmo relatório, e o script confere que a classificação transcrita bate com
+  elas. O PDF (740 páginas, ~18 MB) foi obtido de uma cópia do professor,
+  porque o `download.inep.gov.br` estava bloqueado na sessão; não foi
+  versionado, como o resto de `origem/`.
+- **Descartadas.** As questões 21, 25 e 26 do INEP (**13, 17 e 18** aqui) têm
+  discriminação Fraca (0,11, 0,11 e 0,16) e foram eliminadas do cômputo da nota
+  pelo critério ponto-bisserial — o mesmo caso das seis descartadas da online.
+  Têm índice de facilidade normal e aparecem no site com a nota de descarte;
+  nos microdados estão com `X`. O gabarito definitivo não as anula.
+- **Conferência cruzada.** Antes do relatório, os percentuais vinham da coluna
+  "Brasil" do Relatório de Curso (transcrição da UFSM). Ela segue no script
+  só como verificação: as 24 questões que traz coincidem com o relatório a
+  menos de meio ponto.
 - **Correções de digitação.** O extrator aplica uma lista explícita
   (`CORRECOES` em `extrair_presencial.py`): "cadeira" → "cadeia", "UDEP" →
   "UDP", "SPL" → "SQL", "®" → "(R)", "proposição verdade" → "verdadeira" e
