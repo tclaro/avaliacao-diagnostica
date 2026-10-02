@@ -3109,11 +3109,10 @@ window.AVALIACOES = {
      "acerto_nacional": 38,
      "classe": "Difícil",
      "descartada_ponto_bisserial": false,
-     "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+     "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
      "questao_inep": 9,
      "edicao": 2017
-    },
-    "desconsiderada_inep": false
+    }
    },
    {
     "prova": 2,
@@ -3211,11 +3210,10 @@ window.AVALIACOES = {
      "acerto_nacional": 19,
      "classe": "Difícil",
      "descartada_ponto_bisserial": false,
-     "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+     "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
      "questao_inep": 10,
      "edicao": 2017
-    },
-    "desconsiderada_inep": false
+    }
    },
    {
     "prova": 3,
@@ -3277,11 +3275,10 @@ window.AVALIACOES = {
      "acerto_nacional": 50,
      "classe": "Médio",
      "descartada_ponto_bisserial": false,
-     "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+     "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
      "questao_inep": 11,
      "edicao": 2017
-    },
-    "desconsiderada_inep": false
+    }
    },
    {
     "prova": 4,
@@ -3403,11 +3400,10 @@ window.AVALIACOES = {
      "acerto_nacional": 47,
      "classe": "Médio",
      "descartada_ponto_bisserial": false,
-     "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+     "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
      "questao_inep": 12,
      "edicao": 2017
-    },
-    "desconsiderada_inep": false
+    }
    },
    {
     "prova": 5,
@@ -3486,11 +3482,10 @@ window.AVALIACOES = {
      "acerto_nacional": 56,
      "classe": "Médio",
      "descartada_ponto_bisserial": false,
-     "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+     "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
      "questao_inep": 13,
      "edicao": 2017
-    },
-    "desconsiderada_inep": false
+    }
    },
    {
     "prova": 6,
@@ -3569,11 +3564,10 @@ window.AVALIACOES = {
      "acerto_nacional": 40,
      "classe": "Difícil",
      "descartada_ponto_bisserial": false,
-     "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+     "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
      "questao_inep": 14,
      "edicao": 2017
-    },
-    "desconsiderada_inep": false
+    }
    },
    {
     "prova": 7,
@@ -3689,11 +3683,10 @@ window.AVALIACOES = {
      "acerto_nacional": 26,
      "classe": "Difícil",
      "descartada_ponto_bisserial": false,
-     "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+     "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
      "questao_inep": 15,
      "edicao": 2017
-    },
-    "desconsiderada_inep": false
+    }
    },
    {
     "prova": 8,
@@ -3814,11 +3807,10 @@ window.AVALIACOES = {
      "acerto_nacional": 66,
      "classe": "Fácil",
      "descartada_ponto_bisserial": false,
-     "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+     "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
      "questao_inep": 16,
      "edicao": 2017
-    },
-    "desconsiderada_inep": false
+    }
    },
    {
     "prova": 9,
@@ -3916,11 +3908,10 @@ window.AVALIACOES = {
      "acerto_nacional": 80,
      "classe": "Fácil",
      "descartada_ponto_bisserial": false,
-     "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+     "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
      "questao_inep": 17,
      "edicao": 2017
-    },
-    "desconsiderada_inep": false
+    }
    },
    {
     "prova": 10,
@@ -4000,11 +3991,10 @@ window.AVALIACOES = {
      "acerto_nacional": 38,
      "classe": "Difícil",
      "descartada_ponto_bisserial": false,
-     "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+     "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
      "questao_inep": 18,
      "edicao": 2017
-    },
-    "desconsiderada_inep": false
+    }
    },
    {
     "prova": 11,
@@ -4078,11 +4068,10 @@ window.AVALIACOES = {
      "acerto_nacional": 59,
      "classe": "Médio",
      "descartada_ponto_bisserial": false,
-     "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+     "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
      "questao_inep": 19,
      "edicao": 2017
-    },
-    "desconsiderada_inep": false
+    }
    },
    {
     "prova": 12,
@@ -4183,11 +4172,10 @@ window.AVALIACOES = {
      "acerto_nacional": 61,
      "classe": "Fácil",
      "descartada_ponto_bisserial": false,
-     "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+     "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
      "questao_inep": 20,
      "edicao": 2017
-    },
-    "desconsiderada_inep": false
+    }
    },
    {
     "prova": 13,
@@ -4266,9 +4254,14 @@ window.AVALIACOES = {
     "questao_inep": 21,
     "gabarito_inep": "A",
     "anulada_inep": false,
-    "dificuldade_inep": null,
-    "desconsiderada_inep": true,
-    "motivo_sem_indice": "sem índice: desconsiderada pelo INEP"
+    "dificuldade_inep": {
+     "acerto_nacional": 18,
+     "classe": "Difícil",
+     "descartada_ponto_bisserial": true,
+     "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
+     "questao_inep": 21,
+     "edicao": 2017
+    }
    },
    {
     "prova": 14,
@@ -4376,14 +4369,13 @@ window.AVALIACOES = {
     "gabarito_inep": "C",
     "anulada_inep": false,
     "dificuldade_inep": {
-     "acerto_nacional": 52,
+     "acerto_nacional": 53,
      "classe": "Médio",
      "descartada_ponto_bisserial": false,
-     "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+     "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
      "questao_inep": 22,
      "edicao": 2017
-    },
-    "desconsiderada_inep": false
+    }
    },
    {
     "prova": 15,
@@ -4493,11 +4485,10 @@ window.AVALIACOES = {
      "acerto_nacional": 19,
      "classe": "Difícil",
      "descartada_ponto_bisserial": false,
-     "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+     "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
      "questao_inep": 23,
      "edicao": 2017
-    },
-    "desconsiderada_inep": false
+    }
    },
    {
     "prova": 16,
@@ -4611,11 +4602,10 @@ window.AVALIACOES = {
      "acerto_nacional": 31,
      "classe": "Difícil",
      "descartada_ponto_bisserial": false,
-     "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+     "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
      "questao_inep": 24,
      "edicao": 2017
-    },
-    "desconsiderada_inep": false
+    }
    },
    {
     "prova": 17,
@@ -4729,9 +4719,14 @@ window.AVALIACOES = {
     "questao_inep": 25,
     "gabarito_inep": "C",
     "anulada_inep": false,
-    "dificuldade_inep": null,
-    "desconsiderada_inep": true,
-    "motivo_sem_indice": "sem índice: desconsiderada pelo INEP"
+    "dificuldade_inep": {
+     "acerto_nacional": 29,
+     "classe": "Difícil",
+     "descartada_ponto_bisserial": true,
+     "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
+     "questao_inep": 25,
+     "edicao": 2017
+    }
    },
    {
     "prova": 18,
@@ -4801,9 +4796,14 @@ window.AVALIACOES = {
     "questao_inep": 26,
     "gabarito_inep": "E",
     "anulada_inep": false,
-    "dificuldade_inep": null,
-    "desconsiderada_inep": true,
-    "motivo_sem_indice": "sem índice: desconsiderada pelo INEP"
+    "dificuldade_inep": {
+     "acerto_nacional": 25,
+     "classe": "Difícil",
+     "descartada_ponto_bisserial": true,
+     "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
+     "questao_inep": 26,
+     "edicao": 2017
+    }
    },
    {
     "prova": 19,
@@ -4935,11 +4935,10 @@ window.AVALIACOES = {
      "acerto_nacional": 35,
      "classe": "Difícil",
      "descartada_ponto_bisserial": false,
-     "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+     "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
      "questao_inep": 27,
      "edicao": 2017
-    },
-    "desconsiderada_inep": false
+    }
    },
    {
     "prova": 20,
@@ -5065,11 +5064,10 @@ window.AVALIACOES = {
      "acerto_nacional": 63,
      "classe": "Fácil",
      "descartada_ponto_bisserial": false,
-     "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+     "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
      "questao_inep": 28,
      "edicao": 2017
-    },
-    "desconsiderada_inep": false
+    }
    },
    {
     "prova": 21,
@@ -5164,11 +5162,10 @@ window.AVALIACOES = {
      "acerto_nacional": 26,
      "classe": "Difícil",
      "descartada_ponto_bisserial": false,
-     "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+     "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
      "questao_inep": 29,
      "edicao": 2017
-    },
-    "desconsiderada_inep": false
+    }
    },
    {
     "prova": 22,
@@ -5258,11 +5255,10 @@ window.AVALIACOES = {
      "acerto_nacional": 40,
      "classe": "Difícil",
      "descartada_ponto_bisserial": false,
-     "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+     "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
      "questao_inep": 30,
      "edicao": 2017
-    },
-    "desconsiderada_inep": false
+    }
    },
    {
     "prova": 23,
@@ -5341,11 +5337,10 @@ window.AVALIACOES = {
      "acerto_nacional": 33,
      "classe": "Difícil",
      "descartada_ponto_bisserial": false,
-     "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+     "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
      "questao_inep": 31,
      "edicao": 2017
-    },
-    "desconsiderada_inep": false
+    }
    },
    {
     "prova": 24,
@@ -5448,11 +5443,10 @@ window.AVALIACOES = {
      "acerto_nacional": 38,
      "classe": "Difícil",
      "descartada_ponto_bisserial": false,
-     "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+     "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
      "questao_inep": 32,
      "edicao": 2017
-    },
-    "desconsiderada_inep": false
+    }
    },
    {
     "prova": 25,
@@ -5571,11 +5565,10 @@ window.AVALIACOES = {
      "acerto_nacional": 29,
      "classe": "Difícil",
      "descartada_ponto_bisserial": false,
-     "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+     "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
      "questao_inep": 33,
      "edicao": 2017
-    },
-    "desconsiderada_inep": false
+    }
    },
    {
     "prova": 26,
@@ -5699,11 +5692,10 @@ window.AVALIACOES = {
      "acerto_nacional": 20,
      "classe": "Difícil",
      "descartada_ponto_bisserial": false,
-     "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+     "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
      "questao_inep": 34,
      "edicao": 2017
-    },
-    "desconsiderada_inep": false
+    }
    },
    {
     "prova": 27,
@@ -5778,11 +5770,10 @@ window.AVALIACOES = {
      "acerto_nacional": 31,
      "classe": "Difícil",
      "descartada_ponto_bisserial": false,
-     "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+     "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
      "questao_inep": 35,
      "edicao": 2017
-    },
-    "desconsiderada_inep": false
+    }
    }
   ],
   "codigos": {

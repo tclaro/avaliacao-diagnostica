@@ -121,8 +121,8 @@
    }
   ],
   "alertas": [],
-  "conferencia_inep": "Cada questao N corresponde a questao N + 8 do Enade 2017 (Ciencia da Computacao, bacharelado), conferido contra a prova original. Os 27 gabaritos do professor coincidem com o gabarito definitivo do INEP, casando o texto das alternativas (a prova original tem 5). As questoes 21, 25 e 26 do INEP (13, 17 e 18 aqui) foram desconsideradas no calculo da nota nacional e nao tem percentual.",
-  "fonte_dificuldade": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso."
+  "conferencia_inep": "Cada questao N corresponde a questao N + 8 do Enade 2017 (Ciencia da Computacao, bacharelado), conferido contra a prova original. Os 27 gabaritos do professor coincidem com o gabarito definitivo do INEP, casando o texto das alternativas (a prova original tem 5). As questoes 21, 25 e 26 do INEP (13, 17 e 18 aqui) foram eliminadas do computo da nota nacional pelo criterio ponto-bisserial.",
+  "fonte_dificuldade": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b."
  },
  "questoes": [
   {
@@ -231,11 +231,10 @@
     "acerto_nacional": 38,
     "classe": "Difícil",
     "descartada_ponto_bisserial": false,
-    "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+    "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
     "questao_inep": 9,
     "edicao": 2017
    },
-   "desconsiderada_inep": false,
    "itens_conferidos_por": "conferidos contra o PDF do docx e contra a prova original do INEP"
   },
   {
@@ -339,11 +338,10 @@
     "acerto_nacional": 19,
     "classe": "Difícil",
     "descartada_ponto_bisserial": false,
-    "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+    "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
     "questao_inep": 10,
     "edicao": 2017
    },
-   "desconsiderada_inep": false,
    "itens_conferidos_por": "conferidos contra o PDF do docx e contra a prova original do INEP"
   },
   {
@@ -411,11 +409,10 @@
     "acerto_nacional": 50,
     "classe": "Médio",
     "descartada_ponto_bisserial": false,
-    "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+    "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
     "questao_inep": 11,
     "edicao": 2017
    },
-   "desconsiderada_inep": false,
    "itens_conferidos_por": "conferidos contra o PDF do docx e contra a prova original do INEP"
   },
   {
@@ -543,11 +540,10 @@
     "acerto_nacional": 47,
     "classe": "Médio",
     "descartada_ponto_bisserial": false,
-    "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+    "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
     "questao_inep": 12,
     "edicao": 2017
    },
-   "desconsiderada_inep": false,
    "itens_conferidos_por": "conferidos contra o PDF do docx e contra a prova original do INEP"
   },
   {
@@ -632,11 +628,10 @@
     "acerto_nacional": 56,
     "classe": "Médio",
     "descartada_ponto_bisserial": false,
-    "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+    "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
     "questao_inep": 13,
     "edicao": 2017
    },
-   "desconsiderada_inep": false,
    "itens_conferidos_por": "conferidos contra o PDF do docx e contra a prova original do INEP"
   },
   {
@@ -721,11 +716,10 @@
     "acerto_nacional": 40,
     "classe": "Difícil",
     "descartada_ponto_bisserial": false,
-    "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+    "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
     "questao_inep": 14,
     "edicao": 2017
    },
-   "desconsiderada_inep": false,
    "itens_conferidos_por": "conferidos contra o PDF do docx e contra a prova original do INEP"
   },
   {
@@ -847,11 +841,10 @@
     "acerto_nacional": 26,
     "classe": "Difícil",
     "descartada_ponto_bisserial": false,
-    "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+    "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
     "questao_inep": 15,
     "edicao": 2017
    },
-   "desconsiderada_inep": false,
    "itens_conferidos_por": "conferidos contra o PDF do docx e contra a prova original do INEP"
   },
   {
@@ -978,11 +971,10 @@
     "acerto_nacional": 66,
     "classe": "Fácil",
     "descartada_ponto_bisserial": false,
-    "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+    "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
     "questao_inep": 16,
     "edicao": 2017
    },
-   "desconsiderada_inep": false,
    "itens_conferidos_por": "conferidos contra o PDF do docx e contra a prova original do INEP"
   },
   {
@@ -1086,11 +1078,10 @@
     "acerto_nacional": 80,
     "classe": "Fácil",
     "descartada_ponto_bisserial": false,
-    "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+    "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
     "questao_inep": 17,
     "edicao": 2017
    },
-   "desconsiderada_inep": false,
    "itens_conferidos_por": "conferidos contra o PDF do docx e contra a prova original do INEP"
   },
   {
@@ -1176,11 +1167,10 @@
     "acerto_nacional": 38,
     "classe": "Difícil",
     "descartada_ponto_bisserial": false,
-    "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+    "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
     "questao_inep": 18,
     "edicao": 2017
    },
-   "desconsiderada_inep": false,
    "itens_conferidos_por": "conferidos contra o PDF do docx e contra a prova original do INEP"
   },
   {
@@ -1260,11 +1250,10 @@
     "acerto_nacional": 59,
     "classe": "Médio",
     "descartada_ponto_bisserial": false,
-    "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+    "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
     "questao_inep": 19,
     "edicao": 2017
    },
-   "desconsiderada_inep": false,
    "itens_conferidos_por": "conferidos contra o PDF do docx e contra a prova original do INEP"
   },
   {
@@ -1371,11 +1360,10 @@
     "acerto_nacional": 61,
     "classe": "Fácil",
     "descartada_ponto_bisserial": false,
-    "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+    "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
     "questao_inep": 20,
     "edicao": 2017
    },
-   "desconsiderada_inep": false,
    "itens_conferidos_por": "conferidos contra o PDF do docx e contra a prova original do INEP"
   },
   {
@@ -1460,9 +1448,14 @@
    "gabarito_inep": "A",
    "anulada_inep": false,
    "conferencia_inep": "alternativas do docx casadas a mao com as da prova original (questao 21 do Enade 2017)",
-   "dificuldade_inep": null,
-   "desconsiderada_inep": true,
-   "motivo_sem_indice": "sem índice: desconsiderada pelo INEP",
+   "dificuldade_inep": {
+    "acerto_nacional": 18,
+    "classe": "Difícil",
+    "descartada_ponto_bisserial": true,
+    "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
+    "questao_inep": 21,
+    "edicao": 2017
+   },
    "itens_conferidos_por": "conferidos contra o PDF do docx e contra a prova original do INEP"
   },
   {
@@ -1576,14 +1569,13 @@
    "anulada_inep": false,
    "conferencia_inep": "alternativas do docx casadas a mao com as da prova original (questao 22 do Enade 2017)",
    "dificuldade_inep": {
-    "acerto_nacional": 52,
+    "acerto_nacional": 53,
     "classe": "Médio",
     "descartada_ponto_bisserial": false,
-    "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+    "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
     "questao_inep": 22,
     "edicao": 2017
    },
-   "desconsiderada_inep": false,
    "itens_conferidos_por": "conferidos contra o PDF do docx e contra a prova original do INEP"
   },
   {
@@ -1699,11 +1691,10 @@
     "acerto_nacional": 19,
     "classe": "Difícil",
     "descartada_ponto_bisserial": false,
-    "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+    "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
     "questao_inep": 23,
     "edicao": 2017
    },
-   "desconsiderada_inep": false,
    "itens_conferidos_por": "conferidos contra o PDF do docx e contra a prova original do INEP"
   },
   {
@@ -1823,11 +1814,10 @@
     "acerto_nacional": 31,
     "classe": "Difícil",
     "descartada_ponto_bisserial": false,
-    "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+    "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
     "questao_inep": 24,
     "edicao": 2017
    },
-   "desconsiderada_inep": false,
    "itens_conferidos_por": "conferidos contra o PDF do docx e contra a prova original do INEP"
   },
   {
@@ -1947,9 +1937,14 @@
    "gabarito_inep": "C",
    "anulada_inep": false,
    "conferencia_inep": "alternativas do docx casadas a mao com as da prova original (questao 25 do Enade 2017)",
-   "dificuldade_inep": null,
-   "desconsiderada_inep": true,
-   "motivo_sem_indice": "sem índice: desconsiderada pelo INEP",
+   "dificuldade_inep": {
+    "acerto_nacional": 29,
+    "classe": "Difícil",
+    "descartada_ponto_bisserial": true,
+    "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
+    "questao_inep": 25,
+    "edicao": 2017
+   },
    "itens_conferidos_por": "conferidos contra o PDF do docx e contra a prova original do INEP"
   },
   {
@@ -2025,9 +2020,14 @@
    "gabarito_inep": "E",
    "anulada_inep": false,
    "conferencia_inep": "alternativas do docx casadas a mao com as da prova original (questao 26 do Enade 2017)",
-   "dificuldade_inep": null,
-   "desconsiderada_inep": true,
-   "motivo_sem_indice": "sem índice: desconsiderada pelo INEP",
+   "dificuldade_inep": {
+    "acerto_nacional": 25,
+    "classe": "Difícil",
+    "descartada_ponto_bisserial": true,
+    "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
+    "questao_inep": 26,
+    "edicao": 2017
+   },
    "itens_conferidos_por": "conferidos contra o PDF do docx e contra a prova original do INEP"
   },
   {
@@ -2165,11 +2165,10 @@
     "acerto_nacional": 35,
     "classe": "Difícil",
     "descartada_ponto_bisserial": false,
-    "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+    "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
     "questao_inep": 27,
     "edicao": 2017
    },
-   "desconsiderada_inep": false,
    "itens_conferidos_por": "conferidos contra o PDF do docx e contra a prova original do INEP"
   },
   {
@@ -2301,11 +2300,10 @@
     "acerto_nacional": 63,
     "classe": "Fácil",
     "descartada_ponto_bisserial": false,
-    "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+    "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
     "questao_inep": 28,
     "edicao": 2017
    },
-   "desconsiderada_inep": false,
    "itens_conferidos_por": "conferidos contra o PDF do docx e contra a prova original do INEP"
   },
   {
@@ -2406,11 +2404,10 @@
     "acerto_nacional": 26,
     "classe": "Difícil",
     "descartada_ponto_bisserial": false,
-    "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+    "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
     "questao_inep": 29,
     "edicao": 2017
    },
-   "desconsiderada_inep": false,
    "itens_conferidos_por": "conferidos contra o PDF do docx e contra a prova original do INEP"
   },
   {
@@ -2506,11 +2503,10 @@
     "acerto_nacional": 40,
     "classe": "Difícil",
     "descartada_ponto_bisserial": false,
-    "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+    "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
     "questao_inep": 30,
     "edicao": 2017
    },
-   "desconsiderada_inep": false,
    "itens_conferidos_por": "conferidos contra o PDF do docx e contra a prova original do INEP"
   },
   {
@@ -2595,11 +2591,10 @@
     "acerto_nacional": 33,
     "classe": "Difícil",
     "descartada_ponto_bisserial": false,
-    "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+    "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
     "questao_inep": 31,
     "edicao": 2017
    },
-   "desconsiderada_inep": false,
    "itens_conferidos_por": "conferidos contra o PDF do docx e contra a prova original do INEP"
   },
   {
@@ -2708,11 +2703,10 @@
     "acerto_nacional": 38,
     "classe": "Difícil",
     "descartada_ponto_bisserial": false,
-    "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+    "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
     "questao_inep": 32,
     "edicao": 2017
    },
-   "desconsiderada_inep": false,
    "itens_conferidos_por": "conferidos contra o PDF do docx e contra a prova original do INEP"
   },
   {
@@ -2837,11 +2831,10 @@
     "acerto_nacional": 29,
     "classe": "Difícil",
     "descartada_ponto_bisserial": false,
-    "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+    "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
     "questao_inep": 33,
     "edicao": 2017
    },
-   "desconsiderada_inep": false,
    "itens_conferidos_por": "conferidos contra o PDF do docx e contra a prova original do INEP"
   },
   {
@@ -2971,11 +2964,10 @@
     "acerto_nacional": 20,
     "classe": "Difícil",
     "descartada_ponto_bisserial": false,
-    "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+    "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
     "questao_inep": 34,
     "edicao": 2017
    },
-   "desconsiderada_inep": false,
    "itens_conferidos_por": "conferidos contra o PDF do docx e contra a prova original do INEP"
   },
   {
@@ -3056,11 +3048,10 @@
     "acerto_nacional": 31,
     "classe": "Difícil",
     "descartada_ponto_bisserial": false,
-    "fonte": "MEC/Inep — Enade 2017, Ciência da Computação (Bacharelado): percentual de acerto Brasil do Relatório de Curso.",
+    "fonte": "MEC/Inep/Daes — Relatório Síntese de Área, Enade 2017, Ciência da Computação (Bacharelado), Tabela 6.11b.",
     "questao_inep": 35,
     "edicao": 2017
    },
-   "desconsiderada_inep": false,
    "itens_conferidos_por": "conferidos contra o PDF do docx e contra a prova original do INEP"
   }
  ]

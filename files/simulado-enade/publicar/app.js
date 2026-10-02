@@ -81,8 +81,6 @@
         { nome: 'Computação Gráfica e Imagens', provas: [18, 19] }
       ],
       rodape: function (questoes) {
-        var sem = questoes.filter(function (q) { return q.desconsiderada_inep; })
-                          .map(function (q) { return q.prova; });
         return [
           'As ' + questoes.length + ' questões são do Enade 2017, Ciência da ' +
           'Computação (bacharelado), INEP/MEC, adaptadas pelo professor ' +
@@ -92,11 +90,8 @@
           'avaliação online.',
           'A dificuldade indicada em cada questão é o percentual de ' +
           'acerto de todos os concluintes do país no Enade 2017, e não ' +
-          'o desempenho desta turma.' +
-          (sem.length ? ' As questões ' + juntar(sem) + ' foram ' +
-            'desconsideradas pelo INEP no cálculo da nota e não têm índice.'
-            : '') +
-          ' Fonte: MEC/Inep, Relatório de Curso do Enade 2017.'
+          'o desempenho desta turma. Fonte: MEC/Inep/Daes, Relatório ' +
+          'Síntese de Área.'
         ];
       }
     }
@@ -189,12 +184,6 @@
 
   function limpar() {
     while (app.firstChild) app.removeChild(app.firstChild);
-  }
-
-  /* "2, 12 e 15" */
-  function juntar(lista) {
-    if (lista.length < 2) return lista.join('');
-    return lista.slice(0, -1).join(', ') + ' e ' + lista[lista.length - 1];
   }
 
   /* Faixa de dificuldade do INEP -> classe css. Sao dados NACIONAIS, de
@@ -348,7 +337,6 @@
   }
 
   function motivoSemIndice(q) {
-    if (q.motivo_sem_indice) return q.motivo_sem_indice;
     return q.anulada_inep
       ? 'sem índice: cancelada pelo INEP'
       : 'sem índice: questão autoral';
@@ -732,13 +720,6 @@
                  'domina.'
         }));
       }
-    } else if (q.desconsiderada_inep) {
-      caixa.appendChild(el('p', {
-        class: 'nota-descartada',
-        texto: 'O INEP desconsiderou esta questão no cálculo da nota ' +
-               'nacional do Enade ' + AV.edicao + ' e não divulgou o ' +
-               'percentual de acerto dela.'
-      }));
     }
 
     if (r.aviso_anulada) {

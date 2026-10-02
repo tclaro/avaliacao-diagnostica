@@ -65,11 +65,8 @@ def main():
             'alternativas do docx casadas a mao com as da prova original '
             '(questao %d do Enade 2017)' % questao_inep)
 
-        # ---- dificuldade nacional
+        # ---- dificuldade nacional (Relatorio Sintese, Tabela 6.11b)
         q['dificuldade_inep'] = INEP.indice(p)
-        q['desconsiderada_inep'] = questao_inep in INEP.DESCONSIDERADAS
-        if q['desconsiderada_inep']:
-            q['motivo_sem_indice'] = 'sem índice: desconsiderada pelo INEP'
 
         q['itens_conferidos'] = True
         q['itens_conferidos_por'] = ('conferidos contra o PDF do docx e contra '
@@ -137,8 +134,8 @@ def main():
         'Computacao, bacharelado), conferido contra a prova original. Os 27 '
         'gabaritos do professor coincidem com o gabarito definitivo do INEP, '
         'casando o texto das alternativas (a prova original tem 5). As '
-        'questoes 21, 25 e 26 do INEP (13, 17 e 18 aqui) foram '
-        'desconsideradas no calculo da nota nacional e nao tem percentual.')
+        'questoes 21, 25 e 26 do INEP (13, 17 e 18 aqui) foram eliminadas do '
+        'computo da nota nacional pelo criterio ponto-bisserial.')
     doc['_meta']['fonte_dificuldade'] = INEP.FONTE
     json.dump(doc, io.open(CAMINHO, 'w', encoding='utf-8'),
               ensure_ascii=False, indent=1)
@@ -148,8 +145,9 @@ def main():
           sum(1 for q in doc['questoes'] if q['resolucao']['escrita']))
     print('com dificuldade nacional:',
           sum(1 for q in doc['questoes'] if q['dificuldade_inep']))
-    print('desconsideradas pelo INEP:',
-          [q['prova'] for q in doc['questoes'] if q['desconsiderada_inep']])
+    print('descartadas pelo ponto-bisserial:',
+          [q['prova'] for q in doc['questoes']
+           if q['dificuldade_inep']['descartada_ponto_bisserial']])
     print('pendencias:', faltando or 'nenhuma')
     return 1 if faltando else 0
 
