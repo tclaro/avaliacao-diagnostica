@@ -197,13 +197,25 @@ embutidos em `site/dados.js` (`fetch` em `file://` é bloqueado por CORS).
   índice, e as três complementares são autorais. As seis questões que o INEP
   descartou do cálculo da nota nacional trazem uma nota explicando isso. A
   fonte é creditada no rodapé da home.
-- **A dificuldade só aparece depois que o aluno responde**, pela mesma razão
-  que a resolução: saber de antemão que a questão é "muito difícil" muda como
-  ele a encara e contamina a tentativa. Na página da questão ela abre junto com
-  a resolução, logo abaixo do veredito, onde serve de contexto para o resultado
-  ("errei, mas só 12% do país acertou"). Na grade, o selo de dificuldade
-  aparece apenas nos cartões já respondidos — do contrário vazaria antes de o
-  aluno abrir a questão.
+- **A dificuldade só aparece depois que o aluno responde** — na grade
+  principal e na página da questão —, pela mesma razão que a resolução: saber
+  de antemão que a questão é "muito difícil" muda como ele a encara e
+  contamina a tentativa. Na página da questão ela abre junto com a resolução,
+  logo abaixo do veredito ("errei, mas só 12% do país acertou"). Na grade, o
+  selo de dificuldade aparece apenas nos cartões já respondidos.
+- **Exceção decidida pelo professor: a tela de estatísticas** (`#/estatisticas`,
+  link na home). Ela abre a qualquer momento, sem exigir resposta, e mostra o
+  percentual nacional de acerto de todas as questões. Nunca mostra gabarito
+  nem resolução, e os cartões levam à questão, que continua escondendo a
+  resposta. Para quem já respondeu, cada cartão traz ✓ ou ✗. Quem só abriu a
+  resolução sem responder não gera ícone (nada é gravado). As 5 questões sem
+  índice (21 e 25 canceladas; 28, 29 e 30 autorais) aparecem com o motivo e
+  ficam fora das médias.
+- No fim da tela de estatísticas, 7 áreas amplas (constante `GRUPOS` em
+  `app.js`) com a média **simples** de acerto das questões que têm índice,
+  ordenadas da mais difícil para a mais fácil. Os temas de `questoes.json` são
+  finos demais para isso (20 áreas, várias com uma questão). Questão nova
+  precisa entrar em algum grupo; o console avisa se alguma ficar de fora.
 - O índice de discriminação (ponto-bisserial) **não** é exibido: é medida
   técnica, e um número negativo sem contexto confunde mais do que informa. O
   que aparece é a frase sobre o descarte.

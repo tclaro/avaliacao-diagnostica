@@ -75,9 +75,14 @@
      todos os concluintes do pais; nao tem relacao com o desempenho da turma,
      que continua fora do site por estar contaminado.
 
-     A dificuldade so aparece DEPOIS que o aluno responde, pela mesma razao
-     que a resolucao so aparece depois: saber de antemao que a questao e
-     "muito dificil" muda a forma como ele a encara e contamina a tentativa. */
+     Na grade principal e na pagina da questao, a dificuldade so aparece
+     DEPOIS que o aluno responde, pela mesma razao que a resolucao so aparece
+     depois: saber de antemao que a questao e "muito dificil" muda a forma
+     como ele a encara e contamina a tentativa.
+
+     A tela de estatisticas (#/estatisticas) e a excecao, por decisao do
+     professor: ela mostra o percentual de TODAS as questoes a qualquer
+     momento, mas nunca o gabarito nem a resolucao. */
   var FAIXA = {
     'Muito difícil': 'muito-dificil',
     'Difícil': 'dificil',
@@ -168,11 +173,177 @@
       grade.appendChild(cartao);
     });
 
+    var linkEstatisticas = el('a', {
+      class: 'link-estatisticas',
+      href: '#/estatisticas',
+      texto: 'Ver o percentual de acerto de cada questão e de cada área →'
+    });
+
     limpar();
     app.appendChild(painel);
+    app.appendChild(linkEstatisticas);
     app.appendChild(grade);
     app.appendChild(rodape());
     document.title = 'Avaliação Diagnóstica — BCC';
+    window.scrollTo(0, 0);
+  }
+
+  /* ------------------------------------------------------- estatisticas */
+
+  /* Agrupamento das 30 questoes em areas amplas, para a leitura "onde o pais
+     foi pior". Os temas em questoes.json sao finos demais (20 areas, muitas
+     com uma questao so). Toda questao precisa estar em exatamente um grupo;
+     o aviso no console pega o caso de uma questao nova ficar de fora. */
+  var GRUPOS = [
+    { nome: 'Algoritmos e Estruturas de Dados', provas: [2, 12, 15, 24, 26] },
+    { nome: 'Sistemas Operacionais, Arquitetura e Circuitos',
+      provas: [1, 6, 8, 9, 20] },
+    { nome: 'Engenharia de Software e IHC', provas: [5, 7, 11, 18] },
+    { nome: 'Banco de Dados e Estatística', provas: [14, 19, 28, 29] },
+    { nome: 'Redes, Nuvem e Segurança', provas: [13, 16, 17, 27] },
+    { nome: 'IA, Teoria e Linguagens', provas: [3, 10, 21, 22, 23, 25] },
+    { nome: 'Legislação (LGPD)', provas: [4, 30] }
+  ];
+
+  function acertoNacional(q) {
+    var d = q.dificuldade_inep;
+    return d && typeof d.acerto_nacional === 'number' ? d.acerto_nacional : null;
+  }
+
+  function motivoSemIndice(q) {
+    return q.anulada_inep
+      ? 'sem índice: cancelada pelo INEP'
+      : 'sem índice: questão autoral';
+  }
+
+  function barraPercentual(pct) {
+    var barra = el('div', { class: 'barra' });
+    var preenchimento = el('i');
+    preenchimento.style.width = pct + '%';
+    barra.appendChild(preenchimento);
+    return barra;
+  }
+
+  /* "2, 12 e 15" com cada numero levando para a questao. */
+  function listaDeQuestoes(provas) {
+    var p = el('p', { class: 'questoes-do-grupo' }, ['Questões ']);
+    provas.forEach(function (n, i) {
+      if (i > 0) p.appendChild(document.createTextNode(i === provas.length - 1 ? ' e ' : ', '));
+      p.appendChild(el('a', { href: '#/q/' + n, texto: String(n) }));
+    });
+    return p;
+  }
+
+  function cartaoEstatistica(q, reg) {
+    var pct = acertoNacional(q);
+    var classe = 'cartao estatistica';
+    var esquerda = el('span', {}, [document.createTextNode('Questão ' + q.prova)]);
+    if (q.anulada_inep) {
+      esquerda.appendChild(el('span', { class: 'tag-cancelada', texto: 'cancelada' }));
+    }
+    var cabeca = el('div', { class: 'num' }, [esquerda]);
+
+    /* O icone so existe para quem ja respondeu; "abrir a resolucao" sem
+       responder nao grava registro, entao tambem nao gera icone. */
+    if (reg) {
+      classe += reg.correto ? ' acertou' : ' errou';
+      cabeca.appendChild(el('span', {
+        class: 'resultado ' + (reg.correto ? 'ok' : 'nao'),
+        role: 'img',
+        'aria-label': reg.correto ? 'você acertou' : 'você errou',
+        title: reg.correto ? 'Você acertou' : 'Você errou',
+        texto: reg.correto ? '✓' : '✗'
+      }));
+    }
+
+    var corpo = [cabeca, el('div', { class: 'tema', texto: q.tema })];
+    if (pct === null) {
+      classe += ' sem-indice';
+      corpo.push(el('p', { class: 'motivo-sem-indice', texto: motivoSemIndice(q) }));
+    } else {
+      corpo.push(el('div', { class: 'percentual' }, [
+        el('span', { class: 'valor', texto: pct + '%' }),
+        el('span', { class: 'de-acerto', texto: 'de acerto' })
+      ]));
+      corpo.push(barraPercentual(pct));
+      corpo.push(el('div', { class: 'rodape-cartao' }, [chipDificuldade(q)]));
+    }
+    return el('a', { class: classe, href: '#/q/' + q.prova }, corpo);
+  }
+
+  function resumoDoGrupo(g) {
+    var membros = g.provas.map(achar).filter(Boolean);
+    var valores = membros.map(acertoNacional).filter(function (v) { return v !== null; });
+    var media = valores.length
+      ? Math.round(valores.reduce(function (a, b) { return a + b; }, 0) / valores.length)
+      : null;
+    return { nome: g.nome, provas: g.provas, total: membros.length,
+             comIndice: valores.length, media: media };
+  }
+
+  function secaoGrupos() {
+    var resumos = GRUPOS.map(resumoDoGrupo).sort(function (a, b) {
+      if (a.media === null) return 1;
+      if (b.media === null) return -1;
+      return a.media - b.media;
+    });
+
+    var secao = el('section', { class: 'grupos' }, [
+      el('h3', { texto: 'Por área' }),
+      el('p', { class: 'sub-secao',
+                texto: 'Da área em que o país foi pior para a que foi melhor. ' +
+                       'A média é simples, só com as questões que têm índice.' })
+    ]);
+
+    resumos.forEach(function (r) {
+      var cabeca = el('div', { class: 'cabeca-grupo' }, [
+        el('h4', { texto: r.nome }),
+        el('span', { class: 'media', texto: r.media === null ? '—' : r.media + '%' })
+      ]);
+      var detalhe = r.media === null
+        ? 'nenhuma questão da área tem índice'
+        : 'média de acerto' + (r.comIndice < r.total
+            ? ' de ' + r.comIndice + ' das ' + r.total + ' questões (as demais não têm índice)'
+            : ' de ' + r.total + (r.total === 1 ? ' questão' : ' questões'));
+      var artigo = el('article', { class: 'grupo' }, [
+        cabeca,
+        r.media === null ? null : barraPercentual(r.media),
+        listaDeQuestoes(r.provas),
+        el('p', { class: 'detalhe-grupo', texto: detalhe })
+      ]);
+      secao.appendChild(artigo);
+    });
+    return secao;
+  }
+
+  function telaEstatisticas() {
+    var prog = lerProgresso();
+
+    var fora = QUESTOES.filter(function (q) {
+      return !GRUPOS.some(function (g) { return g.provas.indexOf(q.prova) !== -1; });
+    });
+    if (fora.length && window.console) {
+      console.warn('Questões fora de qualquer grupo de área:',
+                   fora.map(function (q) { return q.prova; }));
+    }
+
+    var grade = el('div', { class: 'grade' });
+    QUESTOES.forEach(function (q) {
+      grade.appendChild(cartaoEstatistica(q, prog[q.prova]));
+    });
+
+    limpar();
+    app.appendChild(el('a', { class: 'voltar', href: '#/', texto: '← todas as questões' }));
+    app.appendChild(el('div', { class: 'cabecalho-questao' }, [
+      el('h2', { texto: 'Estatísticas de acerto' }),
+      el('p', { class: 'tema',
+                texto: 'Percentual dos concluintes do país que acertaram cada ' +
+                       'questão no Enade 2021. Não é o desempenho desta turma.' })
+    ]));
+    app.appendChild(grade);
+    app.appendChild(secaoGrupos());
+    app.appendChild(rodape());
+    document.title = 'Estatísticas — Avaliação Diagnóstica BCC';
     window.scrollTo(0, 0);
   }
 
@@ -509,6 +680,7 @@
   function desenhar() {
     var m = /^#\/q\/(\d+)$/.exec(location.hash);
     if (m) telaQuestao(parseInt(m[1], 10));
+    else if (location.hash === '#/estatisticas') telaEstatisticas();
     else telaInicial();
   }
 

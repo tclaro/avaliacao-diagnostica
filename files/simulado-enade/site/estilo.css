@@ -244,6 +244,121 @@ a { color: var(--ciano); }
 .cartao.errou .selo { color: var(--erro); }
 .cartao.anulada { border-left-color: var(--aviso); }
 
+/* --- tela de estatisticas ------------------------------------------------ */
+
+.link-estatisticas {
+  display: block;
+  margin-top: 12px;
+  padding: 11px 16px;
+  background: var(--superficie);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  color: var(--ciano);
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.link-estatisticas:hover,
+.link-estatisticas:focus-visible {
+  border-color: var(--ciano-escuro);
+  background: var(--elevada);
+}
+
+.cartao.estatistica .num {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.cartao .resultado {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.cartao .resultado.ok { color: var(--sucesso); }
+.cartao .resultado.nao { color: var(--erro); }
+
+.cartao .percentual {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.cartao .percentual .valor {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--ciano);
+}
+
+.cartao .percentual .de-acerto {
+  font-size: 0.72rem;
+  color: var(--secundario);
+}
+
+.cartao.estatistica .barra { margin-top: 7px; flex: none; }
+
+.cartao.sem-indice { opacity: 0.75; }
+
+.motivo-sem-indice {
+  margin: 12px 0 2px;
+  font-size: 0.8rem;
+  color: var(--secundario);
+}
+
+.grupos { margin-top: 30px; }
+
+.grupos h3 { margin: 0 0 4px; font-size: 1.1rem; }
+
+.sub-secao {
+  margin: 0 0 14px;
+  color: var(--secundario);
+  font-size: 0.85rem;
+}
+
+.grupo {
+  margin-bottom: 10px;
+  padding: 13px 15px;
+  background: var(--superficie);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-pequeno);
+}
+
+.cabeca-grupo {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cabeca-grupo h4 { margin: 0; font-size: 0.98rem; font-weight: 600; }
+
+.cabeca-grupo .media {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--ciano);
+  white-space: nowrap;
+}
+
+.grupo .barra { margin-top: 9px; flex: none; }
+
+.questoes-do-grupo {
+  margin: 10px 0 0;
+  font-size: 0.85rem;
+}
+
+.questoes-do-grupo a { color: var(--ciano); text-decoration: none; }
+.questoes-do-grupo a:hover { text-decoration: underline; }
+
+.detalhe-grupo {
+  margin: 3px 0 0;
+  font-size: 0.78rem;
+  color: var(--secundario);
+}
+
 /* --- pagina da questao -------------------------------------------------- */
 
 .voltar {
