@@ -493,3 +493,90 @@ calculáveis, conferidas por execução — mas continuam sendo texto gerado. As
 mais conceituais e discutíveis: 7 (homem no meio, item II), 8 (engenharia
 social, o "sempre" do item I), 15 (a definição informal de L) e 23 (a nota
 sobre reordenação de memória).
+
+---
+
+## 12. Resultado individual da presencial (`#/resultado`)
+
+O aluno que fez a prova presencial abre o próprio resultado informando
+**matrícula, CPF e data de nascimento**: nota, percentual, o ponto a que tem
+direito, cada resposta comparada ao gabarito e, por fim, a escolha da
+disciplina que recebe o acréscimo. Não há usuário nem senha.
+
+### 12.1 Regra do ponto
+
+Percentual de acerto convertido em até **1 ponto**, arredondado **para cima,
+de 0,1 em 0,1**: 37,04% → 0,4; 40,74% → 0,5. A conta é feita em décimos
+inteiros (`ponto()` em `gerar_resultados.py`) para não depender de ponto
+flutuante. Vale para uma única disciplina em que o aluno está matriculado.
+
+### 12.2 Como a privacidade funciona num site estático
+
+`site/resultados.js` é público, mas só contém registros cifrados. Para cada
+aluno, PBKDF2-SHA256 (600 mil iterações) sobre `matrícula|cpf|dd/mm/aaaa`
+gera 64 bytes: a chave AES-256-GCM do registro, um identificador público que
+localiza o registro e um token para a planilha. O navegador refaz a conta com
+o que o aluno digitou; dados errados não abrem nada. Nada vai para o
+`localStorage`: recarregar a página pede os dados de novo.
+
+Limite honesto: quem souber os três dados de um colega vê o resultado dele.
+Adivinhar o CPF por força bruta, mesmo sabendo matrícula e nascimento, exige
+da ordem de 10⁹ derivações de 600 mil iterações cada — inviável.
+
+### 12.3 Regerar
+
+Entradas, que **nunca** vão para o Git: a planilha exportada do LMS (Quiz
+Format, colunas na ordem das 27 questões) e o banco SQLite do Franciel-ia.
+
+```bash
+python ferramentas/gerar_resultados.py PLANILHA.xlsx BANCO.db \
+       --url-registro https://script.google.com/macros/s/.../exec
+python ferramentas/gerar_pacote.py
+```
+
+O script confere, linha a linha, que as marcações certo/errado do LMS batem
+com o gabarito do projeto e que a pontuação recontada é a do LMS — se a ordem
+das questões mudar, ele para. O cruzamento com o banco é pelo nome (ou nome
+social); linhas sem correspondência única são listadas e ficam de fora até
+serem resolvidas com `--vinculo LINHA=MATRICULA` (LINHA = linha no Excel).
+As disciplinas oferecidas ao aluno são as matrículas da safra atual
+(`Configuracoes.safra_atual`), menos Atividades Complementares (não tem nota)
+e Trabalho de Conclusão de Curso (decisão do professor). O aluno só escolhe
+dentro dessa lista; não há campo livre, e o Apps Script recusa qualquer valor
+fora da lista dele. Aluno sem nenhuma disciplina na lista faz o script parar:
+decida entre `--sem-acrescimo` e corrigir o banco.
+
+`--sem-acrescimo MATRICULA` marca o aluno que só confere o resultado: abre a
+consulta, mas não escolhe disciplina e fica fora do CSV da planilha.
+
+Na geração de 2026: `--vinculo 30=1142725371` (o nome exportado pelo LMS
+não bate com o do banco) e dois alunos com `--sem-acrescimo`. A linha
+33 da planilha veio sem nome e segue de fora.
+
+Mudar `ITERACOES` ou `SAL` invalida os tokens já cadastrados na planilha.
+
+### 12.4 Registro da disciplina (Google Apps Script)
+
+A escolha vai para uma planilha Google **privada**, por um app da web do
+Apps Script (`ferramentas/apps_script/Codigo.gs`). A planilha nunca fica
+pública. Configuração, uma vez:
+
+1. Crie a planilha e, nela, uma aba **Alunos**. Importe
+   `privado/alunos_planilha.csv` nessa aba (Arquivo → Importar → Substituir a
+   página atual, sem converter texto em números). O CSV traz o SHA-256 do
+   token, matrícula, nome, ponto e disciplinas; fica em `privado/`, fora do
+   Git.
+2. Extensões → Apps Script, cole o `Codigo.gs`, ajuste `PRAZO` se quiser.
+3. Implantar → Nova implantação → App da Web. Executar como **eu**; quem
+   pode acessar: **qualquer pessoa**. Copie a URL que termina em `/exec`.
+4. Regere com `--url-registro <URL>` e publique.
+
+O script cria as abas **Escolhas** (uma linha por aluno, a escolha vigente)
+e **Historico** (toda gravação). O aluno pode trocar a escolha até o
+`PRAZO`. Ao editar o `Codigo.gs`, publique uma **nova versão** da mesma
+implantação (Implantar → Gerenciar implantações → editar) para manter a URL.
+
+Se a URL responder "Access Denied" (403), a implantação não está liberada
+para **qualquer pessoa** — o navegador do aluno não tem login Google. Contas
+Google Workspace costumam bloquear essa opção; nesse caso, publique a partir
+de uma conta Google pessoal.

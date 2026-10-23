@@ -802,6 +802,68 @@ button.discreto:hover:not(:disabled) {
 
 .rodape p { margin: 0 0 6px; }
 
+/* --- resultado individual (#/resultado) -------------------------------- */
+
+[hidden] { display: none !important; }
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 420px;
+  margin: 20px 0 8px;
+}
+
+.campo { display: flex; flex-direction: column; gap: 5px; }
+
+.rotulo-campo {
+  color: var(--secundario);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.dica-campo { color: var(--secundario); font-size: 0.8rem; }
+
+.formulario input,
+.formulario select {
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 10px 12px;
+  border-radius: var(--raio-pequeno);
+  border: 1px solid var(--borda);
+  background: var(--superficie);
+  color: var(--texto);
+  width: 100%;
+}
+
+.formulario input:focus,
+.formulario select:focus {
+  outline: none;
+  border-color: var(--ciano);
+}
+
+.mensagem-form { margin: 0; min-height: 1.6em; color: var(--aviso); font-size: 0.9rem; }
+
+.progresso .numero.destaque-ponto { color: var(--bcc); }
+
+.explicacao-ponto { color: var(--secundario); font-size: 0.9rem; margin: 6px 0 0; }
+
+.disciplina {
+  margin: 24px 0;
+  padding: 16px;
+  background: var(--superficie);
+  border: 1px solid var(--borda);
+  border-left: 3px solid var(--bcc);
+  border-radius: var(--raio);
+}
+
+.disciplina h3 { margin: 0 0 6px; }
+.disciplina .situacao { margin: 0; }
+.disciplina .formulario { margin-bottom: 0; }
+
+.titulo-secao { margin: 28px 0 12px; }
+
 /* --- telas estreitas ---------------------------------------------------- */
 
 @media (max-width: 420px) {
@@ -811,7 +873,7 @@ button.discreto:hover:not(:disabled) {
   .faixa-topo { gap: 12px; }
   .logo { width: 46px; height: 46px; }
   .seletor-avaliacao { width: 100%; }
-  .seletor-avaliacao a { flex: 1 1 0; padding: 7px 8px; }
+  .seletor-avaliacao a { flex: 1 1 0; padding: 7px 8px; white-space: normal; line-height: 1.25; }
   .envolucro { padding: 16px 12px 56px; }
   .grade { grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); gap: 8px; }
   .item-romano { grid-template-columns: 32px 1fr; gap: 8px; }

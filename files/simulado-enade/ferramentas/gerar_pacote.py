@@ -23,7 +23,7 @@ RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DESTINO = os.path.join(RAIZ, 'publicar')
 
 # Arquivos do site que vao como estao.
-ARQUIVOS = ['index.html', 'estilo.css', 'app.js', 'dados.js']
+ARQUIVOS = ['index.html', 'estilo.css', 'app.js', 'dados.js', 'resultados.js']
 # Pastas copiadas inteiras: origem -> destino (relativo a publicar/).
 PASTAS = [('site/imagens', 'imagens'), ('figuras', 'figuras')]
 
@@ -83,6 +83,18 @@ def main():
                         problemas.append('figura ausente no pacote: ' +
                                          f['arquivo'])
 
+    # resultados.js e publico: so pode levar registros cifrados
+    res = io.open(os.path.join(DESTINO, 'resultados.js'), encoding='utf-8').read()
+    m = re.search(r'window\.RESULTADOS = (.*);\s*$', res, re.S)
+    if not m:
+        problemas.append('nao consegui ler window.RESULTADOS do resultados.js')
+    else:
+        for r in json.loads(m.group(1))['registros']:
+            if sorted(r) != ['dados', 'id', 'iv']:
+                problemas.append('registro de resultado com campo em claro: %s'
+                                 % sorted(r))
+                break
+
     # figuras/ (e figuras/presencial/) so pode conter imagens
     for raiz, _, nomes in os.walk(os.path.join(DESTINO, 'figuras')):
         for f in nomes:
@@ -93,7 +105,8 @@ def main():
                                                  DESTINO))
 
     # nada de material interno
-    proibidos = ['HANDOFF.md', 'dados', 'ferramentas', 'origem', 'extracao']
+    proibidos = ['HANDOFF.md', 'dados', 'ferramentas', 'origem', 'extracao',
+                 'privado']
     for nome in proibidos:
         if os.path.exists(os.path.join(DESTINO, nome)):
             problemas.append('material interno vazou para o pacote: ' + nome)
