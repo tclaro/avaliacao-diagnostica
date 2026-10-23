@@ -14,3 +14,7 @@ venv/
 Thumbs.db
 desktop.ini
 .DS_Store
+
+# Resultados individuais: so o pacote cifrado (site/resultados.js) e
+# publico. O CSV para a planilha traz nome e matricula.
+files/simulado-enade/privado/

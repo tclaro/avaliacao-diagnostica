@@ -7,6 +7,8 @@
    tem rotas, progresso e estatisticas proprios:
      #/online, #/online/q/7, #/online/estatisticas
      #/presencial, #/presencial/q/7, #/presencial/estatisticas
+   E o resultado individual da presencial, aberto com matricula, CPF e
+   nascimento: #/resultado (dados cifrados em resultados.js).
    Os enderecos antigos (#/q/7, #/estatisticas) continuam levando a online.
 
    Regra pedagogica que orienta esta tela: a resolucao NAO aparece junto com
@@ -230,12 +232,19 @@
         var destino = tela === 'estatisticas' ? 'estatisticas' : 'inicio';
         var a = el('a', { href: link(destino, null, chave),
                           texto: CONFIG[chave].nome });
-        if (chave === atual) a.setAttribute('aria-current', 'page');
+        if (chave === atual && tela !== 'resultado') a.setAttribute('aria-current', 'page');
         nav.appendChild(a);
       });
+      if (window.RESULTADOS) {
+        var meu = el('a', { href: '#/resultado', texto: 'Meu resultado' });
+        if (tela === 'resultado') meu.setAttribute('aria-current', 'page');
+        nav.appendChild(meu);
+      }
     }
     var sub = document.querySelector('.topo .sub');
-    if (sub) {
+    if (sub && tela === 'resultado') {
+      sub.textContent = 'Avaliação Presencial · resultado individual';
+    } else if (sub) {
       sub.textContent = AV.nome + ' · revisão comentada das ' +
                         QUESTOES.length + ' questões';
     }
@@ -804,6 +813,381 @@
     return nav;
   }
 
+  /* ---------------------------------------------------------- resultado */
+
+  /* Resultado individual da avaliacao presencial (#/resultado). Os dados
+     vem cifrados em resultados.js, um registro por aluno; a chave sai de
+     matricula + CPF + nascimento por PBKDF2, a mesma derivacao do
+     ferramentas/gerar_resultados.py. Ver o cabecalho daquele script.
+
+     O resultado aberto fica SO na memoria desta aba: nada vai para o
+     localStorage, porque o computador pode ser do laboratorio. Recarregar a
+     pagina pede os dados de novo. */
+  var RESULTADOS = window.RESULTADOS || null;
+  var sessao = null;     /* { aluno, token } depois de aberto */
+
+  function soDigitos(v) { return String(v || '').replace(/\D/g, ''); }
+
+  function mascaraCpf(v) {
+    var d = soDigitos(v).slice(0, 11);
+    return d.replace(/^(\d{3})(\d)/, '$1.$2')
+            .replace(/^(\d{3})\.(\d{3})(\d)/, '$1.$2.$3')
+            .replace(/\.(\d{3})(\d{1,2})$/, '.$1-$2');
+  }
+
+  function mascaraData(v) {
+    var d = soDigitos(v).slice(0, 8);
+    return d.replace(/^(\d{2})(\d)/, '$1/$2').replace(/^(\d{2})\/(\d{2})(\d)/, '$1/$2/$3');
+  }
+
+  function cpfValido(cpf) {
+    var d = soDigitos(cpf);
+    if (d.length !== 11 || /^(\d)\1{10}$/.test(d)) return false;
+    for (var t = 9; t < 11; t++) {
+      var soma = 0;
+      for (var i = 0; i < t; i++) soma += parseInt(d[i], 10) * (t + 1 - i);
+      if (((soma * 10) % 11) % 10 !== parseInt(d[t], 10)) return false;
+    }
+    return true;
+  }
+
+  function dataValida(s) {
+    var m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(s);
+    if (!m) return false;
+    var dt = new Date(+m[3], +m[2] - 1, +m[1]);
+    return dt.getFullYear() === +m[3] && dt.getMonth() === +m[2] - 1 &&
+           dt.getDate() === +m[1];
+  }
+
+  /* Mesma montagem do segredo() do gerar_resultados.py. */
+  function segredoDoAluno(matricula, cpf, nascimento) {
+    return soDigitos(matricula) + '|' + soDigitos(cpf) + '|' + nascimento;
+  }
+
+  function deBase64(s) {
+    var bin = atob(s);
+    var out = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+    return out;
+  }
+
+  function emHex(bytes) {
+    return Array.prototype.map.call(bytes, function (b) {
+      return ('0' + b.toString(16)).slice(-2);
+    }).join('');
+  }
+
+  /* Resolve com { aluno, token } ou com null se nenhum registro abrir. */
+  function abrirResultado(matricula, cpf, nascimento) {
+    var sutil = window.crypto && window.crypto.subtle;
+    if (!sutil) return Promise.reject(new Error('sem-webcrypto'));
+    var kdf = RESULTADOS.kdf;
+    var texto = new TextEncoder().encode(segredoDoAluno(matricula, cpf, nascimento));
+    return sutil.importKey('raw', texto, 'PBKDF2', false, ['deriveBits'])
+      .then(function (base) {
+        return sutil.deriveBits({ name: 'PBKDF2', hash: 'SHA-256',
+                                  salt: deBase64(kdf.sal),
+                                  iterations: kdf.iteracoes }, base, 512);
+      })
+      .then(function (bits) {
+        var b = new Uint8Array(bits);
+        var id = emHex(b.slice(32, 48));
+        var reg = null;
+        RESULTADOS.registros.forEach(function (r) { if (r.id === id) reg = r; });
+        if (!reg) return null;
+        return sutil.importKey('raw', b.slice(0, 32), 'AES-GCM', false, ['decrypt'])
+          .then(function (chave) {
+            return sutil.decrypt({ name: 'AES-GCM', iv: deBase64(reg.iv) }, chave,
+                                 deBase64(reg.dados));
+          })
+          .then(function (claro) {
+            return { aluno: JSON.parse(new TextDecoder().decode(claro)),
+                     token: emHex(b.slice(48, 64)) };
+          });
+      });
+  }
+
+  function formatarPonto(p) { return p.toFixed(1).replace('.', ','); }
+
+  function telaResultado() {
+    limpar();
+    document.title = 'Meu resultado — Avaliação Diagnóstica BCC';
+    if (!RESULTADOS || !RESULTADOS.registros.length) {
+      app.appendChild(el('div', { class: 'aviso' }, [
+        el('p', { texto: 'Os resultados da avaliação presencial ainda não foram publicados.' })
+      ]));
+      return;
+    }
+    if (sessao) desenharResultado();
+    else desenharEntrada();
+    window.scrollTo(0, 0);
+  }
+
+  function campo(rotulo, attrs, dica) {
+    var entrada = el('input', attrs);
+    var bloco = el('label', { class: 'campo' }, [
+      el('span', { class: 'rotulo-campo', texto: rotulo }),
+      entrada,
+      dica ? el('span', { class: 'dica-campo', texto: dica }) : null
+    ]);
+    return { bloco: bloco, entrada: entrada };
+  }
+
+  function desenharEntrada() {
+    app.appendChild(el('div', { class: 'cabecalho-questao' }, [
+      el('h2', { texto: 'Meu resultado na avaliação presencial' }),
+      el('p', { class: 'tema',
+                texto: 'Informe seus dados para ver sua nota, suas respostas e ' +
+                       'escolher a disciplina que vai receber o acréscimo.' })
+    ]));
+
+    var matricula = campo('Matrícula', { inputmode: 'numeric', autocomplete: 'off',
+                                         maxlength: '12', placeholder: 'só números' });
+    var cpf = campo('CPF', { inputmode: 'numeric', autocomplete: 'off',
+                             maxlength: '14', placeholder: '000.000.000-00' },
+                    'Digite só os números; a pontuação entra sozinha.');
+    var nasc = campo('Data de nascimento', { inputmode: 'numeric', autocomplete: 'off',
+                                             maxlength: '10', placeholder: 'dd/mm/aaaa' });
+
+    matricula.entrada.addEventListener('input', function () {
+      matricula.entrada.value = soDigitos(matricula.entrada.value);
+    });
+    cpf.entrada.addEventListener('input', function () {
+      cpf.entrada.value = mascaraCpf(cpf.entrada.value);
+    });
+    nasc.entrada.addEventListener('input', function () {
+      nasc.entrada.value = mascaraData(nasc.entrada.value);
+    });
+
+    var mensagem = el('p', { class: 'mensagem-form', role: 'alert' });
+    var botao = el('button', { type: 'submit', texto: 'Ver meu resultado' });
+    var form = el('form', { class: 'formulario', novalidate: 'novalidate' },
+                  [matricula.bloco, cpf.bloco, nasc.bloco, mensagem,
+                   el('div', { class: 'acoes' }, [botao])]);
+
+    form.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      var m = soDigitos(matricula.entrada.value);
+      var c = cpf.entrada.value;
+      var n = nasc.entrada.value;
+      if (!m) { mensagem.textContent = 'Informe a matrícula.'; return; }
+      if (!cpfValido(c)) { mensagem.textContent = 'CPF inválido. Confira os números.'; return; }
+      if (!dataValida(n)) { mensagem.textContent = 'Data de nascimento inválida. Use dd/mm/aaaa.'; return; }
+
+      mensagem.textContent = 'Conferindo…';
+      botao.disabled = true;
+      abrirResultado(m, c, n).then(function (r) {
+        botao.disabled = false;
+        if (!r) {
+          mensagem.textContent = 'Não encontramos resultado com esses dados. ' +
+            'Confira matrícula, CPF e data de nascimento. Só aparecem os ' +
+            'alunos que fizeram a avaliação presencial.';
+          return;
+        }
+        sessao = r;
+        telaResultado();
+      }, function () {
+        botao.disabled = false;
+        mensagem.textContent = 'Seu navegador não conseguiu abrir o resultado. ' +
+          'Tente um navegador atualizado (Chrome, Edge, Firefox ou Safari).';
+      });
+    });
+
+    app.appendChild(form);
+    app.appendChild(el('footer', { class: 'rodape' }, [
+      el('p', { texto: 'Seus dados não são enviados a lugar nenhum: a conferência ' +
+                       'acontece neste navegador, e o resultado some ao fechar ou ' +
+                       'recarregar a página.' })
+    ]));
+  }
+
+  function desenharResultado() {
+    var a = sessao.aluno;
+    var pct = Math.round(a.acertos / a.total * 10000) / 100;
+
+    var sair = el('button', { class: 'discreto', texto: 'sair' });
+    sair.addEventListener('click', function () { sessao = null; telaResultado(); });
+
+    app.appendChild(el('div', { class: 'cabecalho-questao' }, [
+      el('h2', { texto: a.nome }),
+      el('p', { class: 'tema', texto: 'Matrícula ' + a.matricula + ' · Avaliação Presencial' })
+    ]));
+
+    app.appendChild(el('section', { class: 'progresso' }, [
+      el('div', { class: 'bloco' }, [
+        el('div', { class: 'numero', texto: a.acertos + '/' + a.total }),
+        el('div', { class: 'rotulo', texto: 'acertos' })
+      ]),
+      el('div', { class: 'bloco' }, [
+        el('div', { class: 'numero', texto: String(pct).replace('.', ',') + '%' }),
+        el('div', { class: 'rotulo', texto: 'de acerto' })
+      ]),
+      el('div', { class: 'bloco' }, [
+        el('div', { class: 'numero destaque-ponto', texto: '+' + formatarPonto(a.ponto) }),
+        el('div', { class: 'rotulo', texto: 'ponto na média' })
+      ]),
+      barraPercentual(pct),
+      sair
+    ]));
+
+    app.appendChild(el('p', { class: 'explicacao-ponto',
+      texto: 'O acréscimo é o seu percentual de acerto convertido em até 1 ponto, ' +
+             'arredondado para cima de 0,1 em 0,1. Ele vale para uma única ' +
+             'disciplina em que você está matriculado.' }));
+
+    app.appendChild(secaoDisciplina(a));
+
+    app.appendChild(el('h3', { class: 'titulo-secao', texto: 'Suas respostas' }));
+    var grade = el('div', { class: 'grade' });
+    var questoes = DADOS.presencial ? DADOS.presencial.questoes : [];
+    a.respostas.forEach(function (resp, i) {
+      var q = questoes[i];
+      if (!q) return;
+      var certo = resp === q.gabarito.toUpperCase();
+      var marcou = resp ? 'você marcou ' + resp : 'em branco';
+      grade.appendChild(el('a', {
+        class: 'cartao ' + (certo ? 'acertou' : 'errou'),
+        href: link('questao', q.prova, 'presencial')
+      }, [
+        el('div', { class: 'num' }, [
+          el('span', { texto: 'Questão ' + q.prova }),
+          el('span', { class: 'resultado ' + (certo ? 'ok' : 'nao'), role: 'img',
+                       'aria-label': certo ? 'você acertou' : 'você errou',
+                       texto: certo ? '✓' : '✗' })
+        ]),
+        el('div', { class: 'tema', texto: q.tema }),
+        el('div', { class: 'rodape-cartao' }, [
+          el('span', { class: 'selo',
+                       texto: certo ? marcou : marcou + ' · certa: ' + q.gabarito.toUpperCase() })
+        ])
+      ]));
+    });
+    app.appendChild(grade);
+    app.appendChild(el('footer', { class: 'rodape' }, [
+      el('p', { texto: 'Cada cartão leva à questão com a resolução comentada.' }),
+      el('p', { texto: 'O resultado fica aberto só nesta aba. Em computador ' +
+                       'compartilhado, use "sair" ao terminar.' })
+    ]));
+  }
+
+  /* -------------------------------------------- escolha da disciplina */
+
+  /* O registro vai para uma planilha privada do professor, por um app da web
+     do Google Apps Script (ferramentas/apps_script/Codigo.gs). O corpo vai
+     como text/plain para a requisicao ser "simples" e dispensar o preflight
+     de CORS, que o Apps Script nao responde. */
+  function chamarRegistro(corpo) {
+    return fetch(RESULTADOS.url_registro, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(corpo)
+    }).then(function (r) {
+      if (!r.ok) throw new Error('http ' + r.status);
+      return r.json();
+    });
+  }
+
+  var OUTRA = '__outra__';
+
+  function secaoDisciplina(a) {
+    var secao = el('section', { class: 'disciplina' }, [
+      el('h3', { texto: 'Onde usar o ponto' })
+    ]);
+    if (!RESULTADOS.url_registro) {
+      secao.appendChild(el('p', { texto: 'O registro da disciplina ainda não ' +
+        'foi aberto. Volte a esta página mais tarde.' }));
+      return secao;
+    }
+
+    var situacao = el('p', { class: 'situacao', texto: 'Consultando sua escolha…' });
+    secao.appendChild(situacao);
+
+    var seletor = el('select', { id: 'disciplina' });
+    seletor.appendChild(el('option', { value: '', texto: 'Escolha a disciplina' }));
+    a.disciplinas.forEach(function (d) {
+      seletor.appendChild(el('option', { value: d.nome, texto: d.nome }));
+    });
+    seletor.appendChild(el('option', { value: OUTRA, texto: 'Outra (digitar)' }));
+
+    var outra = el('input', { type: 'text', maxlength: '150',
+                              placeholder: 'Nome da disciplina' });
+    outra.hidden = true;
+
+    var botao = el('button', { type: 'submit', texto: 'Registrar escolha' });
+    var mensagem = el('p', { class: 'mensagem-form', role: 'alert' });
+    var form = el('form', { class: 'formulario' }, [
+      el('label', { class: 'campo' }, [
+        el('span', { class: 'rotulo-campo', texto: 'Disciplina' }), seletor
+      ]),
+      outra, mensagem, el('div', { class: 'acoes' }, [botao])
+    ]);
+    form.hidden = true;
+    secao.appendChild(form);
+
+    function escolhida() {
+      return seletor.value === OUTRA ? outra.value.replace(/\s+/g, ' ').trim()
+                                     : seletor.value;
+    }
+
+    seletor.addEventListener('change', function () {
+      outra.hidden = seletor.value !== OUTRA;
+      if (!outra.hidden) outra.focus();
+    });
+
+    function mostrar(resp) {
+      if (!resp.ok) {
+        situacao.textContent = 'Não foi possível consultar sua escolha agora.';
+        return;
+      }
+      var e = resp.escolha;
+      situacao.textContent = e
+        ? 'Escolha registrada: ' + e.disciplina + ' (em ' + e.quando + ').'
+        : 'Você ainda não escolheu a disciplina.';
+      if (resp.prazo) {
+        situacao.appendChild(document.createTextNode(resp.aberto
+          ? ' Você pode trocar até ' + new Date(resp.prazo).toLocaleString('pt-BR') + '.'
+          : ' O prazo para escolher terminou.'));
+      }
+      form.hidden = !resp.aberto;
+      botao.textContent = e ? 'Trocar escolha' : 'Registrar escolha';
+      if (e) {
+        var naLista = a.disciplinas.some(function (d) { return d.nome === e.disciplina; });
+        seletor.value = naLista ? e.disciplina : OUTRA;
+        outra.value = naLista ? '' : e.disciplina;
+        outra.hidden = naLista;
+      }
+    }
+
+    form.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      var d = escolhida();
+      if (!d) { mensagem.textContent = 'Escolha ou digite a disciplina.'; return; }
+      botao.disabled = true;
+      mensagem.textContent = 'Registrando…';
+      chamarRegistro({ acao: 'registrar', token: sessao.token, disciplina: d })
+        .then(function (resp) {
+          botao.disabled = false;
+          if (resp.ok) {
+            mensagem.textContent = '';
+            mostrar(resp);
+          } else {
+            mensagem.textContent = resp.erro === 'prazo_encerrado'
+              ? 'O prazo para escolher terminou.'
+              : 'Não foi possível registrar. Tente de novo.';
+          }
+        }, function () {
+          botao.disabled = false;
+          mensagem.textContent = 'Sem conexão com o registro. Tente de novo.';
+        });
+    });
+
+    chamarRegistro({ acao: 'consultar', token: sessao.token }).then(mostrar, function () {
+      situacao.textContent = 'Não foi possível consultar sua escolha agora. ' +
+        'Recarregue a página mais tarde.';
+    });
+    return secao;
+  }
+
   /* ------------------------------------------------------------ rotas */
 
   /* Le o hash em {avaliacao, tela, prova}. Sem avaliacao no endereco:
@@ -822,6 +1206,9 @@
       prova = parseInt(partes[1], 10);
     } else if (partes[0] === 'estatisticas') {
       tela = 'estatisticas';
+    } else if (partes[0] === 'resultado') {
+      tela = 'resultado';
+      chave = 'presencial';
     }
 
     if (!chave) {
@@ -838,6 +1225,7 @@
     desenharCabecalho(r.tela);
     if (r.tela === 'questao') telaQuestao(r.prova);
     else if (r.tela === 'estatisticas') telaEstatisticas();
+    else if (r.tela === 'resultado') telaResultado();
     else telaInicial();
   }
 
