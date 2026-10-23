@@ -58,6 +58,9 @@ function doPost(e) {
     if (!disciplina || disciplina.length > TAMANHO_MAXIMO) {
       return responder({ ok: false, erro: 'disciplina_invalida' });
     }
+    if (naoRecebe(disciplina)) {
+      return responder({ ok: false, erro: 'disciplina_nao_permitida' });
+    }
     var trava = LockService.getScriptLock();
     trava.waitLock(10000);
     try {
@@ -143,6 +146,14 @@ function semFormula(texto) {
 }
 
 /* --------------------------------------------------------------- apoio */
+
+/* Atividades Complementares (sem nota) e TCC nao recebem o acrescimo. A lista
+   do aluno ja vem sem eles; isto barra quem digita em "Outra". Mesma regra
+   do naoRecebe() do app.js. */
+function naoRecebe(texto) {
+  var t = texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase();
+  return /\bTCC\b|TRABALHO DE CONCLUSAO|ATIVIDADES? COMPLEMENTAR/.test(t);
+}
 
 function dentroDoPrazo() {
   return !PRAZO || new Date() <= new Date(PRAZO);

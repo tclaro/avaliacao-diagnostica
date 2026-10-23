@@ -1033,7 +1033,8 @@
     app.appendChild(el('p', { class: 'explicacao-ponto',
       texto: 'O acréscimo é o seu percentual de acerto convertido em até 1 ponto, ' +
              'arredondado para cima de 0,1 em 0,1. Ele vale para uma única ' +
-             'disciplina em que você está matriculado.' }));
+             'disciplina em que você está matriculado, exceto o Trabalho de ' +
+             'Conclusão de Curso e as Atividades Complementares.' }));
 
     app.appendChild(secaoDisciplina(a));
 
@@ -1089,10 +1090,23 @@
 
   var OUTRA = '__outra__';
 
+  /* Mesma regra do naoRecebe() do Codigo.gs: a lista ja vem sem esses
+     componentes, isto pega quem digita em "Outra". */
+  function naoRecebe(texto) {
+    var t = texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase();
+    return /\bTCC\b|TRABALHO DE CONCLUSAO|ATIVIDADES? COMPLEMENTAR/.test(t);
+  }
+
   function secaoDisciplina(a) {
     var secao = el('section', { class: 'disciplina' }, [
       el('h3', { texto: 'Onde usar o ponto' })
     ]);
+    if (a.usa_ponto === false) {
+      secao.appendChild(el('p', { texto: 'Para você, esta consulta serve só para ' +
+        'conferir o resultado: o acréscimo não será lançado em nenhuma ' +
+        'disciplina. Em caso de dúvida, procure a coordenação.' }));
+      return secao;
+    }
     if (!RESULTADOS.url_registro) {
       secao.appendChild(el('p', { texto: 'O registro da disciplina ainda não ' +
         'foi aberto. Volte a esta página mais tarde.' }));
@@ -1162,6 +1176,11 @@
       ev.preventDefault();
       var d = escolhida();
       if (!d) { mensagem.textContent = 'Escolha ou digite a disciplina.'; return; }
+      if (naoRecebe(d)) {
+        mensagem.textContent = 'O acréscimo não vale para o TCC nem para as ' +
+          'Atividades Complementares.';
+        return;
+      }
       botao.disabled = true;
       mensagem.textContent = 'Registrando…';
       chamarRegistro({ acao: 'registrar', token: sessao.token, disciplina: d })
@@ -1173,7 +1192,9 @@
           } else {
             mensagem.textContent = resp.erro === 'prazo_encerrado'
               ? 'O prazo para escolher terminou.'
-              : 'Não foi possível registrar. Tente de novo.';
+              : resp.erro === 'disciplina_nao_permitida'
+                ? 'O acréscimo não vale para o TCC nem para as Atividades Complementares.'
+                : 'Não foi possível registrar. Tente de novo.';
           }
         }, function () {
           botao.disabled = false;

@@ -28,9 +28,13 @@ O cruzamento planilha x banco e feito pelo nome. Linha que nao casar com
 exatamente um aluno e listada e fica de fora, a menos que seja resolvida com
 --vinculo LINHA=MATRICULA (LINHA e o numero da linha no Excel).
 
+--sem-acrescimo MATRICULA marca o aluno que so confere o resultado: ele abre
+a consulta normalmente, mas nao escolhe disciplina e fica fora do CSV.
+
 Uso:
   python ferramentas/gerar_resultados.py PLANILHA.xlsx BANCO.db
          [--url-registro URL_DO_APPS_SCRIPT] [--vinculo 30=1234567890 ...]
+         [--sem-acrescimo 1234567890 ...]
 """
 import argparse
 import base64
@@ -58,8 +62,10 @@ ITERACOES = 600000
 SAL = b'avaliacao-diagnostica-bcc:presencial:2026'
 VERSAO = 1
 
-# Componentes sem nota numerica, que nao podem receber o acrescimo.
-SEM_NOTA = {'ATIVIDADES COMPLEMENTARES'}
+# Componentes que nao podem receber o acrescimo, por prefixo do nome
+# normalizado: Atividades Complementares nao tem nota numerica, e o TCC foi
+# excluido por decisao do professor (I e II).
+NAO_RECEBEM = ('ATIVIDADES COMPLEMENTARES', 'TRABALHO DE CONCLUSAO DE CURSO')
 
 PONTO_MAXIMO = 1.0
 
@@ -150,7 +156,7 @@ def ler_banco(caminho):
             'FROM Matriculas m JOIN Aulas a '
             '  ON a.NumAula = m.NumAula AND a.PeriodoLetivo = m.PeriodoLetivo '
             'WHERE m.PeriodoLetivo = ? ORDER BY a.DescricaoLonga', (periodo,)):
-        if id_ in alunos and normalizar(nome) not in SEM_NOTA:
+        if id_ in alunos and not normalizar(nome).startswith(NAO_RECEBEM):
             alunos[id_]['disciplinas'].append({'codigo': num, 'nome': nome})
     return alunos, periodo
 
@@ -185,7 +191,7 @@ def casar(linhas, alunos, vinculos):
     return casados, pendentes
 
 
-def cifrar(ln, aluno):
+def cifrar(ln, aluno, usa_ponto):
     if not aluno['cpf'] or not aluno['nascimento']:
         return None, 'sem CPF ou data de nascimento no banco'
     if len(aluno['cpf']) != 11 or \
@@ -203,7 +209,8 @@ def cifrar(ln, aluno):
         'total': ln['total'],
         'ponto': ponto(ln['acertos'], ln['total']),
         'respostas': ln['respostas'],
-        'disciplinas': aluno['disciplinas']
+        'usa_ponto': usa_ponto,
+        'disciplinas': aluno['disciplinas'] if usa_ponto else []
     }
     iv = os.urandom(12)
     cifrado = AESGCM(chave).encrypt(
@@ -218,7 +225,7 @@ def cifrar(ln, aluno):
                 'ponto': ('%.1f' % conteudo['ponto']).replace('.', ','),
                 'disciplinas': ' | '.join(d['nome']
                                           for d in aluno['disciplinas'])}
-    return (registro, planilha), None
+    return (registro, planilha if usa_ponto else None), None
 
 
 def main():
@@ -229,6 +236,9 @@ def main():
                    help='URL do app da web do Apps Script (termina em /exec)')
     p.add_argument('--vinculo', action='append', default=[],
                    metavar='LINHA=MATRICULA')
+    p.add_argument('--sem-acrescimo', action='append', default=[],
+                   metavar='MATRICULA',
+                   help='aluno que so confere o resultado, sem usar o ponto')
     args = p.parse_args()
 
     vinculos = {}
@@ -252,12 +262,19 @@ def main():
     alunos, periodo = ler_banco(args.banco)
     casados, pendentes = casar(linhas, alunos, vinculos)
 
+    sem_acrescimo = set(args.sem_acrescimo)
+    desconhecidas = sem_acrescimo - {a['matricula'] for _, a in casados}
+    if desconhecidas:
+        raise SystemExit('ERRO: --sem-acrescimo com matricula que nao fez a '
+                         'prova ou nao casou: %s' % sorted(desconhecidas))
+
     registros, para_planilha, fora = [], [], []
     for ln, aluno in casados:
-        r, motivo = cifrar(ln, aluno)
+        r, motivo = cifrar(ln, aluno, aluno['matricula'] not in sem_acrescimo)
         if r:
             registros.append(r[0])
-            para_planilha.append(r[1])
+            if r[1]:
+                para_planilha.append(r[1])
         else:
             fora.append((ln, motivo))
 
@@ -286,8 +303,12 @@ def main():
         w.writerows(sorted(para_planilha, key=lambda x: normalizar(x['nome'])))
 
     print('periodo letivo das disciplinas: %s' % periodo)
-    print('linhas na planilha: %d | registros gerados: %d'
-          % (len(linhas), len(registros)))
+    print('linhas na planilha: %d | registros gerados: %d | no CSV: %d'
+          % (len(linhas), len(registros), len(para_planilha)))
+    for ln, aluno in casados:
+        if aluno['matricula'] in sem_acrescimo:
+            print('  - %s: so confere o resultado, sem acrescimo'
+                  % ln['nome_lms'])
     for ln, candidatos in pendentes:
         print('  ! linha %d (%s, %d/%d): %s' % (
             ln['linha'], ln['nome_lms'] or 'SEM NOME', ln['acertos'],

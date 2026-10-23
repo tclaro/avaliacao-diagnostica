@@ -540,8 +540,16 @@ das questões mudar, ele para. O cruzamento com o banco é pelo nome (ou nome
 social); linhas sem correspondência única são listadas e ficam de fora até
 serem resolvidas com `--vinculo LINHA=MATRICULA` (LINHA = linha no Excel).
 As disciplinas oferecidas ao aluno são as matrículas da safra atual
-(`Configuracoes.safra_atual`), menos Atividades Complementares, que não tem
-nota.
+(`Configuracoes.safra_atual`), menos Atividades Complementares (não tem nota)
+e Trabalho de Conclusão de Curso (decisão do professor). Quem digita uma
+delas em "Outra" é barrado no navegador e no Apps Script.
+
+`--sem-acrescimo MATRICULA` marca o aluno que só confere o resultado: abre a
+consulta, mas não escolhe disciplina e fica fora do CSV da planilha.
+
+Na geração de 2026: `--vinculo 30=1142725371` (o nome exportado pelo LMS
+não bate com o do banco) e um aluno com `--sem-acrescimo`. A linha
+33 da planilha veio sem nome e segue de fora.
 
 Mudar `ITERACOES` ou `SAL` invalida os tokens já cadastrados na planilha.
 
