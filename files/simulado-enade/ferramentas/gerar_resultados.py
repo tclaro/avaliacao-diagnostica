@@ -268,6 +268,17 @@ def main():
         raise SystemExit('ERRO: --sem-acrescimo com matricula que nao fez a '
                          'prova ou nao casou: %s' % sorted(desconhecidas))
 
+    # O aluno so escolhe entre as disciplinas da lista; sem nenhuma, ele nao
+    # teria onde usar o ponto. O professor decide: --sem-acrescimo.
+    sem_lista = [a for _, a in casados
+                 if not a['disciplinas'] and a['matricula'] not in sem_acrescimo]
+    if sem_lista:
+        raise SystemExit('ERRO: sem disciplina que receba o acrescimo em %s: %s.'
+                         ' Use --sem-acrescimo ou confira o banco.' % (
+                             periodo, ', '.join('%s (%s)' % (a['nome'],
+                                                             a['matricula'])
+                                                for a in sem_lista)))
+
     registros, para_planilha, fora = [], [], []
     for ln, aluno in casados:
         r, motivo = cifrar(ln, aluno, aluno['matricula'] not in sem_acrescimo)
@@ -318,10 +329,6 @@ def main():
                                              for a in candidatos)))
     for ln, motivo in fora:
         print('  ! linha %d (%s): %s' % (ln['linha'], ln['nome_lms'], motivo))
-    sem_disciplina = [x['nome'] for x in para_planilha if not x['disciplinas']]
-    for nome in sem_disciplina:
-        print('  ~ %s: sem disciplina matriculada em %s (vai digitar)'
-              % (nome, periodo))
     print('publico: %s' % os.path.relpath(DESTINO_JS, RAIZ))
     print('privado: %s  (NAO versionar)' % os.path.relpath(DESTINO_CSV, RAIZ))
 

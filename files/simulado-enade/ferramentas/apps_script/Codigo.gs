@@ -20,13 +20,11 @@
    funcionando, mas novas escolhas sao recusadas. null = sem prazo. */
 
 var PRAZO = null;            /* ex.: '2026-11-30T23:59:59-03:00' */
-var TAMANHO_MAXIMO = 150;
 
 var ABA_ALUNOS = 'Alunos';
 var ABA_ESCOLHAS = 'Escolhas';
 var ABA_HISTORICO = 'Historico';
-var CABECALHO = ['atualizado_em', 'matricula', 'nome', 'ponto', 'disciplina',
-                 'da_lista'];
+var CABECALHO = ['atualizado_em', 'matricula', 'nome', 'ponto', 'disciplina'];
 
 function doGet() {
   return responder({ ok: true, servico: 'registro-disciplina' });
@@ -54,12 +52,11 @@ function doPost(e) {
 
   if (corpo.acao === 'registrar') {
     if (!dentroDoPrazo()) return responder({ ok: false, erro: 'prazo_encerrado' });
-    var disciplina = String(corpo.disciplina || '').replace(/\s+/g, ' ').trim();
-    if (!disciplina || disciplina.length > TAMANHO_MAXIMO) {
+    /* So vale uma das disciplinas da lista do aluno (aba Alunos), que ja
+       vem sem TCC e Atividades Complementares. */
+    var disciplina = String(corpo.disciplina || '');
+    if (aluno.disciplinas.indexOf(disciplina) === -1) {
       return responder({ ok: false, erro: 'disciplina_invalida' });
-    }
-    if (naoRecebe(disciplina)) {
-      return responder({ ok: false, erro: 'disciplina_nao_permitida' });
     }
     var trava = LockService.getScriptLock();
     trava.waitLock(10000);
@@ -120,9 +117,7 @@ function escolhaAtual(matricula) {
 function gravar(aluno, disciplina) {
   var agora = Utilities.formatDate(new Date(), 'America/Sao_Paulo',
                                    'dd/MM/yyyy HH:mm:ss');
-  var linha = [agora, aluno.matricula, aluno.nome, aluno.ponto,
-               semFormula(disciplina),
-               aluno.disciplinas.indexOf(disciplina) !== -1 ? 'sim' : 'nao'];
+  var linha = [agora, aluno.matricula, aluno.nome, aluno.ponto, disciplina];
 
   var escolhas = aba(ABA_ESCOLHAS);
   var valores = escolhas.getDataRange().getDisplayValues();
@@ -139,21 +134,7 @@ function gravar(aluno, disciplina) {
   return { disciplina: disciplina, quando: agora };
 }
 
-/* Texto digitado pelo aluno comecando com = + - @ seria lido pela planilha
-   como formula. O apostrofo o mantem como texto. */
-function semFormula(texto) {
-  return /^[=+\-@]/.test(texto) ? "'" + texto : texto;
-}
-
 /* --------------------------------------------------------------- apoio */
-
-/* Atividades Complementares (sem nota) e TCC nao recebem o acrescimo. A lista
-   do aluno ja vem sem eles; isto barra quem digita em "Outra". Mesma regra
-   do naoRecebe() do app.js. */
-function naoRecebe(texto) {
-  var t = texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase();
-  return /\bTCC\b|TRABALHO DE CONCLUSAO|ATIVIDADES? COMPLEMENTAR/.test(t);
-}
 
 function dentroDoPrazo() {
   return !PRAZO || new Date() <= new Date(PRAZO);

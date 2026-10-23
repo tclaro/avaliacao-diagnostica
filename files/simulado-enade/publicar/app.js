@@ -1088,15 +1088,6 @@
     });
   }
 
-  var OUTRA = '__outra__';
-
-  /* Mesma regra do naoRecebe() do Codigo.gs: a lista ja vem sem esses
-     componentes, isto pega quem digita em "Outra". */
-  function naoRecebe(texto) {
-    var t = texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase();
-    return /\bTCC\b|TRABALHO DE CONCLUSAO|ATIVIDADES? COMPLEMENTAR/.test(t);
-  }
-
   function secaoDisciplina(a) {
     var secao = el('section', { class: 'disciplina' }, [
       el('h3', { texto: 'Onde usar o ponto' })
@@ -1121,11 +1112,6 @@
     a.disciplinas.forEach(function (d) {
       seletor.appendChild(el('option', { value: d.nome, texto: d.nome }));
     });
-    seletor.appendChild(el('option', { value: OUTRA, texto: 'Outra (digitar)' }));
-
-    var outra = el('input', { type: 'text', maxlength: '150',
-                              placeholder: 'Nome da disciplina' });
-    outra.hidden = true;
 
     var botao = el('button', { type: 'submit', texto: 'Registrar escolha' });
     var mensagem = el('p', { class: 'mensagem-form', role: 'alert' });
@@ -1133,20 +1119,10 @@
       el('label', { class: 'campo' }, [
         el('span', { class: 'rotulo-campo', texto: 'Disciplina' }), seletor
       ]),
-      outra, mensagem, el('div', { class: 'acoes' }, [botao])
+      mensagem, el('div', { class: 'acoes' }, [botao])
     ]);
     form.hidden = true;
     secao.appendChild(form);
-
-    function escolhida() {
-      return seletor.value === OUTRA ? outra.value.replace(/\s+/g, ' ').trim()
-                                     : seletor.value;
-    }
-
-    seletor.addEventListener('change', function () {
-      outra.hidden = seletor.value !== OUTRA;
-      if (!outra.hidden) outra.focus();
-    });
 
     function mostrar(resp) {
       if (!resp.ok) {
@@ -1164,23 +1140,13 @@
       }
       form.hidden = !resp.aberto;
       botao.textContent = e ? 'Trocar escolha' : 'Registrar escolha';
-      if (e) {
-        var naLista = a.disciplinas.some(function (d) { return d.nome === e.disciplina; });
-        seletor.value = naLista ? e.disciplina : OUTRA;
-        outra.value = naLista ? '' : e.disciplina;
-        outra.hidden = naLista;
-      }
+      if (e) seletor.value = e.disciplina;
     }
 
     form.addEventListener('submit', function (ev) {
       ev.preventDefault();
-      var d = escolhida();
-      if (!d) { mensagem.textContent = 'Escolha ou digite a disciplina.'; return; }
-      if (naoRecebe(d)) {
-        mensagem.textContent = 'O acréscimo não vale para o TCC nem para as ' +
-          'Atividades Complementares.';
-        return;
-      }
+      var d = seletor.value;
+      if (!d) { mensagem.textContent = 'Escolha a disciplina.'; return; }
       botao.disabled = true;
       mensagem.textContent = 'Registrando…';
       chamarRegistro({ acao: 'registrar', token: sessao.token, disciplina: d })
@@ -1192,9 +1158,7 @@
           } else {
             mensagem.textContent = resp.erro === 'prazo_encerrado'
               ? 'O prazo para escolher terminou.'
-              : resp.erro === 'disciplina_nao_permitida'
-                ? 'O acréscimo não vale para o TCC nem para as Atividades Complementares.'
-                : 'Não foi possível registrar. Tente de novo.';
+              : 'Não foi possível registrar. Tente de novo.';
           }
         }, function () {
           botao.disabled = false;

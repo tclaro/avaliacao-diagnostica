@@ -541,14 +541,16 @@ social); linhas sem correspondência única são listadas e ficam de fora até
 serem resolvidas com `--vinculo LINHA=MATRICULA` (LINHA = linha no Excel).
 As disciplinas oferecidas ao aluno são as matrículas da safra atual
 (`Configuracoes.safra_atual`), menos Atividades Complementares (não tem nota)
-e Trabalho de Conclusão de Curso (decisão do professor). Quem digita uma
-delas em "Outra" é barrado no navegador e no Apps Script.
+e Trabalho de Conclusão de Curso (decisão do professor). O aluno só escolhe
+dentro dessa lista; não há campo livre, e o Apps Script recusa qualquer valor
+fora da lista dele. Aluno sem nenhuma disciplina na lista faz o script parar:
+decida entre `--sem-acrescimo` e corrigir o banco.
 
 `--sem-acrescimo MATRICULA` marca o aluno que só confere o resultado: abre a
 consulta, mas não escolhe disciplina e fica fora do CSV da planilha.
 
 Na geração de 2026: `--vinculo 30=1142725371` (o nome exportado pelo LMS
-não bate com o do banco) e um aluno com `--sem-acrescimo`. A linha
+não bate com o do banco) e dois alunos com `--sem-acrescimo`. A linha
 33 da planilha veio sem nome e segue de fora.
 
 Mudar `ITERACOES` ou `SAL` invalida os tokens já cadastrados na planilha.
@@ -569,8 +571,12 @@ pública. Configuração, uma vez:
    pode acessar: **qualquer pessoa**. Copie a URL que termina em `/exec`.
 4. Regere com `--url-registro <URL>` e publique.
 
-O script cria as abas **Escolhas** (uma linha por aluno, a escolha vigente,
-com `da_lista` = sim/não) e **Historico** (toda gravação). O aluno pode
-trocar a escolha até o `PRAZO`. Texto que comece com `=`, `+`, `-` ou `@`
-é gravado como texto, não como fórmula. Ao editar o `Codigo.gs`, publique
-uma **nova versão** da mesma implantação para manter a URL.
+O script cria as abas **Escolhas** (uma linha por aluno, a escolha vigente)
+e **Historico** (toda gravação). O aluno pode trocar a escolha até o
+`PRAZO`. Ao editar o `Codigo.gs`, publique uma **nova versão** da mesma
+implantação (Implantar → Gerenciar implantações → editar) para manter a URL.
+
+Se a URL responder "Access Denied" (403), a implantação não está liberada
+para **qualquer pessoa** — o navegador do aluno não tem login Google. Contas
+Google Workspace costumam bloquear essa opção; nesse caso, publique a partir
+de uma conta Google pessoal.
