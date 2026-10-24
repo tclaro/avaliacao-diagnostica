@@ -15,6 +15,7 @@ index.html na raiz e ajusta o data-base para que figuras/ fique ao lado.
 
 Uso:  python ferramentas/gerar_pacote.py
 """
+import hashlib
 import io
 import os
 import shutil
@@ -44,6 +45,18 @@ def main():
             if html == antes:
                 raise SystemExit('ERRO: nao achei data-base="../" no '
                                  'index.html; o site/index.html mudou?')
+            # O GitHub Pages deixa o navegador reaproveitar os arquivos por
+            # 10 minutos. Com o hash do conteudo na URL, um arquivo regerado
+            # (ex.: resultados.js com outra URL de registro) chega na hora.
+            for recurso in ARQUIVOS[1:]:
+                conteudo = io.open(os.path.join(RAIZ, 'site', recurso),
+                                   'rb').read()
+                versao = hashlib.sha256(conteudo).hexdigest()[:10]
+                ref = '"%s"' % recurso
+                if html.count(ref) != 1:
+                    raise SystemExit('ERRO: esperava uma referencia a %s no '
+                                     'index.html' % recurso)
+                html = html.replace(ref, '"%s?v=%s"' % (recurso, versao))
             io.open(os.path.join(DESTINO, nome), 'w', encoding='utf-8',
                     newline='').write(html)
         else:
